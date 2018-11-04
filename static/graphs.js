@@ -29,6 +29,29 @@ function getCommits () {
   return returnValue
 }
 
+function getCommitsOverTime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: '/commitsovertime',
+    async: false,
+    success: function (data) {
+      // keys = Object.keys(data)
+
+      // for (var i = 0; i < Object.keys(data).length; i++) {
+      //   userArray.push(keys[i])
+      //   commitsArray.push(data[keys[i]])
+      // }
+
+      // var returnArray = [userArray, commitsArray]
+      // returnValue = returnArray
+
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
 // MISC FUNCTIONS
 function sortNumberDescMethod (a, b) {
   return b - a
@@ -158,10 +181,71 @@ function commitsBarChartHorizontal () {
 }
 
 function commitsOverTime () {
+  var data = []
+  jsonCommits = getCommitsOverTime()
+  console.log(jsonCommits)
 
+  jsonKeys = Object.keys(jsonCommits['users'])
+  var timeValue = jsonCommits['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonCommits['users']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonCommits['users'][jsonKeys[i]]
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Commits Over Time',
+    width: 800,
+    height: 800,
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Amount of Commits',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+}
+
+function showEmptyGraph () {
+  var layout = {
+    title: 'Empty Graph Hello',
+    width: 800,
+    height: 800,
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+  Plotly.newPlot('myDiv', layout)
 }
 
 // START - display start
 $(document).ready(function () {
-  commitsBarChartVertical()
+  // showEmptyGraph()
+  // commitsBarChartVertical()
+  commitsOverTime()
 })

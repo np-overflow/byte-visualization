@@ -1,5 +1,8 @@
-some charts LUL
+# Byte-Visualization
 
-wooo i can type
 
-blah blah blah +1 commit
+### Technology used
+* Flask
+* Plotly
+* Github API
+* BitBucket API
