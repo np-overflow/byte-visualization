@@ -55,9 +55,40 @@ function getAdditionsOverTime () {
   return returnValue
 }
 
+function getDeletionsOverTime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: '/deletionsovertime',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
+function getLocOverTime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: '/locovertime',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
 // MISC FUNCTIONS
+// SLEEP Function
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+function clearGraph () {
+  Plotly.purge('myDiv')
 }
 
 function sortNumberDescMethod (a, b) {
@@ -304,6 +335,114 @@ function additionsOverTime () {
   Plotly.newPlot('myDiv', data, layout)
 }
 
+function deletionsOverTime () {
+  var data = []
+  jsonCommits = getDeletionsOverTime()
+  console.log(jsonCommits)
+
+  jsonKeys = Object.keys(jsonCommits['users'])
+  var timeValue = jsonCommits['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonCommits['users']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonCommits['users'][jsonKeys[i]]
+
+    console.log(timeValue)
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Deletions Over Time',
+    width: 800,
+    height: 800,
+    hovermode: 'none',
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Amount of Deletions',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+}
+
+function locOverTime () {
+  var data = []
+  jsonLoc = getLocOverTime()
+  console.log(jsonLoc)
+
+  jsonKeys = Object.keys(jsonLoc['users'])
+  var timeValue = jsonLoc['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonLoc['users']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonLoc['users'][jsonKeys[i]]
+
+    console.log(timeValue)
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Lines of Code Over Time',
+    width: 800,
+    height: 800,
+    hovermode: 'none',
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Lines of Code',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+}
+
 function showEmptyGraph () {
   var layout = {
     title: 'Empty Graph Hello',
@@ -318,17 +457,13 @@ function showEmptyGraph () {
   Plotly.newPlot('myDiv', layout)
 }
 
-function clearGraph () {
-  Plotly.purge('myDiv')
-}
-
 function fadeInOut (fadeOutTime, fadeInTime) {
   sleep(fadeOutTime).then(() => {
     $('#myDiv').addClass('animated fadeOut')
     sleep(fadeInTime).then(() => {
       // clear graph just in case
       clearGraph()
-      additionsOverTime()
+      deletionsOverTime()
       $('#myDiv').removeClass('animated fadeOut')
       $('#myDiv').addClass('animated fadeIn')
     })
@@ -337,6 +472,6 @@ function fadeInOut (fadeOutTime, fadeInTime) {
 
 // START - display start
 $(document).ready(function () {
-  commitsOverTime()
+  locOverTime()
   fadeInOut(2000, 2000)
 })
