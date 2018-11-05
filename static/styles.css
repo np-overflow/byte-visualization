@@ -2,6 +2,11 @@ body {
   margin: 50px;
 }
 
-.bar-chart {
-  background-color: #C7D9D9;
+#myDiv {
+  border: 1px solid black;
+  /* padding: 200px; */
+}
+
+#example {
+  font-family: Mali
 }

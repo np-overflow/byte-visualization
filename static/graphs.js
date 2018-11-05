@@ -36,16 +36,19 @@ function getCommitsOverTime () {
     url: '/commitsovertime',
     async: false,
     success: function (data) {
-      // keys = Object.keys(data)
+      returnValue = data
+    }
+  })
+  return returnValue
+}
 
-      // for (var i = 0; i < Object.keys(data).length; i++) {
-      //   userArray.push(keys[i])
-      //   commitsArray.push(data[keys[i]])
-      // }
-
-      // var returnArray = [userArray, commitsArray]
-      // returnValue = returnArray
-
+function getAdditionsOverTime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: '/additionsovertime',
+    async: false,
+    success: function (data) {
       returnValue = data
     }
   })
@@ -53,6 +56,10 @@ function getCommitsOverTime () {
 }
 
 // MISC FUNCTIONS
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time))
+}
+
 function sortNumberDescMethod (a, b) {
   return b - a
 }
@@ -136,6 +143,12 @@ function commitsBarChartVertical () {
     title: 'Test User Commits Layout',
     width: 800,
     height: 800,
+    xaxis: {
+      title: 'Users'
+    },
+    yaxis: {
+      title: 'Amount of Commits'
+    },
     bargap: 0.1,
     font: {
       family: 'Mali',
@@ -152,12 +165,9 @@ function commitsBarChartHorizontal () {
   console.log(coords)
 
   var trace1 = {
-    // x: getStudentArray(20),
-    // y: sortedArrayDesc(20, 30),
     x: coords[1],
     y: coords[0],
     name: 'User Commits',
-    // marker: { color: ['rgb(55, 83, 109)', 'rgb(120, 120, 120)', 'rgb(255, 255, 255)'] },
     marker: { color: randomColours(coords[0].length) },
     orientation: 'h',
     type: 'bar'
@@ -170,6 +180,12 @@ function commitsBarChartHorizontal () {
     width: 800,
     height: 800,
     bargap: 0.1,
+    xaxis: {
+      title: 'Users'
+    },
+    yaxis: {
+      title: 'Amount of Commits'
+    },
     font: {
       family: 'Mali',
       size: 18,
@@ -198,11 +214,15 @@ function commitsOverTime () {
 
     var yvalue = jsonCommits['users'][jsonKeys[i]]
 
+    console.log(timeValue)
+
     tempData['x'] = testArray
     tempData['y'] = yvalue
     tempData['type'] = 'scatter'
     tempData['name'] = String(jsonKeys[i])
     tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
 
     data.push(tempData)
   }
@@ -211,12 +231,67 @@ function commitsOverTime () {
     title: 'Commits Over Time',
     width: 800,
     height: 800,
+    hovermode: 'none',
     xaxis: {
       title: 'Time of the Day',
       autotick: false
     },
     yaxis: {
       title: 'Amount of Commits',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+}
+
+function additionsOverTime () {
+  var data = []
+  jsonCommits = getAdditionsOverTime()
+  console.log(jsonCommits)
+
+  jsonKeys = Object.keys(jsonCommits['users'])
+  var timeValue = jsonCommits['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonCommits['users']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonCommits['users'][jsonKeys[i]]
+
+    console.log(timeValue)
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Additions Over Time',
+    width: 800,
+    height: 800,
+    hovermode: 'none',
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Amount of Additions',
       autotick: true
     },
     font: {
@@ -243,9 +318,25 @@ function showEmptyGraph () {
   Plotly.newPlot('myDiv', layout)
 }
 
+function clearGraph () {
+  Plotly.purge('myDiv')
+}
+
+function fadeInOut (fadeOutTime, fadeInTime) {
+  sleep(fadeOutTime).then(() => {
+    $('#myDiv').addClass('animated fadeOut')
+    sleep(fadeInTime).then(() => {
+      // clear graph just in case
+      clearGraph()
+      additionsOverTime()
+      $('#myDiv').removeClass('animated fadeOut')
+      $('#myDiv').addClass('animated fadeIn')
+    })
+  })
+}
+
 // START - display start
 $(document).ready(function () {
-  // showEmptyGraph()
-  // commitsBarChartVertical()
   commitsOverTime()
+  fadeInOut(2000, 2000)
 })

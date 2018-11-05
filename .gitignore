@@ -109,3 +109,4 @@ venv.bak/
 *venv/
 tags
 node_modules/
+.json

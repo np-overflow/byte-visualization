@@ -50,5 +50,26 @@ def commitsovertime():
     return jsonify(test_return_json)
 
 
+@app.route('/additionsovertime', methods=["GET", "POST"])
+def additionsovertime():
+    '''
+    x = [array of time]
+    y = [value at x time]
+    '''
+
+    test_return_json = {
+        'time': ['11:00', '12:00', '13.00', '14.00'],
+        'users': {
+            'john': [1, 3, 10, 14],
+            'ben': [3, 5, 6, 18],
+            'adams': [2, 9, 16, 17],
+            'mason': [8, 12, 13, 21],
+            'red': [4, 6, 21, 22]
+        }
+    }
+
+    return jsonify(test_return_json)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
