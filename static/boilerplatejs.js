@@ -40,4 +40,17 @@ function plotLine () {
   Plotly.newPlot('myDiv', data)
 }
 
-plotLine()
+function testArray() {
+  $.ajax({
+     type: 'GET',
+     url: 'loclangovertime',
+     async: false,
+     success: function (data) {
+      console.log(data)
+     }
+  })
+}
+
+testArray()
+
+// plotLine()

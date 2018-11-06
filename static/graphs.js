@@ -5,6 +5,24 @@
 // commits[0] - users
 // commits[1] - commits for user
 
+// Functions order at the moment
+/*
+commits - bar vertical
+commits - bar horizontal
+commits over time - line graph
+additions over time - line graph
+deletions over time - line graph
+lines of code over time - line graph
+*/
+
+// const values
+const fadeIn = 3000
+const fadeOut = 3000
+const waitingTime = 1500
+const animationTime = 1000
+const divWidth = 800
+const divHeight = 800
+
 // API PINGS
 function getCommits () {
   var userArray = []
@@ -81,7 +99,20 @@ function getLocOverTime () {
   return returnValue
 }
 
-// MISC FUNCTIONS
+function getLocLangOverTime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: '/loclangovertime',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
+// MISC FUNCTIONS -------------
 // SLEEP Function
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
@@ -89,6 +120,35 @@ function sleep (time) {
 
 function clearGraph () {
   Plotly.purge('myDiv')
+}
+
+function animateOut () {
+  $('#myDiv').addClass('animated fadeOut')
+}
+
+function animateOutIn () {
+  $('#myDiv').removeClass('animated fadeOut')
+  $('#myDiv').addClass('animated fadeIn')
+}
+
+function graphOut (firstclassfunction) {
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      firstclassfunction()
+    })
+  })
+}
+
+function notNull (thing) {
+  if (thing === null) {
+    return 0
+  } else {
+    return thing
+  }
 }
 
 function sortNumberDescMethod (a, b) {
@@ -155,7 +215,7 @@ function randomColours (amount) {
 // PLOTTING FUNCTIONS - PLOTTING
 function commitsBarChartVertical () {
   var coords = getCommits()
-  console.log(coords)
+  // console.log(coords)
 
   var trace1 = {
     // x: getStudentArray(20),
@@ -171,14 +231,16 @@ function commitsBarChartVertical () {
   var data = [trace1]
 
   var layout = {
-    title: 'Test User Commits Layout',
-    width: 800,
-    height: 800,
+    title: 'Commits per user',
+    width: divWidth,
+    height: divHeight,
     xaxis: {
-      title: 'Users'
+      title: 'Users',
+      automargin: true
     },
     yaxis: {
-      title: 'Amount of Commits'
+      title: 'Amount of Commits',
+      automargin: true
     },
     bargap: 0.1,
     font: {
@@ -189,11 +251,25 @@ function commitsBarChartVertical () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+
+  // waiting time
+
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      clearGraph()
+      commitsBarChartHorizontal()
+    })
+  })
 }
 
 function commitsBarChartHorizontal () {
   var coords = getCommits()
-  console.log(coords)
+  // console.log(coords)
 
   var trace1 = {
     x: coords[1],
@@ -207,15 +283,17 @@ function commitsBarChartHorizontal () {
   var data = [trace1]
 
   var layout = {
-    title: 'Test User Commits Layout',
-    width: 800,
-    height: 800,
+    title: 'Commits per user',
+    width: divWidth,
+    height: divHeight,
     bargap: 0.1,
     xaxis: {
-      title: 'Users'
+      title: 'Users',
+      automargin: true
     },
     yaxis: {
-      title: 'Amount of Commits'
+      title: 'Amount of Commits',
+      automargin: true
     },
     font: {
       family: 'Mali',
@@ -225,6 +303,19 @@ function commitsBarChartHorizontal () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  // animateOutIn()
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      commitsOverTime()
+    })
+  })
 }
 
 function commitsOverTime () {
@@ -260,8 +351,8 @@ function commitsOverTime () {
 
   var layout = {
     title: 'Commits Over Time',
-    width: 800,
-    height: 800,
+    width: divWidth,
+    height: divHeight,
     hovermode: 'none',
     xaxis: {
       title: 'Time of the Day',
@@ -279,6 +370,19 @@ function commitsOverTime () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+  // graphOut(additionsOverTime())
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      additionsOverTime()
+    })
+  })
 }
 
 function additionsOverTime () {
@@ -314,8 +418,8 @@ function additionsOverTime () {
 
   var layout = {
     title: 'Additions Over Time',
-    width: 800,
-    height: 800,
+    width: divWidth,
+    height: divHeight,
     hovermode: 'none',
     xaxis: {
       title: 'Time of the Day',
@@ -333,6 +437,19 @@ function additionsOverTime () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+  // graphOut(deletionsOverTime())
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      deletionsOverTime()
+    })
+  })
 }
 
 function deletionsOverTime () {
@@ -368,8 +485,8 @@ function deletionsOverTime () {
 
   var layout = {
     title: 'Deletions Over Time',
-    width: 800,
-    height: 800,
+    width: divWidth,
+    height: divHeight,
     hovermode: 'none',
     xaxis: {
       title: 'Time of the Day',
@@ -387,6 +504,19 @@ function deletionsOverTime () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+  // graphOut(locOverTime())
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      locOverTime()
+    })
+  })
 }
 
 function locOverTime () {
@@ -422,8 +552,8 @@ function locOverTime () {
 
   var layout = {
     title: 'Lines of Code Over Time',
-    width: 800,
-    height: 800,
+    width: divWidth,
+    height: divHeight,
     hovermode: 'none',
     xaxis: {
       title: 'Time of the Day',
@@ -441,13 +571,156 @@ function locOverTime () {
   }
 
   Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      locLanguageOverTimeBar()
+    })
+  })
+}
+
+
+function locLanguageOverTimeBar () {
+  var data = []
+  jsonLoc = getLocLangOverTime()
+  console.log(jsonLoc)
+
+  jsonKeys = Object.keys(jsonLoc['language'])
+  var timeValue = jsonLoc['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonLoc['language']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonLoc['language'][jsonKeys[i]]
+
+    console.log(timeValue)
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Lines of Code Per Language Over Time',
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Lines of Code Per Language - Bar',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      commitsBarChartVertical()
+    })
+  })
+}
+
+function locLanguageOverTimeLine () {
+  var data = []
+  jsonLoc = getLocLangOverTime()
+  console.log(jsonLoc)
+
+  jsonKeys = Object.keys(jsonLoc['language'])
+  var timeValue = jsonLoc['time']
+  testArray = []
+
+  for (var j = 0; j < timeValue.length; j++) {
+    testArray.push(parseInt(timeValue[j]))
+  }
+
+  for (var i = 0; i < Object.keys(jsonLoc['language']).length; i++) {
+    tempData = {}
+
+    var yvalue = jsonLoc['language'][jsonKeys[i]]
+
+    console.log(timeValue)
+
+    tempData['x'] = testArray
+    tempData['y'] = yvalue
+    tempData['type'] = 'scatter'
+    tempData['name'] = String(jsonKeys[i])
+    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
+    // line thickness
+    tempData['line'] = { 'width': 4 }
+
+    data.push(tempData)
+  }
+
+  var layout = {
+    title: 'Lines of Code Per Language Over Time - Line',
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    xaxis: {
+      title: 'Time of the Day',
+      autotick: false
+    },
+    yaxis: {
+      title: 'Lines of Code Per Language',
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      commitsBarChartVertical()
+    })
+  })
 }
 
 function showEmptyGraph () {
   var layout = {
     title: 'Empty Graph Hello',
-    width: 800,
-    height: 800,
+    width: divWidth,
+    height: divHeight,
     font: {
       family: 'Mali',
       size: 18,
@@ -457,21 +730,38 @@ function showEmptyGraph () {
   Plotly.newPlot('myDiv', layout)
 }
 
-function fadeInOut (fadeOutTime, fadeInTime) {
-  sleep(fadeOutTime).then(() => {
-    $('#myDiv').addClass('animated fadeOut')
-    sleep(fadeInTime).then(() => {
-      // clear graph just in case
-      clearGraph()
-      deletionsOverTime()
-      $('#myDiv').removeClass('animated fadeOut')
-      $('#myDiv').addClass('animated fadeIn')
-    })
-  })
-}
-
 // START - display start
 $(document).ready(function () {
-  locOverTime()
-  fadeInOut(2000, 2000)
+  commitsBarChartVertical()
+
+  // method to run it, find a way to sleep each function
+  // var functionArray = [
+  //   function () { commitsBarChartVertical() },
+  //   function () { commitsBarChartHorizontal() },
+  //   function () { commitsOverTime() },
+  //   function () { deletionsOverTime() },
+  //   function () { locOverTime() }
+  // ]
+
+  // var length = functionArray.length
+  // console.log(length)
+  // var counter = 0
+
+  // while (true) {
+  //   if (counter === length - 1) {
+  //     sleep(2000).then(() => {
+  //       // setTimeout(functionArray[counter](), 5000)
+  //       functionArray[counter]()
+  //       counter = 0
+  //       console.log('hello this is max')
+  //     })
+  //   } else {
+  //     sleep(2000).then(() => {
+  //       // setTimeout(functionArray[counter](), 5000)
+  //       functionArray[counter]()
+  //       counter++
+  //       console.log('bye')
+  //     })
+  //   }
+  // }
 })
