@@ -1061,9 +1061,42 @@ function locLanguageOverTimeLine () {
   })
 }
 
+function mainInfiniteLoopDelay () {
+  setTimeout(function () {
+    // callsomefunctions here
+    if (--i) {
+      mainInfiniteLoopDelay(i);
+    }
+    //every x seconds here
+  }, 3000);
+}(10);
+
+
+function mainInfiniteLoopCall() {
+
+  var functionArray = [
+    function() {manipulateOverTimeGroupsCommits()},
+    function() {manipulateOverTimeGroupsAdditions()},
+    function() {manipulateOverTimeMultiDeletions()},
+    function() {manipulateOverTimeMultiCommits()},
+    function() {manipulateOverTimeMultiAdditions()},
+    function() {manipulateOverTimeMultiDeletions()},
+  ]
+
+  var counter = 0
+  var maxcounter = functionArray.length
+
+  // call for a value so large it doesnt matter
+  mainInfiniteLoopDelay(1000000, functionArray, counter, maxcounter)
+
+}
+
+
 
 // START - display start
 $(document).ready(function () {
+
+  mainInfiniteLoopCall()
 
   // locLanguageOverTimeBar()
 
@@ -1073,7 +1106,7 @@ $(document).ready(function () {
 
   // manipulateOverTimeMultiCommits()
   // manipulateOverTimeMultiAdditions()
-  manipulateOverTimeMultiDeletions()
+  // manipulateOverTimeMultiDeletions()
 
   // getAllOverTime()
 

@@ -1,4 +1,5 @@
 import pprint
+# from mainapi import get_diff_per_element
 
 
 def test_get_changes_dummy():
@@ -48,4 +49,5 @@ def test_get_changes_dummy():
 
 if __name__ == '__main__':
     test_return_data = test_get_changes_dummy()
-    pprint.pprint(test_return_data)
+    print(mainapi.get_diff_per_element(test_return_data))
+    # pprint.pprint(test_return_data)
