@@ -5,6 +5,7 @@
 // commits[0] - users
 // commits[1] - commits for user
 
+
 // Functions order at the moment
 /*
 commits - bar vertical
@@ -18,7 +19,7 @@ lines of code over time - line graph
 // const values
 const fadeIn = 3000
 const fadeOut = 3000
-const waitingTime = 1500
+const waitingTime = 1500000
 const animationTime = 1000
 const divWidth = 1248
 const divHeight = 648
@@ -46,6 +47,22 @@ function getCommits () {
   })
   return returnValue
 }
+
+// return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
+
+function getAllOverTime() {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: 'getallovertime',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
 
 function getCommitsOverTime () {
   var returnValue
@@ -213,6 +230,332 @@ function randomColours (amount) {
 // TODO : do gradient randomColours
 
 // PLOTTING FUNCTIONS - PLOTTING  - SOFT-CODED
+
+// --------------------------------------
+function manipulateOverTimeGroupsCommits() {
+
+  // do some processing of the data i get from the getAllOverTime() function
+  // put them into the flexibleOverTimeGroups(with alot of parameters)
+  // call that
+
+  var title = 'Over Time Commits - Groups'
+  var xAxisTitle = 'Groups'
+  var yAxisTitle = 'Commits'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log("from manipulateOverTimeGroupsCommits : ", myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['groups']['commits'])
+  for (var j = 0; j < Object.keys(myData['groups']['commits']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['groups']['commits'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function manipulateOverTimeGroupsAdditions() {
+  var title = 'Over Time Additions - Groups'
+  var xAxisTitle = 'Groups'
+  var yAxisTitle = 'Additions'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log('from manipulateOverTimeGroupsAdditions : ', myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['groups']['additions'])
+  for (var j = 0; j < Object.keys(myData['groups']['additions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['groups']['additions'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function manipulateOverTimeGroupsDeletions() {
+  var title = 'Over Time Deletions - Groups'
+  var xAxisTitle = 'Groups'
+  var yAxisTitle = 'Deletions'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log('from manipulateOverTimeGroupsDeletions : ', myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['groups']['deletions'])
+  for (var j = 0; j < Object.keys(myData['groups']['deletions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['groups']['deletions'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+
+  flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
+
+  var data = graphData
+
+  var layout = {
+    title: titleInput,
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    xaxis: {
+      title: xInput,
+      autotick: false
+    },
+    yaxis: {
+      title: yInput,
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      additionsOverTime()
+    })
+  })
+}
+
+// --------------------------------------
+
+function manipulateOverTimeMultiCommits () {
+
+  var title = 'Over Time Commits - Users'
+  var xAxisTitle = 'Users'
+  var yAxisTitle = 'Commits'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log('from manipulateOverTimeMultiCommits : ', myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  userKeys  = Object.keys(myData['users']['commits'])
+  for (var j = 0; j < Object.keys(myData['users']['commits']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['users']['commits'][userKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(userKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+
+  flexibleOverTimeMulti(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function manipulateOverTimeMultiAdditions () {
+
+  var title = 'Over Time Additions - Users'
+  var xAxisTitle = 'Users'
+  var yAxisTitle = 'Additions'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log('from manipulateOverTimeGroupsAdditions : ', myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  userKeys  = Object.keys(myData['users']['additions'])
+  for (var j = 0; j < Object.keys(myData['users']['additions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['users']['additions'][userKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(userKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeMulti(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function manipulateOverTimeMultiDeletions () {
+
+  var title = 'Over Time Deletions - Users'
+  var xAxisTitle = 'Users'
+  var yAxisTitle = 'Deletions'
+  var dataArray = []
+
+  myData = getAllOverTime()
+  console.log('from manipulateOverTimeGroupsAdditions : ', myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  userKeys  = Object.keys(myData['users']['deletions'])
+  for (var j = 0; j < Object.keys(myData['users']['deletions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['users']['deletions'][userKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(userKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeMulti(title, xAxisTitle, yAxisTitle, dataArray)
+}
+
+function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
+
+  var data = graphData
+
+  var layout = {
+    title: titleInput,
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    xaxis: {
+      title: xInput,
+      autotick: false
+    },
+    yaxis: {
+      title: yInput,
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      additionsOverTime()
+    })
+  })
+
+}
 
 // PLOTTING FUNCTIONS - PLOTTING  - HARD-CODED
 function commitsBarChartVertical () {
@@ -718,25 +1061,24 @@ function locLanguageOverTimeLine () {
   })
 }
 
-function showEmptyGraph () {
-  var layout = {
-    title: 'Empty Graph Hello',
-    width: divWidth,
-    height: divHeight,
-    font: {
-      family: 'Mali',
-      size: 18,
-      color: '#7f7f7f'
-    }
-  }
-  Plotly.newPlot('myDiv', layout)
-}
 
 // START - display start
 $(document).ready(function () {
-  commitsBarChartVertical()
-  // commitsOverTime()
+
   // locLanguageOverTimeBar()
+
+  // manipulateOverTimeGroupsCommits()
+  // manipulateOverTimeGroupsAdditions()
+  // manipulateOverTimeGroupsDeletions()
+
+  // manipulateOverTimeMultiCommits()
+  // manipulateOverTimeMultiAdditions()
+  manipulateOverTimeMultiDeletions()
+
+  // getAllOverTime()
+
+  // commitsBarChartVertical()
+  // commitsOverTime()
 
   // method to run it, find a way to sleep each function
   // var functionArray = [
