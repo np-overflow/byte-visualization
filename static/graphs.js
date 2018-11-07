@@ -20,8 +20,8 @@ const fadeIn = 3000
 const fadeOut = 3000
 const waitingTime = 1500
 const animationTime = 1000
-const divWidth = 800
-const divHeight = 800
+const divWidth = 1248
+const divHeight = 648
 
 // API PINGS
 function getCommits () {
@@ -212,7 +212,9 @@ function randomColours (amount) {
 
 // TODO : do gradient randomColours
 
-// PLOTTING FUNCTIONS - PLOTTING
+// PLOTTING FUNCTIONS - PLOTTING  - SOFT-CODED
+
+// PLOTTING FUNCTIONS - PLOTTING  - HARD-CODED
 function commitsBarChartVertical () {
   var coords = getCommits()
   // console.log(coords)
@@ -350,7 +352,7 @@ function commitsOverTime () {
   }
 
   var layout = {
-    title: 'Commits Over Time',
+    title: 'Commits Over Time / Commits 𝚫 Time',
     width: divWidth,
     height: divHeight,
     hovermode: 'none',
@@ -608,7 +610,7 @@ function locLanguageOverTimeBar () {
 
     tempData['x'] = testArray
     tempData['y'] = yvalue
-    tempData['type'] = 'scatter'
+    tempData['type'] = 'bar'
     tempData['name'] = String(jsonKeys[i])
     tempData['marker'] = { color: String(randomColours(1)), size: 2 }
     // line thickness
@@ -618,7 +620,7 @@ function locLanguageOverTimeBar () {
   }
 
   var layout = {
-    title: 'Lines of Code Per Language Over Time',
+    title: 'Lines of Code Per Language Over Time - Bar',
     width: divWidth,
     height: divHeight,
     hovermode: 'none',
@@ -627,7 +629,7 @@ function locLanguageOverTimeBar () {
       autotick: false
     },
     yaxis: {
-      title: 'Lines of Code Per Language - Bar',
+      title: 'Lines of Code Per Language',
       autotick: true
     },
     font: {
@@ -733,6 +735,8 @@ function showEmptyGraph () {
 // START - display start
 $(document).ready(function () {
   commitsBarChartVertical()
+  // commitsOverTime()
+  // locLanguageOverTimeBar()
 
   // method to run it, find a way to sleep each function
   // var functionArray = [

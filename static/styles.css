@@ -4,7 +4,8 @@ body {
 
 #myDiv {
   border: 1px solid black;
-  /* padding: 200px; */
+  width: 1248px;
+  height: 648px;
 }
 
 #example {

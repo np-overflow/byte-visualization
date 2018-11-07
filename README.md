@@ -3,6 +3,7 @@
 
 ### Technology used
 * Flask
-* Plotly
+* Plotly JS
 * Github API
 * BitBucket API
+* Cloc
