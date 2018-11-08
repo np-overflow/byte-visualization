@@ -1,7 +1,8 @@
 import pprint
 # from mainapi import get_diff_per_element
-# from separatescripts import get_diff_per_element
 
+def get_diff_per_element(list_data):
+    return [0] + [j - i for i, j in zip(list_data[:-1], list_data[1:])]
 
 def test_get_changes_dummy():
 
@@ -48,10 +49,52 @@ def test_get_changes_dummy():
     return test_dictionary
 
 
+def groups_difference():
+    return_dictionary = test_get_changes_dummy()
+    difference_dictionary = {}
+
+    difference_dictionary['time_frame'] = return_dictionary['time_frame']
+
+    for group in return_dictionary['groups']:
+        difference_dictionary[str(group)] = {}
+
+    for k, v in return_dictionary['groups']['additions'].items():
+        difference_dictionary['additions'][k] = get_diff_per_element(v)
+
+    for k, v in return_dictionary['groups']['commits'].items():
+        difference_dictionary['commits'][k] = get_diff_per_element(v)
+
+    for k, v in return_dictionary['groups']['deletions'].items():
+        difference_dictionary['deletions'][k] = get_diff_per_element(v)
+
+    # pprint.pprint(difference_dictionary)
+    return difference_dictionary
+
+def users_difference():
+    return_dictionary = test_get_changes_dummy()
+    difference_dictionary = {}
+
+    # for group in return_dictionary['groups']:
+    #     difference_dictionary[str(group)] = {}
+
+    # for k, v in return_dictionary['groups']['additions'].items():
+    #     difference_dictionary['additions'][k] = get_diff_per_element(v)
+
+    # for k, v in return_dictionary['groups']['commits'].items():
+    #     difference_dictionary['commits'][k] = get_diff_per_element(v)
+
+    # for k, v in return_dictionary['groups']['deletions'].items():
+    #     difference_dictionary['deletions'][k] = get_diff_per_element(v)
+
+    # pprint.pprint(difference_dictionary)
+    return difference_dictionary
+
+
 if __name__ == '__main__':
-    test_return_data = test_get_changes_dummy()
+    # test_return_data = test_get_changes_dummy()
+    groups_difference()
     # pprint.pprint(test_return_data)
-    pprint.pprint(get_diff_per_element(test_return_data['total']['additions']))
-    pprint.pprint(get_diff_per_element(test_return_data['total']['commits']))
-    pprint.pprint(get_diff_per_element(test_return_data['total']['deletions']))
+    # pprint.pprint(get_diff_per_element(test_return_data['total']['additions']))
+    # pprint.pprint(get_diff_per_element(test_return_data['total']['commits']))
+    # pprint.pprint(get_diff_per_element(test_return_data['total']['deletions']))
     # pprint.pprint(test_return_data)
