@@ -462,7 +462,7 @@ def get_changes_data(start_time = None, interval = None, reset = False, time_fra
     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
 
 def get_diff_per_element(list_data):
-    return [0] + [j - i for i, j in zip(list_data[:1], [1:])]
+    return [0] + [j - i for i, j in zip(list_data[:1], list_data[1:])]
 
 def get_loc_data2(start_time = None, interval = None, reset = False, time_frame_str_format = None):
     if start_time is None:
@@ -601,7 +601,7 @@ def get_loc_data(start_time = None, interval = None, reset = False, time_frame_s
                     groups[language]['files'][group_name] = [0] * len(time_frame)
 
                 if group_name not in groups[language]['blank']:
-                    groups[language]'blank'][group_name] = [0] * len(time_frame)
+                    groups[language]['blank'][group_name] = [0] * len(time_frame)
 
                 if group_name not in groups[language]['comment']:
                     groups[language]['comment'][group_name] = [0] * len(time_frame)
