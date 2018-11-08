@@ -14,15 +14,30 @@ commits over time - line graph
 additions over time - line graph
 deletions over time - line graph
 lines of code over time - line graph
+
+TODO: make new colourschemes
+- for x amoutn  less use y palette
+make for a few colours
+
+- disable zoom for ccertain charts
 */
 
 // const values
 const fadeIn = 3000
 const fadeOut = 3000
-const waitingTime = 1500000
+const waitingTime = 3000
 const animationTime = 1000
-const divWidth = 1248
-const divHeight = 648
+
+// const divWidth = 1248
+// const divHeight = 648
+
+const divWidth = 800
+const divHeight = 800
+
+// colours
+// default backgruond colours
+const bgColor ="rgb(238, 241, 248)"
+const hexBgColor = "EEF1F8"
 
 // API PINGS
 function getCommits () {
@@ -39,8 +54,7 @@ function getCommits () {
       for (var i = 0; i < Object.keys(data).length; i++) {
         userArray.push(keys[i])
         commitsArray.push(data[keys[i]])
-      }
-
+      } 
       var returnArray = [userArray, commitsArray]
       returnValue = returnArray
     }
@@ -50,11 +64,11 @@ function getCommits () {
 
 // return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
 
-function getAllOverTime() {
+function getAllOverTimeCumulative() {
   var returnValue
   $.ajax({
     type: 'GET',
-    url: 'getallovertime',
+    url: 'getallovertimecumulative',
     async: false,
     success: function (data) {
       returnValue = data
@@ -63,6 +77,18 @@ function getAllOverTime() {
   return returnValue
 }
 
+function getAllOverTimeNonCumulative() {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: 'getallovertimenoncumulative',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
 
 function getCommitsOverTime () {
   var returnValue
@@ -128,6 +154,35 @@ function getLocLangOverTime () {
   })
   return returnValue
 }
+
+// COLOUR FUNCTIONS - TODO
+
+function colourGradientRed(number) {
+  // rgb - (255, 0, 0)
+  // split_numbers - total numbers of the colour intervals
+  var split_numbers = Math.floor(255 / number)
+  console.log("split_numbers", split_numbers)
+  var returnArray = []
+  var counter = 0
+
+  for(var i = 0; i < number ;i ++) {
+    counter += split_numbers
+    returnArray.push(counter)
+  }
+
+  return returnArray
+}
+
+function colourGradientGreen(number) {
+  //rgb - (0, 255, 0)
+
+}
+
+function colourGradientBlue(number) {
+  //rgb - (0, 0, 255)
+
+}
+
 
 // MISC FUNCTIONS -------------
 // SLEEP Function
@@ -231,6 +286,89 @@ function randomColours (amount) {
 
 // PLOTTING FUNCTIONS - PLOTTING  - SOFT-CODED
 
+function manipulateTotalAll() {
+
+  var title = 'Over Time Total Additions/Commits/Deletions'
+  var xAxisTitle = 'Time of the day'
+  var yAxisTitle = 'Total'
+  var dataArray = []
+
+  myData = getAllOverTimeCumulative()
+  console.log("from manipulateTotalAll : ", myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['total'])
+  for (var j = 0; j < Object.keys(myData['total'][groupKeys[0]]).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['total'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
+
+}
+
+function flexibleTotalAll(titleInput, xInput, yInput, graphData) {
+
+  var data = graphData
+
+  var layout = {
+    title: titleInput,
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
+    xaxis: {
+      title: xInput,
+      autotick: false
+    },
+    yaxis: {
+      title: yInput,
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+
+  // waiting time
+  sleep(waitingTime).then(() => {
+    // animate fading out the graph
+    animateOut()
+    // this sleep is to wait for the animation out to complete
+    sleep(animationTime).then(() => {
+      additionsOverTime()
+    })
+  })
+
+}
+
 // --------------------------------------
 function manipulateOverTimeGroupsCommits() {
 
@@ -243,7 +381,7 @@ function manipulateOverTimeGroupsCommits() {
   var yAxisTitle = 'Commits'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log("from manipulateOverTimeGroupsCommits : ", myData)
 
   timeData = myData['time_frame']
@@ -282,7 +420,7 @@ function manipulateOverTimeGroupsAdditions() {
   var yAxisTitle = 'Additions'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsAdditions : ', myData)
 
   timeData = myData['time_frame']
@@ -321,7 +459,7 @@ function manipulateOverTimeGroupsDeletions() {
   var yAxisTitle = 'Deletions'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsDeletions : ', myData)
 
   timeData = myData['time_frame']
@@ -363,6 +501,8 @@ function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
     title: titleInput,
     width: divWidth,
     height: divHeight,
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
     hovermode: 'none',
     xaxis: {
       title: xInput,
@@ -403,7 +543,7 @@ function manipulateOverTimeMultiCommits () {
   var yAxisTitle = 'Commits'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeMultiCommits : ', myData)
 
   timeData = myData['time_frame']
@@ -444,7 +584,7 @@ function manipulateOverTimeMultiAdditions () {
   var yAxisTitle = 'Additions'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsAdditions : ', myData)
 
   timeData = myData['time_frame']
@@ -484,7 +624,7 @@ function manipulateOverTimeMultiDeletions () {
   var yAxisTitle = 'Deletions'
   var dataArray = []
 
-  myData = getAllOverTime()
+  myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsAdditions : ', myData)
 
   timeData = myData['time_frame']
@@ -525,6 +665,8 @@ function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
     title: titleInput,
     width: divWidth,
     height: divHeight,
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
     hovermode: 'none',
     xaxis: {
       title: xInput,
@@ -545,17 +687,8 @@ function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
 
   animateOutIn()
 
-  // waiting time
-  sleep(waitingTime).then(() => {
-    // animate fading out the graph
-    animateOut()
-    // this sleep is to wait for the animation out to complete
-    sleep(animationTime).then(() => {
-      additionsOverTime()
-    })
-  })
-
 }
+
 
 // PLOTTING FUNCTIONS - PLOTTING  - HARD-CODED
 function commitsBarChartVertical () {
@@ -1061,6 +1194,7 @@ function locLanguageOverTimeLine () {
   })
 }
 
+
 function mainInfiniteLoopDelay () {
   setTimeout(function () {
     // callsomefunctions here
@@ -1077,7 +1211,7 @@ function mainInfiniteLoopCall() {
   var functionArray = [
     function() {manipulateOverTimeGroupsCommits()},
     function() {manipulateOverTimeGroupsAdditions()},
-    function() {manipulateOverTimeMultiDeletions()},
+    function() {manipulateOverTimeGroupsDeletions()},
     function() {manipulateOverTimeMultiCommits()},
     function() {manipulateOverTimeMultiAdditions()},
     function() {manipulateOverTimeMultiDeletions()},
@@ -1096,51 +1230,45 @@ function mainInfiniteLoopCall() {
 // START - display start
 $(document).ready(function () {
 
-  mainInfiniteLoopCall()
+  var setCounter = 0
+  var i = 0;
 
-  // locLanguageOverTimeBar()
+  var functionArray = [
+    function() {manipulateOverTimeGroupsCommits()},
+    function() {manipulateOverTimeGroupsAdditions()},
+    function() {manipulateOverTimeGroupsDeletions()},
+    function() {manipulateOverTimeMultiCommits()},
+    function() {manipulateOverTimeMultiAdditions()},
+    function() {manipulateOverTimeMultiDeletions()},
+  ]
 
-  // manipulateOverTimeGroupsCommits()
-  // manipulateOverTimeGroupsAdditions()
-  // manipulateOverTimeGroupsDeletions()
+  function mainLongLoop () {
+    setTimeout(function () {
+      // callsomefunctions here
+      functionArray[setCounter]()
+      if (setCounter == functionArray.length - 1) {
+        setCounter = 0
+      } else {
+        setCounter++
+      }
+      if (--i) {
+        mainLongLoop(i);
+      }
+      //every x seconds here
+    }, waitingTime);
+  }(10);
 
-  // manipulateOverTimeMultiCommits()
+mainLongLoop(500)
+
+  // mainInfiniteLoopCall()
+  // manipulateTotalAll()
+
+  // var test = colourGradientRed(8)
+  // console.log(test)
+
   // manipulateOverTimeMultiAdditions()
-  // manipulateOverTimeMultiDeletions()
-
-  // getAllOverTime()
 
   // commitsBarChartVertical()
   // commitsOverTime()
 
-  // method to run it, find a way to sleep each function
-  // var functionArray = [
-  //   function () { commitsBarChartVertical() },
-  //   function () { commitsBarChartHorizontal() },
-  //   function () { commitsOverTime() },
-  //   function () { deletionsOverTime() },
-  //   function () { locOverTime() }
-  // ]
-
-  // var length = functionArray.length
-  // console.log(length)
-  // var counter = 0
-
-  // while (true) {
-  //   if (counter === length - 1) {
-  //     sleep(2000).then(() => {
-  //       // setTimeout(functionArray[counter](), 5000)
-  //       functionArray[counter]()
-  //       counter = 0
-  //       console.log('hello this is max')
-  //     })
-  //   } else {
-  //     sleep(2000).then(() => {
-  //       // setTimeout(functionArray[counter](), 5000)
-  //       functionArray[counter]()
-  //       counter++
-  //       console.log('bye')
-  //     })
-  //   }
-  // }
 })

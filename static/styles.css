@@ -1,11 +1,12 @@
 body {
   margin: 50px;
+  background: #EEF1F8;
 }
 
 #myDiv {
   border: 1px solid black;
-  width: 1248px;
-  height: 648px;
+  width: 800px;
+  height: 800px;
 }
 
 #example {
