@@ -1,0 +1,66 @@
+body {
+    background-color: #EDF1F7;
+    font-family: 'Roboto Condensed', sans-serif;
+    overflow: hidden;
+}
+.flexboxcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    width:85%;
+    height: 96vh;
+    margin-left:15%;
+}
+
+.timePassed {
+    width: 20%;
+    height: 10vh;
+}
+
+.overviewContainer {
+    width: 80%;
+}
+
+.extra_stats_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 78vh;
+    width: 30%;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+.stats{
+    width: 65%;
+    height: 78vh;
+    background-color: #FCFCFD;
+    margin-top: 5%;
+}
+
+.stats img {
+    width: 100%;
+    height: 100%;
+}
+
+.foo {
+    width: 20%;
+    height: 60vh;
+    background-color: grey;
+    display: table-cell;
+}
+
+.extra_stats1 {
+    width: 80%;
+    height: 37vh;
+    background-color: #FCFCFD;
+}
+
+.extra_stats2 {
+    width: 80%;
+    height: 37vh;
+    background-color: #FCFCFD;
+}
+
+footer p {
+    text-align: center;
+    color: rgba(0,0,0,0.42);
+}
