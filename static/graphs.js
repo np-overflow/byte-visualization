@@ -31,8 +31,8 @@ const animationTime = 1000
 // const divWidth = 1248
 // const divHeight = 648
 
-const divWidth = 800
-const divHeight = 800
+const divWidth = 1061
+const divHeight = 842
 
 // colours
 // default backgruond colours
