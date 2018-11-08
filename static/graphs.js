@@ -25,7 +25,7 @@ make for a few colours
 // const values
 const fadeIn = 3000
 const fadeOut = 3000
-const waitingTime = 1000
+const waitingTime = 2000
 const animationTime = 1000
 
 // const divWidth = 1248
@@ -258,6 +258,8 @@ flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
 function flexibleTotalAll(titleInput, xInput, yInput, graphData) {
+  
+  animateOut()
 
   var data = graphData
 
@@ -414,6 +416,8 @@ function manipulateOverTimeGroupsDeletions() {
 
 function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
 
+  animateOut()
+
   var data = graphData
 
   var layout = {
@@ -568,6 +572,8 @@ function manipulateOverTimeMultiDeletions () {
 
 function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
 
+  animateOut()
+
   var data = graphData
 
   var layout = {
@@ -663,6 +669,8 @@ function manipulateTotalAllDifference() {
 }
 
 function flexibleTotalAllDifference(titleInput, xInput, yInput, graphData) {
+
+  animateOut()
 
   var data = graphData
 
@@ -817,6 +825,8 @@ function manipulateOverTimeGroupsDeletionsDifference() {
 
 function flexibleOverTimeGroupsDifference(titleInput, xInput, yInput, graphData) {
 
+  animateOut()
+
   var data = graphData
 
   var layout = {
@@ -970,6 +980,8 @@ function manipulateOverTimeMultiDeletionsDifference() {
 
 
 function flexibleOverTimeMultiDifference(titleInput, xInput, yInput, graphData) {
+
+  animateOut()
 
   var data = graphData
 

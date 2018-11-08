@@ -12,10 +12,10 @@ test_purposes = 1
 # routes
 @app.route('/', methods=["GET"])
 def index():
-    return render_template('testcharts.html')
+    # return render_template('testcharts.html')
 
     # serve this when template is done
-    # return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/locovertime', methods=["GET", "POST"])
 def locovertime():
