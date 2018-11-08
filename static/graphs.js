@@ -25,7 +25,7 @@ make for a few colours
 // const values
 const fadeIn = 3000
 const fadeOut = 3000
-const waitingTime = 3000
+const waitingTime = 5000
 const animationTime = 1000
 
 // const divWidth = 1248
@@ -356,17 +356,6 @@ function flexibleTotalAll(titleInput, xInput, yInput, graphData) {
   Plotly.newPlot('myDiv', data, layout)
 
   animateOutIn()
-
-  // waiting time
-  sleep(waitingTime).then(() => {
-    // animate fading out the graph
-    animateOut()
-    // this sleep is to wait for the animation out to complete
-    sleep(animationTime).then(() => {
-      additionsOverTime()
-    })
-  })
-
 }
 
 // --------------------------------------
@@ -522,16 +511,6 @@ function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
   Plotly.newPlot('myDiv', data, layout)
 
   animateOutIn()
-
-  // waiting time
-  sleep(waitingTime).then(() => {
-    // animate fading out the graph
-    animateOut()
-    // this sleep is to wait for the animation out to complete
-    sleep(animationTime).then(() => {
-      additionsOverTime()
-    })
-  })
 }
 
 // --------------------------------------
@@ -1258,7 +1237,7 @@ $(document).ready(function () {
     }, waitingTime);
   }(10);
 
-mainLongLoop(500)
+  mainLongLoop(500)
 
   // mainInfiniteLoopCall()
   // manipulateTotalAll()
