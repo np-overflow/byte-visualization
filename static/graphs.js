@@ -69,11 +69,24 @@ function getAllOverTimeNonCumulative() {
   return returnValue
 }
 
-function getAllOverTimeDifference() {
+function getGroupsOverTimeDifference() {
   var returnValue
   $.ajax({
     type: 'GET',
-    url: 'getallovertimedifference',
+    url: 'getgroupsovertimedifference',
+    async: false,
+    success: function (data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
+function getMultiOverTimeDifference () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: 'getmultiovertimedifference',
     async: false,
     success: function (data) {
       returnValue = data
@@ -686,7 +699,7 @@ function manipulateOverTimeGroupsCommitsDifference() {
   var yAxisTitle = 'Total'
   var dataArray = []
 
-  myData = getAllOverTimeDifference()
+  myData = getGroupsOverTimeDifference()
   console.log("from manipulateOverTimeGroupsCommitsDifference : ", myData)
 
   timeData = myData['time_frame']
@@ -727,7 +740,7 @@ function manipulateOverTimeGroupsAdditionsDifference() {
   var yAxisTitle = 'Total'
   var dataArray = []
 
-  myData = getAllOverTimeDifference()
+  myData = getGroupsOverTimeDifference()
   console.log("from manipulateOverTimeGroupsAdditionsDifference : ", myData)
 
   timeData = myData['time_frame']
@@ -768,7 +781,7 @@ function manipulateOverTimeGroupsDeletionsDifference() {
   var yAxisTitle = 'Total'
   var dataArray = []
 
-  myData = getAllOverTimeDifference()
+  myData = getGroupsOverTimeDifference()
   console.log("from manipulateOverTimeGroupsDeletionsDifference : ", myData)
 
   timeData = myData['time_frame']
@@ -830,6 +843,161 @@ function flexibleOverTimeGroupsDifference(titleInput, xInput, yInput, graphData)
 
   Plotly.newPlot('myDiv', data, layout)
   animateOutIn()
+}
+
+function manipulateOverTimeMultiCommitsDifference() {
+
+  var title = 'Over Time Multi Commits - Difference'
+  var xAxisTitle = 'Time of the day'
+  var yAxisTitle = 'Total'
+  var dataArray = []
+
+  myData = getMultiOverTimeDifference()
+  console.log("from manipulateOverTimeMultiCommitsDifference : ", myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['commits'])
+  for (var j = 0; j < Object.keys(myData['commits']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['commits'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
+
+}
+
+function manipulateOverTimeMultiAdditionsDifference() {
+
+  var title = 'Over Time Multi Additions - Difference'
+  var xAxisTitle = 'Time of the day'
+  var yAxisTitle = 'Total'
+  var dataArray = []
+
+  myData = getMultiOverTimeDifference()
+  console.log("from manipulateOverTimeMultiAdditionsDifference : ", myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['additions'])
+  for (var j = 0; j < Object.keys(myData['additions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['additions'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
+
+}
+
+function manipulateOverTimeMultiDeletionsDifference() {
+
+  var title = 'Over Time Multi Deletions - Difference'
+  var xAxisTitle = 'Time of the day'
+  var yAxisTitle = 'Total'
+  var dataArray = []
+
+  myData = getMultiOverTimeDifference()
+  console.log("from manipulateOverTimeMultiDeletionsDifference : ", myData)
+
+  timeData = myData['time_frame']
+  timeDataInt = []
+
+  // make all my timeData into an Int
+  for (var i = 0; i < timeData.length; i++) {
+    timeDataInt.push(parseInt(timeData[i]))
+  }
+
+  groupKeys = Object.keys(myData['deletions'])
+  for (var j = 0; j < Object.keys(myData['deletions']).length; j++) {
+    eachVarObject = {}
+
+    yValues = myData['deletions'][groupKeys[j]]
+    console.log(yValues)
+
+    eachVarObject['x'] = timeDataInt
+    eachVarObject['y'] = yValues
+    eachVarObject['type'] = 'lines+markers'
+    eachVarObject['name'] = String(groupKeys[j])
+    // randomise the colours
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    // make the line thicker
+    eachVarObject['line'] = { 'width': 4 }
+
+    dataArray.push(eachVarObject)
+  }
+
+  flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
+
+}
+
+
+function flexibleOverTimeMultiDifference(titleInput, xInput, yInput, graphData) {
+
+  var data = graphData
+
+  var layout = {
+    title: titleInput,
+    width: divWidth,
+    height: divHeight,
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
+    hovermode: 'none',
+    xaxis: {
+      title: xInput,
+      autotick: false
+    },
+    yaxis: {
+      title: yInput,
+      autotick: true
+    },
+    font: {
+      family: 'Mali',
+      size: 18,
+      color: '#7f7f7f'
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+  animateOutIn()
+
 }
 
 
@@ -925,10 +1093,13 @@ $(document).ready(function () {
     function() {manipulateTotalAllDifference()},
     function() {manipulateOverTimeGroupsCommitsDifference()},
     function() {manipulateOverTimeGroupsAdditionsDifference()},
-    function() {manipulateOverTimeGroupsDeletionsDifference()}
+    function() {manipulateOverTimeGroupsDeletionsDifference()},
+    function() {manipulateOverTimeMultiCommitsDifference()},
+    function() {manipulateOverTimeMultiAdditionsDifference()},
+    function() {manipulateOverTimeMultiDeletionsDifference()}
   ]
 
-  function mainLongLoop () {
+  function mainLoop () {
     setTimeout(function () {
       // callsomefunctions here
       functionArray[setCounter]()
@@ -938,13 +1109,13 @@ $(document).ready(function () {
         setCounter++
       }
       if (--i) {
-        mainLongLoop(i);
+        mainLoop(i);
       }
       //every x seconds here
     }, waitingTime);
   }(10);
 
-  mainLongLoop(500)
+  mainLoop(500)
 
   // testGetAllOverTimeNonCumulative()
 

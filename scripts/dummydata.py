@@ -4,6 +4,7 @@ import pprint
 def get_diff_per_element(list_data):
     return [0] + [j - i for i, j in zip(list_data[:-1], list_data[1:])]
 
+
 def test_get_changes_dummy():
 
     time = ["11.00", "12.00", "13.00"]
@@ -49,6 +50,34 @@ def test_get_changes_dummy():
     return test_dictionary
 
 
+def users_difference():
+    '''
+    {
+        'additions':
+            'users1' [data that works]
+    }
+    '''
+    return_dictionary = test_get_changes_dummy()
+    difference_dictionary = {}
+
+    difference_dictionary['time_frame'] = return_dictionary['time_frame']
+    difference_dictionary['additions'] = {}
+    difference_dictionary['commits'] = {}
+    difference_dictionary['deletions'] = {}
+
+    for user, adds in return_dictionary['users']['additions'].items():
+        difference_dictionary['additions'][user] = get_diff_per_element(adds)
+
+    for user, coms in return_dictionary['users']['commits'].items():
+        difference_dictionary['commits'][user] = get_diff_per_element(coms)
+
+    for user, dels in return_dictionary['users']['deletions'].items():
+        difference_dictionary['deletions'][user] = get_diff_per_element(dels)
+
+    # pprint.pprint(difference_dictionary)
+    return difference_dictionary
+
+
 def groups_difference():
     return_dictionary = test_get_changes_dummy()
     difference_dictionary = {}
@@ -70,29 +99,11 @@ def groups_difference():
     # pprint.pprint(difference_dictionary)
     return difference_dictionary
 
-def users_difference():
-    return_dictionary = test_get_changes_dummy()
-    difference_dictionary = {}
-
-    # for group in return_dictionary['groups']:
-    #     difference_dictionary[str(group)] = {}
-
-    # for k, v in return_dictionary['groups']['additions'].items():
-    #     difference_dictionary['additions'][k] = get_diff_per_element(v)
-
-    # for k, v in return_dictionary['groups']['commits'].items():
-    #     difference_dictionary['commits'][k] = get_diff_per_element(v)
-
-    # for k, v in return_dictionary['groups']['deletions'].items():
-    #     difference_dictionary['deletions'][k] = get_diff_per_element(v)
-
-    # pprint.pprint(difference_dictionary)
-    return difference_dictionary
-
 
 if __name__ == '__main__':
     # test_return_data = test_get_changes_dummy()
-    groups_difference()
+    # groups_difference()
+    users_difference()
     # pprint.pprint(test_return_data)
     # pprint.pprint(get_diff_per_element(test_return_data['total']['additions']))
     # pprint.pprint(get_diff_per_element(test_return_data['total']['commits']))
