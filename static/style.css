@@ -29,11 +29,14 @@ body {
     margin-left: 2%;
     margin-top: 5%;
 }
-.stats{
+.stats_container{
     width: 65%;
     height: 78vh;
     background-color: #FCFCFD;
     margin-top: 5%;
+}
+
+.stats {
 }
 
 .stats img {
