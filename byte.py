@@ -164,7 +164,30 @@ def getmultiovertimedifference():
     else:
         return None
 
+# shows all the languages in a line chart first
+@app.route('/getlangovertime', methods=["GET", "POST"])
+def getlangovertime():
+
+    if test_purposes == 1:
+        return jsonify(dummydata.lang_changes())
+    elif test_purposes == 2:
+        # more test data
+        test_return_json = {
+            'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
+            'language': {
+                'python': [1200, 1300, 1800, 4600, 7000],
+                'java': [600, 1000, 5000, 6500, 8000],
+                'c': [100, 800, 6800, 9100, 12000],
+                'c++': [0, 0, 1200, 2700, 3000],
+                'clojure': [100, 400, 700, 900, 4000],
+                'c#': [0, 3000, 8000, 14000, 18000]
+            }
+        }
+        return jsonify(test_return_json)
+    else:
+        return None
+
 
 if __name__ == '__main__':
-    # app.run(debug=True, port=5000)
-    app.run(host='0.0.0.0')
+    app.run(debug=True, port=5000)
+    # app.run(host='0.0.0.0')

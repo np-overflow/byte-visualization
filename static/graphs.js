@@ -5,7 +5,6 @@
 // commits[0] - users
 // commits[1] - commits for user
 
-
 // Functions order at the moment
 /*
 commits - bar vertical
@@ -25,6 +24,7 @@ make for a few colours
 // const values
 const fadeIn = 3000
 const fadeOut = 3000
+// TODO : set the timer correctly on the day itself
 const waitingTime = 2000
 const animationTime = 1000
 
@@ -36,13 +36,12 @@ const divHeight = 842
 
 // colours
 // default backgruond colours
-const bgColor ="rgb(238, 241, 248)"
-const hexBgColor = "EEF1F8"
-
+const bgColor = 'rgb(238, 241, 248)'
+const hexBgColor = 'EEF1F8'
 
 // API PINGS
 
-function getAllOverTimeCumulative() {
+function getAllOverTimeCumulative () {
   var returnValue
   $.ajax({
     type: 'GET',
@@ -56,7 +55,7 @@ function getAllOverTimeCumulative() {
 }
 // return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
 
-function getAllOverTimeNonCumulative() {
+function getAllOverTimeNonCumulative () {
   var returnValue
   $.ajax({
     type: 'GET',
@@ -69,7 +68,7 @@ function getAllOverTimeNonCumulative() {
   return returnValue
 }
 
-function getGroupsOverTimeDifference() {
+function getGroupsOverTimeDifference () {
   var returnValue
   $.ajax({
     type: 'GET',
@@ -95,7 +94,20 @@ function getMultiOverTimeDifference () {
   return returnValue
 }
 
-function testGetAllOverTimeNonCumulative() {
+function getLangMultiOvertime () {
+  var returnValue
+  $.ajax({
+    type: 'GET',
+    url: 'getlangovertime',
+    async: false,
+    success: function(data) {
+      returnValue = data
+    }
+  })
+  return returnValue
+}
+
+function testGetAllOverTimeNonCumulative () {
   returnValue = getAllOverTimeNonCumulative()
   console.log(returnValue['time_frame'])
   console.log(returnValue['commits'])
@@ -104,28 +116,28 @@ function testGetAllOverTimeNonCumulative() {
 }
 
 // COLOUR FUNCTIONS - TODO
-function colourGradientRed(number) {
+function colourGradientRed (number) {
   // rgb - (255, 0, 0)
   // split_numbers - total numbers of the colour intervals
-  var split_numbers = Math.floor(255 / number)
-  console.log("split_numbers", split_numbers)
+  var splitNumbers = Math.floor(255 / number)
+  console.log('split_numbers', split_numbers)
   var returnArray = []
   var counter = 0
 
-  for(var i = 0; i < number ;i ++) {
-    counter += split_numbers
+  for (var i = 0; i < number; i++) {
+    counter += splitumbers
     returnArray.push(counter)
   }
 
   return returnArray
 }
 
-function colourGradientGreen(number) {
-  //rgb - (0, 255, 0)
+function colourGradientGreen (number) {
+  // rgb - (0, 255, 0)
 }
 
-function colourGradientBlue(number) {
-  //rgb - (0, 0, 255)
+function colourGradientBlue (number) {
+  // rgb - (0, 0, 255)
 }
 
 // MISC FUNCTIONS -------------
@@ -216,15 +228,14 @@ function randomColours (amount) {
 
 // PLOTTING FUNCTIONS - PLOTTING  - SOFT-CODED
 
-function manipulateTotalAll() {
-
+function manipulateTotalAll () {
   var title = 'Over Time Total Additions/Commits/Deletions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getAllOverTimeCumulative()
-  console.log("from manipulateTotalAll : ", myData)
+  console.log('from manipulateTotalAll : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -246,19 +257,17 @@ function manipulateTotalAll() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
     dataArray.push(eachVarObject)
   }
 
-flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
-
+  flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
-function flexibleTotalAll(titleInput, xInput, yInput, graphData) {
-  
+function flexibleTotalAll (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -291,8 +300,7 @@ function flexibleTotalAll(titleInput, xInput, yInput, graphData) {
 }
 
 // --------------------------------------
-function manipulateOverTimeGroupsCommits() {
-
+function manipulateOverTimeGroupsCommits () {
   // do some processing of the data i get from the getAllOverTime() function
   // put them into the flexibleOverTimeGroups(with alot of parameters)
   // call that
@@ -303,7 +311,7 @@ function manipulateOverTimeGroupsCommits() {
   var dataArray = []
 
   myData = getAllOverTimeCumulative()
-  console.log("from manipulateOverTimeGroupsCommits : ", myData)
+  console.log('from manipulateOverTimeGroupsCommits : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -325,7 +333,7 @@ function manipulateOverTimeGroupsCommits() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -335,7 +343,7 @@ function manipulateOverTimeGroupsCommits() {
   flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
-function manipulateOverTimeGroupsAdditions() {
+function manipulateOverTimeGroupsAdditions () {
   var title = 'Over Time Additions - Groups'
   var xAxisTitle = 'Groups'
   var yAxisTitle = 'Additions'
@@ -364,7 +372,7 @@ function manipulateOverTimeGroupsAdditions() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -374,7 +382,7 @@ function manipulateOverTimeGroupsAdditions() {
   flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
-function manipulateOverTimeGroupsDeletions() {
+function manipulateOverTimeGroupsDeletions () {
   var title = 'Over Time Deletions - Groups'
   var xAxisTitle = 'Groups'
   var yAxisTitle = 'Deletions'
@@ -403,19 +411,17 @@ function manipulateOverTimeGroupsDeletions() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
     dataArray.push(eachVarObject)
   }
 
-
   flexibleOverTimeGroups(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
 function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
-
   animateOut()
 
   var data = graphData
@@ -450,7 +456,6 @@ function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
 // --------------------------------------
 
 function manipulateOverTimeMultiCommits () {
-
   var title = 'Over Time Commits - Users'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Commits'
@@ -467,7 +472,7 @@ function manipulateOverTimeMultiCommits () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  userKeys  = Object.keys(myData['users']['commits'])
+  userKeys = Object.keys(myData['users']['commits'])
   for (var j = 0; j < Object.keys(myData['users']['commits']).length; j++) {
     eachVarObject = {}
 
@@ -479,19 +484,17 @@ function manipulateOverTimeMultiCommits () {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(userKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
     dataArray.push(eachVarObject)
   }
 
-
   flexibleOverTimeMulti(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
 function manipulateOverTimeMultiAdditions () {
-
   var title = 'Over Time Additions - Users'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Additions'
@@ -508,7 +511,7 @@ function manipulateOverTimeMultiAdditions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  userKeys  = Object.keys(myData['users']['additions'])
+  userKeys = Object.keys(myData['users']['additions'])
   for (var j = 0; j < Object.keys(myData['users']['additions']).length; j++) {
     eachVarObject = {}
 
@@ -520,7 +523,7 @@ function manipulateOverTimeMultiAdditions () {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(userKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -531,7 +534,6 @@ function manipulateOverTimeMultiAdditions () {
 }
 
 function manipulateOverTimeMultiDeletions () {
-
   var title = 'Over Time Deletions - Users'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Deletions'
@@ -548,7 +550,7 @@ function manipulateOverTimeMultiDeletions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  userKeys  = Object.keys(myData['users']['deletions'])
+  userKeys = Object.keys(myData['users']['deletions'])
   for (var j = 0; j < Object.keys(myData['users']['deletions']).length; j++) {
     eachVarObject = {}
 
@@ -560,7 +562,7 @@ function manipulateOverTimeMultiDeletions () {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(userKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -571,7 +573,6 @@ function manipulateOverTimeMultiDeletions () {
 }
 
 function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
-
   animateOut()
 
   var data = graphData
@@ -601,18 +602,16 @@ function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
   Plotly.newPlot('myDiv', data, layout)
 
   animateOutIn()
-
 }
 
-function manipulateTotalAllDifference() {
-
+function manipulateTotalAllDifference () {
   var title = 'Over Time Total Additions/Commits/Deletions - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getAllOverTimeNonCumulative()
-  console.log("from manipulateTotalAllDifference : ", myData)
+  console.log('from manipulateTotalAllDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -631,7 +630,7 @@ function manipulateTotalAllDifference() {
   // hardcoded the data in so theres no actual name
   commitsObject['name'] = 'Commits'
   // randomise the colours
-  commitsObject['marker'] = { color: String(randomColours(1)), size: 8}
+  commitsObject['marker'] = { color: String(randomColours(1)), size: 8 }
   // make the line thicker
   commitsObject['line'] = { 'width': 4 }
   dataArray.push(commitsObject)
@@ -645,7 +644,7 @@ function manipulateTotalAllDifference() {
   // hardcoded the data in so theres no actual name
   additionsObject['name'] = 'Additions'
   // randomise the colours
-  additionsObject['marker'] = { color: String(randomColours(1)), size: 8}
+  additionsObject['marker'] = { color: String(randomColours(1)), size: 8 }
   // make the line thicker
   additionsObject['line'] = { 'width': 4 }
   dataArray.push(additionsObject)
@@ -659,17 +658,15 @@ function manipulateTotalAllDifference() {
   // hardcoded the data in so theres no actual name
   deletionsObject['name'] = 'Deletions'
   // randomise the colours
-  deletionsObject['marker'] = { color: String(randomColours(1)), size: 8}
+  deletionsObject['marker'] = { color: String(randomColours(1)), size: 8 }
   // make the line thicker
   deletionsObject['line'] = { 'width': 4 }
   dataArray.push(deletionsObject)
 
   flexibleTotalAllDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function flexibleTotalAllDifference(titleInput, xInput, yInput, graphData) {
-
+function flexibleTotalAllDifference (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -700,15 +697,14 @@ function flexibleTotalAllDifference(titleInput, xInput, yInput, graphData) {
   animateOutIn()
 }
 
-function manipulateOverTimeGroupsCommitsDifference() {
-
+function manipulateOverTimeGroupsCommitsDifference () {
   var title = 'Over Time Group Commits - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getGroupsOverTimeDifference()
-  console.log("from manipulateOverTimeGroupsCommitsDifference : ", myData)
+  console.log('from manipulateOverTimeGroupsCommitsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -730,7 +726,7 @@ function manipulateOverTimeGroupsCommitsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -738,18 +734,16 @@ function manipulateOverTimeGroupsCommitsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function manipulateOverTimeGroupsAdditionsDifference() {
-
+function manipulateOverTimeGroupsAdditionsDifference () {
   var title = 'Over Time Group Additions - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getGroupsOverTimeDifference()
-  console.log("from manipulateOverTimeGroupsAdditionsDifference : ", myData)
+  console.log('from manipulateOverTimeGroupsAdditionsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -771,7 +765,7 @@ function manipulateOverTimeGroupsAdditionsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -779,18 +773,16 @@ function manipulateOverTimeGroupsAdditionsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function manipulateOverTimeGroupsDeletionsDifference() {
-
+function manipulateOverTimeGroupsDeletionsDifference () {
   var title = 'Over Time Group Deletions - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getGroupsOverTimeDifference()
-  console.log("from manipulateOverTimeGroupsDeletionsDifference : ", myData)
+  console.log('from manipulateOverTimeGroupsDeletionsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -812,7 +804,7 @@ function manipulateOverTimeGroupsDeletionsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -820,11 +812,9 @@ function manipulateOverTimeGroupsDeletionsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function flexibleOverTimeGroupsDifference(titleInput, xInput, yInput, graphData) {
-
+function flexibleOverTimeGroupsDifference (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -855,15 +845,14 @@ function flexibleOverTimeGroupsDifference(titleInput, xInput, yInput, graphData)
   animateOutIn()
 }
 
-function manipulateOverTimeMultiCommitsDifference() {
-
+function manipulateOverTimeMultiCommitsDifference () {
   var title = 'Over Time Multi Commits - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getMultiOverTimeDifference()
-  console.log("from manipulateOverTimeMultiCommitsDifference : ", myData)
+  console.log('from manipulateOverTimeMultiCommitsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -885,7 +874,7 @@ function manipulateOverTimeMultiCommitsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -893,18 +882,16 @@ function manipulateOverTimeMultiCommitsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function manipulateOverTimeMultiAdditionsDifference() {
-
+function manipulateOverTimeMultiAdditionsDifference () {
   var title = 'Over Time Multi Additions - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getMultiOverTimeDifference()
-  console.log("from manipulateOverTimeMultiAdditionsDifference : ", myData)
+  console.log('from manipulateOverTimeMultiAdditionsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -926,7 +913,7 @@ function manipulateOverTimeMultiAdditionsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -934,18 +921,16 @@ function manipulateOverTimeMultiAdditionsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-function manipulateOverTimeMultiDeletionsDifference() {
-
+function manipulateOverTimeMultiDeletionsDifference () {
   var title = 'Over Time Multi Deletions - Difference'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
 
   myData = getMultiOverTimeDifference()
-  console.log("from manipulateOverTimeMultiDeletionsDifference : ", myData)
+  console.log('from manipulateOverTimeMultiDeletionsDifference : ', myData)
 
   timeData = myData['time_frame']
   timeDataInt = []
@@ -967,7 +952,7 @@ function manipulateOverTimeMultiDeletionsDifference() {
     eachVarObject['type'] = 'lines+markers'
     eachVarObject['name'] = String(groupKeys[j])
     // randomise the colours
-    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8}
+    eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
     // make the line thicker
     eachVarObject['line'] = { 'width': 4 }
 
@@ -975,12 +960,9 @@ function manipulateOverTimeMultiDeletionsDifference() {
   }
 
   flexibleOverTimeGroupsDifference(title, xAxisTitle, yAxisTitle, dataArray)
-
 }
 
-
-function flexibleOverTimeMultiDifference(titleInput, xInput, yInput, graphData) {
-
+function flexibleOverTimeMultiDifference (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -1009,54 +991,26 @@ function flexibleOverTimeMultiDifference(titleInput, xInput, yInput, graphData) 
 
   Plotly.newPlot('myDiv', data, layout)
   animateOutIn()
-
 }
 
+function flexibleOverTimeMultiLang( titleInput, xInput, yInput, graphData) {
+  animateOut()
 
-// PLOTTING FUNCTIONS - PLOTTING  - HARD-CODED
-
-function locOverTime () {
-  var data = []
-  jsonLoc = getLocOverTime()
-  console.log(jsonLoc)
-
-  jsonKeys = Object.keys(jsonLoc['users'])
-  var timeValue = jsonLoc['time']
-  testArray = []
-
-  for (var j = 0; j < timeValue.length; j++) {
-    testArray.push(parseInt(timeValue[j]))
-  }
-
-  for (var i = 0; i < Object.keys(jsonLoc['users']).length; i++) {
-    tempData = {}
-
-    var yvalue = jsonLoc['users'][jsonKeys[i]]
-
-    console.log(timeValue)
-
-    tempData['x'] = testArray
-    tempData['y'] = yvalue
-    tempData['type'] = 'scatter'
-    tempData['name'] = String(jsonKeys[i])
-    tempData['marker'] = { color: String(randomColours(1)), size: 2 }
-    // line thickness
-    tempData['line'] = { 'width': 4 }
-
-    data.push(tempData)
-  }
+  var data = graphData
 
   var layout = {
-    title: 'Lines of Code Over Time',
+    title: titleInput,
     width: divWidth,
     height: divHeight,
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
     hovermode: 'none',
     xaxis: {
-      title: 'Time of the Day',
+      title: xInput,
       autotick: false
     },
     yaxis: {
-      title: 'Lines of Code',
+      title: yInput,
       autotick: true
     },
     font: {
@@ -1068,67 +1022,57 @@ function locOverTime () {
 
   Plotly.newPlot('myDiv', data, layout)
 
-  animateOutIn()
-
-  // waiting time
-  sleep(waitingTime).then(() => {
-    // animate fading out the graph
-    animateOut()
-    // this sleep is to wait for the animation out to complete
-    sleep(animationTime).then(() => {
-      locLanguageOverTimeBar()
-    })
-  })
 }
 
 
-function mainLoop() {
-
-}
-
-
-
-// START - display start
-$(document).ready(function () {
+function callMainLoop() {
 
   var setCounter = 0
-  var i = 0;
+  var i = 0
 
   var functionArray = [
-    function() {manipulateOverTimeGroupsCommits()},
-    function() {manipulateOverTimeGroupsAdditions()},
-    function() {manipulateOverTimeGroupsDeletions()},
-    function() {manipulateOverTimeMultiCommits()},
-    function() {manipulateOverTimeMultiAdditions()},
-    function() {manipulateOverTimeMultiDeletions()},
-    function() {manipulateTotalAll()},
-    function() {manipulateTotalAllDifference()},
-    function() {manipulateOverTimeGroupsCommitsDifference()},
-    function() {manipulateOverTimeGroupsAdditionsDifference()},
-    function() {manipulateOverTimeGroupsDeletionsDifference()},
-    function() {manipulateOverTimeMultiCommitsDifference()},
-    function() {manipulateOverTimeMultiAdditionsDifference()},
-    function() {manipulateOverTimeMultiDeletionsDifference()}
+    function () { manipulateOverTimeGroupsCommits() },
+    function () { manipulateOverTimeGroupsAdditions() },
+    function () { manipulateOverTimeGroupsDeletions() },
+    function () { manipulateOverTimeMultiCommits() },
+    function () { manipulateOverTimeMultiAdditions() },
+    function () { manipulateOverTimeMultiDeletions() },
+    function () { manipulateTotalAll() },
+    function () { manipulateTotalAllDifference() },
+    function () { manipulateOverTimeGroupsCommitsDifference() },
+    function () { manipulateOverTimeGroupsAdditionsDifference() },
+    function () { manipulateOverTimeGroupsDeletionsDifference() },
+    function () { manipulateOverTimeMultiCommitsDifference() },
+    function () { manipulateOverTimeMultiAdditionsDifference() },
+    function () { manipulateOverTimeMultiDeletionsDifference() }
   ]
 
   function mainLoop () {
     setTimeout(function () {
       // callsomefunctions here
       functionArray[setCounter]()
-      if (setCounter == functionArray.length - 1) {
+      if (setCounter === functionArray.length - 1) {
         setCounter = 0
       } else {
         setCounter++
       }
       if (--i) {
-        mainLoop(i);
+        mainLoop(i)
       }
-      //every x seconds here
-    }, waitingTime);
-  }(10);
+      // every x seconds here
+    }, waitingTime)
+  // }(10)
+  }
 
   mainLoop(500)
 
-  // testGetAllOverTimeNonCumulative()
+}
 
+
+// START - display start
+$(document).ready(function () {
+  // callMainLoop()
+  consolelog = getLangMultiOvertime()
+  console.log(consolelog)
+  // testGetAllOverTimeNonCumulative()
 })

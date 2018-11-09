@@ -184,7 +184,7 @@ def get_repos_views(host_name, host_repos_name):
                         '{}/{}/'
                         'traffic/views'
                         .format(host_name, host_repos_name),
-                        auth = ('TooAwesome15', 'woodland1501'))
+                        auth = ('username', 'password'))
 
     view_json = view.json()
 

@@ -4,6 +4,70 @@ import pprint
 def get_diff_per_element(list_data):
     return [0] + [j - i for i, j in zip(list_data[:-1], list_data[1:])]
 
+def lang_changes():
+
+    time = ["11.00", "12.00", "13.00"]
+    groups = {
+        "clojure": {
+            'files': {
+                'groupname1': [1, 2, 3],
+                'groupname2': [2, 3, 4]
+            },
+            'blank': {
+                'groupname1': [2, 3, 4],
+                'groupname2': [3, 4, 5]
+            },
+            'comment': {
+                'groupname1': [4, 5, 6],
+                'groupname2': [5, 6, 7]
+            },
+            'code': {
+                'groupname1': [5, 6, 7],
+                'groupname2': [6, 7, 8]
+            }
+        }
+    }
+    total = {
+        "clojure": {
+            'files': [3, 5, 7],
+            'blank': [5, 7, 9],
+            'comment': [9, 11, 13],
+            'code': [11, 13, 15]
+        }
+    }
+
+    test_dictionary = {
+        'time_frame': time,
+        'total': total,
+        'groups': groups
+    }
+    return test_dictionary
+
+def view_changes():
+    time = ["11.00", "12.00", "13.00"]
+
+    groups = {
+        'count': {
+            'groupname1': [numbers],
+            'groupname2': [numbers]
+        },
+        'uniques': {
+            'groupname1': [numbers],
+            'groupname2': [numbers]
+        }
+    }
+    total = {
+        'count': [numbers],
+        'uniques': [numbers]
+    }
+
+    test_dictionary = {
+        'time_frame': time,
+        'total': total,
+        'groups': groups
+    }
+
+    return test_dictionary
 
 def test_get_changes_dummy():
 
