@@ -7,3 +7,4 @@
 * Github API
 * BitBucket API
 * Cloc
+* Uwsgi + Nginx
