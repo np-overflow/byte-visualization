@@ -1,7 +1,7 @@
 # Byte-Visualization
 
 
-### Technology used
+### Technologies used
 * Flask
 * Plotly JS
 * Github API
