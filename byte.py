@@ -10,7 +10,8 @@ app = Flask(__name__)
 test_purposes = 1
 
 # routes
-@app.route('/', methods=["GET"])
+# @app.route('/', methods=["GET"])
+@app.route('/')
 def index():
     # return render_template('testcharts.html')
 
