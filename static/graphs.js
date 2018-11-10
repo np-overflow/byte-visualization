@@ -23,7 +23,9 @@ const fadeOut = 3000
 // TODO : set the timer correctly on the day itself
 // 1000 - 1 seconds
 const startWaitTime = 1000 // 1 seconds
-const waitingTime = 1500 // 2 seconds
+const waitingTime = 5000 // 5 seconds
+
+// fairly useless thing
 const animationTime = 1000
 
 // const divWidth = 1248
