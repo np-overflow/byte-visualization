@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 import random
-# import scripts.mainapi
+import scripts.mainapi as mainapi
 import scripts.dummydata as dummydata
 from scripts.separatescripts import get_diff_per_element
 

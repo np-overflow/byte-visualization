@@ -4,10 +4,23 @@ import requests
 import pickle
 import threading
 import os, subprocess, shlex
+import stat
 
-import misc
+# import misc
 
 from pprint import pprint
+
+# function from misc
+def remove_dirs(directory):    
+    for root, dirs, files in os.walk(directory, topdown = False):
+        for file in files:
+            filename = os.path.join(root, file)
+            os.chmod(filename, stat.S_IWUSR)
+            os.remove(filename)
+            
+        os.chmod(root, stat.S_IWUSR)
+        os.rmdir(root)
+
 
 ### Main GET Github / Bitbucket API ###
 def get_repos_users_changes(host_name, host_repos_name):
@@ -700,8 +713,11 @@ def get_views_data(start_time = None, interval = None, reset = False, time_frame
     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
 
 ### Main Setup ###
-def start_log_thread():
-    request_interval =  
+
+# TODO : swap uncomment & use on the day itself
+
+# def start_log_thread():
+#     request_interval =  
 
 
 ### Some Variables ###

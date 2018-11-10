@@ -1287,9 +1287,10 @@ function callMainLoop () {
     // function () { manipulateOverTimeMultiCommits() },
     // function () { manipulateOverTimeMultiAdditions() },
     // function () { manipulateOverTimeMultiDeletions() },
-    // function () { manipulateTotalCommits() },
-    // function () { manipulateTotalAddDel() },
-    // function () { manipulateTotalAllDifference() },
+    // TODO : manipulateTotalCommits can be a bar chart
+    function () { manipulateTotalCommits() },
+    function () { manipulateTotalAddDel() },
+    function () { manipulateTotalAllDifference() },
     // function () { manipulateOverTimeGroupsCommitsDifference() },
     // function () { manipulateOverTimeGroupsAdditionsDifference() },
     // function () { manipulateOverTimeGroupsDeletionsDifference() },
