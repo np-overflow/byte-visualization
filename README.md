@@ -5,6 +5,6 @@
 * Flask
 * Plotly JS
 * Github API
-* BitBucket API (Not really)
+* BitBucket API
 * Cloc
 * Uwsgi + Nginx
