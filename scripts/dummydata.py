@@ -8,7 +8,7 @@ def lang_changes():
 
     time = ["11.00", "12.00", "13.00"]
     groups = {
-        "clojure": {
+        "Clojure": {
             'files': {
                 'groupname1': [1, 2, 3],
                 'groupname2': [2, 3, 4]
@@ -22,17 +22,41 @@ def lang_changes():
                 'groupname2': [5, 6, 7]
             },
             'code': {
-                'groupname1': [5, 6, 7],
-                'groupname2': [6, 7, 8]
+                'groupname1': [100, 200, 380],
+                'groupname2': [150, 250, 500]
+            }
+        },
+        "Java": {
+            'files': {
+                'groupname1': [1, 2, 3],
+                'groupname2': [2, 3, 4]
+            },
+            'blank': {
+                'groupname1': [2, 3, 4],
+                'groupname2': [3, 4, 5]
+            },
+            'comment': {
+                'groupname1': [4, 5, 6],
+                'groupname2': [5, 6, 7]
+            },
+            'code': {
+                'groupname1': [100, 120, 300],
+                'groupname2': [200, 400, 450]
             }
         }
     }
     total = {
-        "clojure": {
+        "Clojure": {
             'files': [3, 5, 7],
             'blank': [5, 7, 9],
             'comment': [9, 11, 13],
-            'code': [11, 13, 15]
+            'code': [150, 280, 500]
+        },
+        "Java": {
+            'files': [10, 15, 18],
+            'blank': [10, 12, 18],
+            'comment': [120, 200, 210],
+            'code': [200, 400, 450]
         }
     }
 

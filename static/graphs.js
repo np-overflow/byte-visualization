@@ -7,12 +7,7 @@
 
 // Functions order at the moment
 /*
-commits - bar vertical
-commits - bar horizontal
-commits over time - line graph
-additions over time - line graph
-deletions over time - line graph
-lines of code over time - line graph
+order - look at the mainLoop() function - functionArray
 
 TODO: make new colourschemes
 - for x amoutn  less use y palette
@@ -21,11 +16,14 @@ make for a few colours
 - disable zoom for ccertain charts
 */
 
-// const values
+// GLOBAL VARIALBES TO SET THINGS
 const fadeIn = 3000
 const fadeOut = 3000
+
 // TODO : set the timer correctly on the day itself
-const waitingTime = 2000
+// 1000 - 1 seconds
+const startWaitTime = 1000 // 1 seconds
+const waitingTime = 1500 // 2 seconds
 const animationTime = 1000
 
 // const divWidth = 1248
@@ -37,10 +35,16 @@ const divHeight = 842
 // colours
 // default backgruond colours
 const bgColor = 'rgb(238, 241, 248)'
+// dont think the hex coluor will be needed but just here in case
 const hexBgColor = 'EEF1F8'
 
-// API PINGS
+// fonts related stuff
+const fontFamily = 'Nunito'
+const fontColor = '#7f7f7f'
+const fontSize = 18
+// const fontFamily = 'Mali'
 
+// API PINGS
 function getAllOverTimeCumulative () {
   var returnValue
   $.ajax({
@@ -100,7 +104,7 @@ function getLangMultiOvertime () {
     type: 'GET',
     url: 'getlangovertime',
     async: false,
-    success: function(data) {
+    success: function (data) {
       returnValue = data
     }
   })
@@ -288,8 +292,8 @@ function flexibleTotalAll (titleInput, xInput, yInput, graphData) {
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -442,8 +446,8 @@ function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -593,8 +597,8 @@ function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -687,8 +691,8 @@ function flexibleTotalAllDifference (titleInput, xInput, yInput, graphData) {
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -835,8 +839,8 @@ function flexibleOverTimeGroupsDifference (titleInput, xInput, yInput, graphData
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -983,8 +987,8 @@ function flexibleOverTimeMultiDifference (titleInput, xInput, yInput, graphData)
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
@@ -993,7 +997,151 @@ function flexibleOverTimeMultiDifference (titleInput, xInput, yInput, graphData)
   animateOutIn()
 }
 
-function flexibleOverTimeMultiLang( titleInput, xInput, yInput, graphData) {
+function manipulateAllMultiLanguageIterGroups () {
+  dataLength = getLangMultiOvertime()
+  // amount of languages - graphs i have to display
+  var lang = Object.keys(dataLength['groups'])
+  var length = lang.length
+  var x = 0
+
+  function langIterDelayLoop (i) {
+    setTimeout(function () {
+      myData = getLangMultiOvertime()
+
+      // add functions here
+      console.log('hello from manipulateallMultiLanguageIterGroupsRewrite')
+      // call my graphs here and let loop do the function delay
+      var title = 'Over Time Lines Of Code for - ' + lang[x]
+      var xAxisTitle = 'Time of the day'
+      var yAxisTitle = 'Lines Of Code'
+      var dataArray = []
+
+      // time function
+      // time data
+      timeData = myData['time_frame']
+      timeDataInt = []
+      // make all my timeData into an Int
+      for (var j = 0; j < timeData.length; j++) {
+        timeDataInt.push(parseInt(timeData[j]))
+      }
+
+      // find the amount of groups for this specific language
+      var amountOfGroupsForLang = Object.keys(myData['groups'][lang[x]]['code']).length
+      console.log('amountOfGroupsForLang', amountOfGroupsForLang)
+
+      // get all my group names
+      groupNames = Object.keys(myData['groups'][lang[x]]['code'])
+
+      for (var k = 0; k < amountOfGroupsForLang; k++) {
+        var eachVarObject = {}
+        // get my y values for each specific group
+        yValues = myData['groups'][lang[x]]['code'][groupNames[k]]
+
+        // all x values are using the time function
+        eachVarObject['x'] = timeDataInt
+        eachVarObject['y'] = yValues
+        eachVarObject['type'] = 'lines+markers'
+        // change the name for eveyr single group
+        eachVarObject['name'] = Object.keys(myData['groups'][lang[x]]['code'])[k]
+        // randomise the colours
+        eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
+        // make the line thicker
+        eachVarObject['line'] = { 'width': 4 }
+
+        dataArray.push(eachVarObject)
+      }
+
+      console.log('this is dataArray', dataArray)
+
+      flexibleOverTimeMultiLang(title, xAxisTitle, yAxisTitle, dataArray)
+      // increment the counter after every function to go to the next language
+      x++
+
+      if (--i) { // If i > 0, keep going
+        langIterDelayLoop(i) // Call the loop again, and pass it the current value of i
+      }
+    }, waitingTime)
+  };
+
+  // call the loop x amount of times
+  langIterDelayLoop(length)
+}
+
+// show every language and the groups using it
+function manipulateAllMultiLangageIterGroupsOld () {
+  myData = getLangMultiOverTime()
+  console.log('from manipulateAllMultiLanguageIterGroups ', myData)
+
+  // get all the languages that are being used by all the groups
+  languageArray = Object.keys(myData['groups'])
+  languageArrayLength = Object.keys(myData['groups']).length
+
+  // for every language
+  for (var i = 0; i < languageArrayLength; i++) {
+    // time data
+    timeData = myData['time_frame']
+    timeDataInt = []
+    // make all my timeData into an Int
+    for (var j = 0; j < timeData.length; j++) {
+      timeDataInt.push(parseInt(timeData[j]))
+    }
+
+    // get all the group names
+    groupNames = Object.keys(myData['groups']['code'])
+    // get the 'code' for every group
+  }
+}
+
+// have to use this cause dont know amount of languages being used
+function manipulateAllMultiLanguageTotal () {
+  // only displaying code right now
+  // use this to call all the languages through the template flexibleOverTimeMultiLang
+  myData = getLangMultiOvertime()
+  console.log('from manipulateAllMultiLanguageTotal', myData)
+  // amount of graphs i have to display = amount of languages there is
+  totalLang = Object.keys(myData['total'])
+  amountOfLang = Object.keys(myData['total']).length
+  // for every language i have to display
+
+  for (var i = 0; i < amountOfLang; i++) {
+    var language = totalLang[i]
+    // var title = 'Over Time Lines Of Code Language - ' + language
+    var title = 'Over Time Lines of Code Language'
+    var xAxisTitle = 'Lines Of Code'
+    var yAxisTitle = 'Total'
+    var dataArray = []
+
+    timeData = myData['time_frame']
+    timeDataInt = []
+    // make all my timeData into an Int
+    for (var j = 0; j < timeData.length; j++) {
+      timeDataInt.push(parseInt(timeData[j]))
+    }
+
+    for (var k = 0; k < amountOfLang; k++) {
+      eachVarObject = {}
+
+      var loopedLanguage = String(totalLang[k])
+      yValues = myData['total'][loopedLanguage]['code']
+      console.log(yValues)
+
+      eachVarObject['x'] = timeDataInt
+      eachVarObject['y'] = yValues
+      eachVarObject['type'] = 'lines+markers'
+      eachVarObject['name'] = String(loopedLanguage)
+      // randomise the colours
+      eachVarObject['marker'] = { color: String(randomColours(1)), size: 8 }
+      // make the line thicker
+      eachVarObject['line'] = { 'width': 4 }
+
+      dataArray.push(eachVarObject)
+    }
+
+    flexibleOverTimeMultiLang(title, xAxisTitle, yAxisTitle, dataArray)
+  }
+}
+
+function flexibleOverTimeMultiLang (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -1001,8 +1149,12 @@ function flexibleOverTimeMultiLang( titleInput, xInput, yInput, graphData) {
   var layout = {
     title: titleInput,
     width: divWidth,
+
     height: divHeight,
     paper_bgcolor: bgColor,
+
+    showlegend: true,
+
     plot_bgcolor: bgColor,
     hovermode: 'none',
     xaxis: {
@@ -1014,20 +1166,19 @@ function flexibleOverTimeMultiLang( titleInput, xInput, yInput, graphData) {
       autotick: true
     },
     font: {
-      family: 'Mali',
-      size: 18,
+      family: fontFamily,
+      size: fontSize,
       color: '#7f7f7f'
     }
   }
 
   Plotly.newPlot('myDiv', data, layout)
-
+  animateOutIn()
 }
 
-
-function callMainLoop() {
-
+function callMainLoop () {
   var setCounter = 0
+  var startCounter = 0
   var i = 0
 
   var functionArray = [
@@ -1044,35 +1195,66 @@ function callMainLoop() {
     function () { manipulateOverTimeGroupsDeletionsDifference() },
     function () { manipulateOverTimeMultiCommitsDifference() },
     function () { manipulateOverTimeMultiAdditionsDifference() },
-    function () { manipulateOverTimeMultiDeletionsDifference() }
+    function () { manipulateOverTimeMultiDeletionsDifference() },
+    // TODO : manipulateViews & manipulateUniqueViews
+    function () { manipulateViews() },
+    function () { manipulateUniqueViews() },
+    function () { manipulateAllMultiLanguageTotal() },
+    function () { manipulateAllMultiLanguageIterGroups() }
   ]
 
   function mainLoop () {
-    setTimeout(function () {
-      // callsomefunctions here
-      functionArray[setCounter]()
-      if (setCounter === functionArray.length - 1) {
-        setCounter = 0
-      } else {
+    // this if condition occurs only at the first graph
+    // so you dont have to wait x waiting time to load the first graph
+    if (startCounter === 0) {
+      // check total amount of graphs
+      console.log(functionArray.length)
+      setTimeout(function () {
+        functionArray[setCounter]()
+        // increment both the setCounter and the startCounter
         setCounter++
+        startCounter++
+        if (--i) {
+          mainLoop(i)
+        }
+      }, startWaitTime)
+      // }, waitingTime)
+    } else {
+      if (setCounter === functionArray.length - 1) {
+        // call the functions before setting a timeout
+        functionArray[setCounter]()
+
+        myData = getLangMultiOvertime()
+        setTimeout(function () {
+          // callsomefunctions here
+          setCounter = 0
+          if (--i) {
+            mainLoop(i)
+          }
+          // every x seconds here
+        }, waitingTime * Object.keys(myData['groups']).length)
+      } else {
+        setTimeout(function () {
+          // callsomefunctions here
+          functionArray[setCounter]()
+          // setCounter === functionARray.length - 1 should also reset the function
+          setCounter++
+          if (--i) {
+            mainLoop(i)
+          }
+          // every x seconds here
+        }, waitingTime)
       }
-      if (--i) {
-        mainLoop(i)
-      }
-      // every x seconds here
-    }, waitingTime)
-  // }(10)
+    }
   }
-
-  mainLoop(500)
-
+  // amount of times this function is going to be called
+  // just set it so high it doesnt really matter
+  mainLoop(100000000000000000)
 }
-
 
 // START - display start
 $(document).ready(function () {
-  // callMainLoop()
-  consolelog = getLangMultiOvertime()
-  console.log(consolelog)
-  // testGetAllOverTimeNonCumulative()
+  callMainLoop()
+  // manipulateAllMultiLanguageTotal()
+  // manipulateAllMultiLanguageIterGroups()
 })
