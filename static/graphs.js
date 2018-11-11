@@ -224,6 +224,18 @@ function sortedArrayAsc (number, limit) {
   return sortedArray
 }
 
+function randomColors (amount) {
+  colorArray = []
+  for (var j = 0; j < amount; j++) {
+    number1 = Math.floor((Math.random() * 255) + 1)
+    number2 = Math.floor((Math.random() * 255) + 1)
+    number3 = Math.floor((Math.random() * 255) + 1)
+    colorArray.push('rgb(' + number1 + ',' + number2 + ',' + number3 + ')')
+  }
+
+  return colorArray
+}
+
 function colorPalette (amount) {
   var colorArray = []
 
@@ -305,7 +317,7 @@ function manipulateTotalAddDel () {
   // additionVarObject['name'] = String(groupKeys[j])
   additionVarObject['name'] = 'Additions'
   // randomise the colours
-  additionVarObject['marker'] = { color: String(colorArray[1]), size: 8 }
+  additionVarObject['marker'] = { color: String(colorArray[0]), size: 8 }
   // additionVarObject['marker'] = { color: String(colorPalette(1)), size: 8 }
   // make the line thicker
   additionVarObject['line'] = { 'width': 4 }
@@ -317,7 +329,7 @@ function manipulateTotalAddDel () {
   // deletionVarObject['name'] = String(groupKeys[j])
   deletionVarObject['name'] = 'Deletions'
   // randomise the colours
-  deletionVarObject['marker'] = { color: String(colorArray[2]), size: 8 }
+  deletionVarObject['marker'] = { color: String(colorArray[1]), size: 8 }
   // deletionVarObject['marker'] = { color: String(colorPalette(1)), size: 8 }
   // make the line thicker
   deletionVarObject['line'] = { 'width': 4 }
@@ -325,7 +337,7 @@ function manipulateTotalAddDel () {
   dataArray.push(additionVarObject)
   dataArray.push(deletionVarObject)
 
-  flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
+  flexibleTotalAddDel(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
 function manipulateTotalCommits () {
@@ -347,22 +359,74 @@ function manipulateTotalCommits () {
 
   yValues = myData['total']['commits']
 
+  // bar chart
   commitVarObject = {}
   commitVarObject['x'] = timeDataInt
   commitVarObject['y'] = yValues
-  commitVarObject['type'] = 'lines+markers'
+  commitVarObject['type'] = 'bar'
+  // commitVarObject['type'] = 'lines+markers'
   // commitVarObject['name'] = String(groupKeys[j])
   commitVarObject['name'] = 'Commits'
-  // randomise the colours
-  commitVarObject['marker'] = { color: String(colorPalette(1)), size: 8 }
+  // randomise the colours - colorPalette must be equals to amount of time
+  // using timeData.length - it scales with the amount
+  commitVarObject['marker'] = { color: colorPalette(timeData.length), size: 8 }
   // make the line thicker
   commitVarObject['line'] = { 'width': 4 }
   dataArray.push(commitVarObject)
 
-  flexibleTotalAll(title, xAxisTitle, yAxisTitle, dataArray)
+  // line chart
+  commitVarObjectScatter = {}
+  commitVarObjectScatter['x'] = timeDataInt
+  commitVarObjectScatter['y'] = yValues
+  commitVarObjectScatter['type'] = 'Scatter'
+  // commitVarObjectScatter['type'] = 'lines+markers'
+  // commitVarObjectScatter['name'] = String(groupKeys[j])
+  commitVarObjectScatter['name'] = 'Commits'
+  // randomise the colours - colorPalette must be equals to amount of time
+  // uses randomColours so that the colors wont conflict with eachother
+  commitVarObjectScatter['marker'] = { color: String(randomColors(1)), size: 8 }
+  // make the line thicker
+  commitVarObjectScatter['line'] = { 'width': 4 }
+  dataArray.push(commitVarObjectScatter)
+
+  // difference is that this doesnt have legend while AddDel has legend
+  flexibleTotalCommits(title, xAxisTitle, yAxisTitle, dataArray)
 }
 
-function flexibleTotalAll (titleInput, xInput, yInput, graphData) {
+function flexibleTotalCommits (titleInput, xInput, yInput, graphData) {
+  animateOut()
+
+  var data = graphData
+
+  var layout = {
+    title: titleInput,
+    width: divWidth,
+    height: divHeight,
+    hovermode: 'none',
+    paper_bgcolor: bgColor,
+    plot_bgcolor: bgColor,
+    showlegend: false,
+    xaxis: {
+      title: xInput,
+      autotick: false
+    },
+    yaxis: {
+      title: yInput,
+      autotick: true
+    },
+    font: {
+      family: fontFamily,
+      size: fontSize,
+      color: fontColor
+    }
+  }
+
+  Plotly.newPlot('myDiv', data, layout)
+
+  animateOutIn()
+}
+
+function flexibleTotalAddDel (titleInput, xInput, yInput, graphData) {
   animateOut()
 
   var data = graphData
@@ -401,7 +465,8 @@ function manipulateOverTimeGroupsCommits () {
   // put them into the flexibleOverTimeGroups(with alot of parameters)
   // call that
 
-  var title = 'Over Time Commits - Groups'
+  // var title = 'Over Time Commits - Groups'
+  var title = 'Groups - Commits Over Time'
   var xAxisTitle = 'Groups'
   var yAxisTitle = 'Commits'
   var dataArray = []
@@ -443,7 +508,8 @@ function manipulateOverTimeGroupsCommits () {
 }
 
 function manipulateOverTimeGroupsAdditions () {
-  var title = 'Over Time Additions - Groups'
+  // var title = 'Over Time Additions - Groups'
+  var title = 'Groups - Additions Over Time'
   var xAxisTitle = 'Groups'
   var yAxisTitle = 'Additions'
   var dataArray = []
@@ -484,7 +550,8 @@ function manipulateOverTimeGroupsAdditions () {
 }
 
 function manipulateOverTimeGroupsDeletions () {
-  var title = 'Over Time Deletions - Groups'
+  // var title = 'Over Time Deletions - Groups'
+  var title = 'Groups - Deletions Over Time'
   var xAxisTitle = 'Groups'
   var yAxisTitle = 'Deletions'
   var dataArray = []
@@ -559,7 +626,8 @@ function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
 // --------------------------------------
 
 function manipulateOverTimeMultiCommits () {
-  var title = 'Over Time Commits - Users'
+  // var title = 'Over Time Commits - Users'
+  var title = 'Users - Commits Over Time'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Commits'
   var dataArray = []
@@ -600,7 +668,8 @@ function manipulateOverTimeMultiCommits () {
 }
 
 function manipulateOverTimeMultiAdditions () {
-  var title = 'Over Time Additions - Users'
+  // var title = 'Over Time Additions - Users'
+  var title = 'Users - Additions Over Time'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Additions'
   var dataArray = []
@@ -641,7 +710,8 @@ function manipulateOverTimeMultiAdditions () {
 }
 
 function manipulateOverTimeMultiDeletions () {
-  var title = 'Over Time Deletions - Users'
+  // var title = 'Over Time Deletions - Users'
+  var title = 'Users - Deletions Over Time'
   var xAxisTitle = 'Users'
   var yAxisTitle = 'Deletions'
   var dataArray = []
@@ -714,7 +784,8 @@ function flexibleOverTimeMulti (titleInput, xInput, yInput, graphData) {
 }
 
 function manipulateTotalAllDifference () {
-  var title = 'Over Time Total Additions/Commits/Deletions - Difference'
+  // var title = 'Over Time Total Additions/Commits/Deletions - Difference'
+  var title = 'Non-cumulative Total Additions/Commits/Deletions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -730,6 +801,8 @@ function manipulateTotalAllDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
+  var colorArray = colorPalette(3)
+
   // commits
   commitsObject = {}
   commitsY = myData['commits']
@@ -739,7 +812,7 @@ function manipulateTotalAllDifference () {
   // hardcoded the data in so theres no actual name
   commitsObject['name'] = 'Commits'
   // randomise the colours
-  commitsObject['marker'] = { color: String(colorPalette(1)), size: 8 }
+  commitsObject['marker'] = { color: String(colorArray[0]), size: 8 }
   // make the line thicker
   commitsObject['line'] = { 'width': 4 }
   dataArray.push(commitsObject)
@@ -753,7 +826,7 @@ function manipulateTotalAllDifference () {
   // hardcoded the data in so theres no actual name
   additionsObject['name'] = 'Additions'
   // randomise the colours
-  additionsObject['marker'] = { color: String(colorPalette(1)), size: 8 }
+  additionsObject['marker'] = { color: String(colorArray[1]), size: 8 }
   // make the line thicker
   additionsObject['line'] = { 'width': 4 }
   dataArray.push(additionsObject)
@@ -767,7 +840,7 @@ function manipulateTotalAllDifference () {
   // hardcoded the data in so theres no actual name
   deletionsObject['name'] = 'Deletions'
   // randomise the colours
-  deletionsObject['marker'] = { color: String(colorPalette(1)), size: 8 }
+  deletionsObject['marker'] = { color: String(colorArray[2]), size: 8 }
   // make the line thicker
   deletionsObject['line'] = { 'width': 4 }
   dataArray.push(deletionsObject)
@@ -807,7 +880,8 @@ function flexibleTotalAllDifference (titleInput, xInput, yInput, graphData) {
 }
 
 function manipulateOverTimeGroupsCommitsDifference () {
-  var title = 'Over Time Group Commits - Difference'
+  // var title = 'Over Time Group Commits - Difference'
+  var title = 'Non-cumulative Group Commits'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -848,7 +922,8 @@ function manipulateOverTimeGroupsCommitsDifference () {
 }
 
 function manipulateOverTimeGroupsAdditionsDifference () {
-  var title = 'Over Time Group Additions - Difference'
+  // var title = 'Over Time Group Additions - Difference'
+  var title = 'Non-cumulative Group Additions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -889,7 +964,8 @@ function manipulateOverTimeGroupsAdditionsDifference () {
 }
 
 function manipulateOverTimeGroupsDeletionsDifference () {
-  var title = 'Over Time Group Deletions - Difference'
+  // var title = 'Over Time Group Deletions - Difference'
+  var title = 'Non-cumulative Group Deletions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -961,7 +1037,8 @@ function flexibleOverTimeGroupsDifference (titleInput, xInput, yInput, graphData
 }
 
 function manipulateOverTimeMultiCommitsDifference () {
-  var title = 'Over Time Multi Commits - Difference'
+  // var title = 'Over Time Multi Commits - Difference'
+  var title = 'Non-cumulative Individual Commits'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -1002,7 +1079,8 @@ function manipulateOverTimeMultiCommitsDifference () {
 }
 
 function manipulateOverTimeMultiAdditionsDifference () {
-  var title = 'Over Time Multi Additions - Difference'
+  // var title = 'Over Time Multi Additions - Difference'
+  var title = 'Non-cumulative Individual Additions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -1043,7 +1121,8 @@ function manipulateOverTimeMultiAdditionsDifference () {
 }
 
 function manipulateOverTimeMultiDeletionsDifference () {
-  var title = 'Over Time Multi Deletions - Difference'
+  // var title = 'Over Time Multi Deletions - Difference'
+  var title = 'Non-cumulative Individual Deletions'
   var xAxisTitle = 'Time of the day'
   var yAxisTitle = 'Total'
   var dataArray = []
@@ -1281,22 +1360,21 @@ function callMainLoop () {
   var i = 0
 
   var functionArray = [
-    // function () { manipulateOverTimeGroupsCommits() },
-    // function () { manipulateOverTimeGroupsAdditions() },
-    // function () { manipulateOverTimeGroupsDeletions() },
-    // function () { manipulateOverTimeMultiCommits() },
-    // function () { manipulateOverTimeMultiAdditions() },
-    // function () { manipulateOverTimeMultiDeletions() },
-    // TODO : manipulateTotalCommits can be a bar chart
+    function () { manipulateOverTimeGroupsCommits() },
+    function () { manipulateOverTimeGroupsAdditions() },
+    function () { manipulateOverTimeGroupsDeletions() },
+    function () { manipulateOverTimeMultiCommits() },
+    function () { manipulateOverTimeMultiAdditions() },
+    function () { manipulateOverTimeMultiDeletions() },
     function () { manipulateTotalCommits() },
     function () { manipulateTotalAddDel() },
     function () { manipulateTotalAllDifference() },
-    // function () { manipulateOverTimeGroupsCommitsDifference() },
-    // function () { manipulateOverTimeGroupsAdditionsDifference() },
-    // function () { manipulateOverTimeGroupsDeletionsDifference() },
-    // function () { manipulateOverTimeMultiCommitsDifference() },
-    // function () { manipulateOverTimeMultiAdditionsDifference() },
-    // function () { manipulateOverTimeMultiDeletionsDifference() },
+    function () { manipulateOverTimeGroupsCommitsDifference() },
+    function () { manipulateOverTimeGroupsAdditionsDifference() },
+    function () { manipulateOverTimeGroupsDeletionsDifference() },
+    function () { manipulateOverTimeMultiCommitsDifference() },
+    function () { manipulateOverTimeMultiAdditionsDifference() },
+    function () { manipulateOverTimeMultiDeletionsDifference() },
     function () { manipulateAllMultiLanguageTotal() },
     function () { manipulateAllMultiLanguageIterGroups() }
   ]
