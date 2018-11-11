@@ -593,19 +593,19 @@ function manipulateTotalCommits () {
   dataArray.push(commitVarObject)
 
   // line chart
-  commitVarObjectScatter = {}
-  commitVarObjectScatter['x'] = timeDataInt
-  commitVarObjectScatter['y'] = yValues
-  commitVarObjectScatter['type'] = 'Scatter'
+  // commitVarObjectScatter = {}
+  // commitVarObjectScatter['x'] = timeDataInt
+  // commitVarObjectScatter['y'] = yValues
+  // commitVarObjectScatter['type'] = 'Scatter'
   // commitVarObjectScatter['type'] = 'lines+markers'
   // commitVarObjectScatter['name'] = String(groupKeys[j])
-  commitVarObjectScatter['name'] = 'Commits'
+  // commitVarObjectScatter['name'] = 'Commits'
   // randomise the colours - colorPalette must be equals to amount of time
   // uses randomColours so that the colors wont conflict with eachother
-  commitVarObjectScatter['marker'] = { color: String(randomColors(1)), size: 8 }
+  // commitVarObjectScatter['marker'] = { color: String(randomColors(1)), size: 8 }
   // make the line thicker
-  commitVarObjectScatter['line'] = { 'width': 4 }
-  dataArray.push(commitVarObjectScatter)
+  // commitVarObjectScatter['line'] = { 'width': 4 }
+  // dataArray.push(commitVarObjectScatter)
 
   // difference is that this doesnt have legend while AddDel has legend
   flexibleTotalCommits(title, xAxisTitle, yAxisTitle, dataArray)

@@ -29,6 +29,7 @@ body {
     margin-left: 2%;
     margin-top: 5%;
 }
+
 .stats_container{
     width: 96%;
     height: 86vh;
@@ -77,4 +78,8 @@ footer p {
 
 .graphTitle {
     background-color: #E4667B;
+}
+
+.waves-effect {
+    margin: 25px;
 }
