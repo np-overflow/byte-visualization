@@ -5,6 +5,8 @@
   <title>Data Visualisation</title>
   <link rel="stylesheet" type="text/css" href="../static/style.css" />  
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Maven+Pro:500" rel="stylesheet"> 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="../static/materialize.css"  media="screen,projection"/>
   <!-- cdns -->
@@ -19,17 +21,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
             
   <script src="../static/graphs.js"></script>    
+
+  <style>
+    .sidenav {
+      overflow:hidden;
+    }
+
+    .sidenav:hover {
+      overflow-y: scroll;
+    }
+    
+  </style>
 </head>
 
 <body>
   <ul id="nav-mobile" class="sidenav sidenav-fixed" style="width: 12%;">
     <li><div class="user-view">
       <i class="large material-icons">code</i>
-      <h5>ByteHacks</h5>
+      <h5 style="font-family: 'Maven Pro';">BYTE Hackz</h5>
     </div></li>
     <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    <li><a class="subheader" style="font-family: 'Raleway';">Graphs</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsCommits()">Group Commits Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsAdditions()">Group Additions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsDeletions()">Group Deletions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiCommits()">Multiple Commits Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiAdditions()">Multiple Additions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiDeletions()">Multiple Deletions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttomManipulateTotalCommits()">Total Commits</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateTotalAddDel()">Total Addition Deletions</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateTotalAllDifference()">Total Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsCommitsDifference()">Group Commits Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsAdditionsDifference()">Group Additions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsDeletionsDifference()">Group Deletions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiCommitsDifference()">Multiple Commits Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiAdditionsDifference()">Multiple Additions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiDeletionsDifference()">Multiple Deletions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiLanguageTotal()">Language Lines</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateAllMultiLanguageIterGroups()">what the fuck does this even mean</a></li>
   </ul>
   <div class="flexboxcontainer">
     <div class="stats_container">
