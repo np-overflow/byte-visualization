@@ -29,19 +29,48 @@ def lang_changes():
         "Java": {
             'files': {
                 'groupname1': [1, 2, 3],
-                'groupname2': [2, 3, 4]
+                'groupname2': [2, 3, 4],
+                'groupname3': [5, 8, 10]
             },
             'blank': {
                 'groupname1': [2, 3, 4],
-                'groupname2': [3, 4, 5]
+                'groupname2': [3, 4, 5],
+                'groupname3': [5, 8, 10]
             },
             'comment': {
                 'groupname1': [4, 5, 6],
-                'groupname2': [5, 6, 7]
+                'groupname2': [5, 6, 7],
+                'groupname3': [5, 8, 10]
             },
             'code': {
                 'groupname1': [100, 120, 300],
-                'groupname2': [200, 400, 450]
+                'groupname2': [200, 400, 450],
+                'groupname3': [300, 350, 600]
+            }
+        },
+        "C": {
+            'files': {
+                'groupname1': [1, 2, 3],
+                'groupname2': [2, 3, 4],
+                'groupname3': [5, 8, 10]
+            },
+            'blank': {
+                'groupname1': [2, 3, 4],
+                'groupname2': [3, 4, 5],
+                'groupname3': [5, 8, 10]
+            },
+            'comment': {
+                'groupname1': [4, 5, 6],
+                'groupname2': [5, 6, 7],
+                'groupname3': [5, 8, 10]
+            },
+            'code': {
+                'groupname1': [100, 120, 300],
+                'groupname2': [200, 400, 450],
+                'groupname3': [50, 200, 150],
+                'groupname4': [500, 800, 1200],
+                'groupname5': [300, 350, 400],
+                'groupname6': [200, 250, 300]
             }
         }
     }
