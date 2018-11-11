@@ -23,7 +23,8 @@ const fadeOut = 3000
 // TODO : set the timer correctly on the day itself
 // 1000 - 1 seconds
 const startWaitTime = 1000 // 1 seconds
-const waitingTime = 2000 // 5 seconds
+var waitingTime = 2000 // 5 seconds
+const constantWaitingTime = 2000
 
 // fairly useless thing
 const animationTime = 1000
@@ -48,6 +49,231 @@ const fontFamily = 'Nunito'
 // const fontFamily = 'Mali'
 const fontColor = '#7f7f7f'
 const fontSize = 16
+
+// these variables are used to manage the main loop
+// also for the button to change onclicks
+
+// counting where the array is curently
+var setCounter = 0
+// counting if its the first graph to display - as the first graph to display should have
+// a smaller wait time
+var startCounter = 0
+// the main loop counter
+var i = 0
+
+// function array
+
+var functionArray = [
+  function () { manipulateOverTimeGroupsCommits() },
+  function () { manipulateOverTimeGroupsAdditions() },
+  function () { manipulateOverTimeGroupsDeletions() },
+  function () { manipulateOverTimeMultiCommits() },
+  function () { manipulateOverTimeMultiAdditions() },
+  function () { manipulateOverTimeMultiDeletions() },
+  function () { manipulateTotalCommits() },
+  function () { manipulateTotalAddDel() },
+  function () { manipulateTotalAllDifference() },
+  function () { manipulateOverTimeGroupsCommitsDifference() },
+  function () { manipulateOverTimeGroupsAdditionsDifference() },
+  function () { manipulateOverTimeGroupsDeletionsDifference() },
+  function () { manipulateOverTimeMultiCommitsDifference() },
+  function () { manipulateOverTimeMultiAdditionsDifference() },
+  function () { manipulateOverTimeMultiDeletionsDifference() },
+  function () { manipulateAllMultiLanguageTotal() },
+  function () { manipulateAllMultiLanguageIterGroups() }
+]
+
+// BUTTON ONCLICKS
+function buttonManipulateOverTimeGroupsCommits () {
+  console.log('hi from buttonManipulateOverTimeGroupsCommits')
+
+  // increment it to 1
+  setCounter = 1
+  manipulateOverTimeGroupsCommits()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeGroupsAdditions () {
+  console.log('hi from buttonManipulateOverTimeGroupsAdditions')
+
+  // increment it to 2
+  setCounter = 2
+  manipulateOverTimeGroupsAdditions()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeGroupsDeletions () {
+  console.log('hi from buttonManipulateOverTimeGroupsDeletions')
+
+  // increment it to 3
+  setCounter = 3
+  manipulateOverTimeGroupsDeletions()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiCommits () {
+  console.log('hi from buttonManipulateOverTimeMultiCommits')
+
+  // increment it to 4
+  setCounter = 4
+  manipulateOverTimeMultiCommits()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiAdditions () {
+  console.log('hi from buttonManipulateOverTimeMultiAdditions')
+
+  // increment it to 5
+  setCounter = 5
+  manipulateOverTimeMultiAdditions()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiDeletions () {
+  console.log('hi from buttonManipulateOverTimeMultiDeletions')
+
+  // increment it to 6
+  setCounter = 6
+  manipulateOverTimeMultiDeletions()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateTotalCommits () {
+  console.log('hi from buttonManipulateTotalCommits')
+
+  // increment it to 7
+  setCounter = 7
+  manipulateTotalCommits()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateTotalAddDel () {
+  console.log('hi from buttonManipulateTotalAddDel')
+
+  // increment it to 8
+  setCounter = 8
+  manipulateTotalAddDel()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateTotalAllDifference () {
+  console.log('hi from buttonManipulateTotalAllDifference')
+
+  // increment it to 9
+  setCounter = 9
+  manipulateTotalAllDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeGroupsCommitsDifference () {
+  console.log('hi from buttonManipulateOverTimeGroupsCommitsDifference')
+
+  // increment it to 10
+  setCounter = 10
+  manipulateOverTimeGroupsCommitsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeGroupsAdditionsDifference () {
+  console.log('hi from buttonManipulateOverTimeGroupsAdditionsDifference')
+
+  // increment it to 11
+  setCounter = 11
+  manipulateOverTimeGroupsAdditionsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeGroupsDeletionsDifference () {
+  console.log('hi from buttonManipulateOverTimeGroupsDeletionsDifference')
+
+  // increment it to 12
+  setCounter = 12
+  manipulateOverTimeGroupsDeletionsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiCommitsDifference () {
+  console.log('hi from buttonManipulateOverTimeMultiCommitsDifference')
+
+  // increment it to 13
+  setCounter = 13
+  manipulateOverTimeMultiCommitsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiAdditionsDifference () {
+  console.log('hi from buttonManipulateOverTimeMultiAdditionsDifference')
+
+  // increment it to 14
+  setCounter = 14
+  manipulateOverTimeMultiAdditionsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateOverTimeMultiDeletionsDifference () {
+  console.log('hi from buttonManipulateOverTImeMultiDeletionsDifference')
+
+  // increment it to 15
+  setCounter = 15
+  manipulateOverTimeMultiAdditionsDifference()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateAllMultiLanguageTotal () {
+  console.log('hi from buttonManipulateAllMultiLanguageTotal')
+
+  // increment it to 16
+  setCounter = 16
+  manipulateAllMultiLanguageTotal()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime)
+}
+
+function buttonManipulateAllMultiLanguageIterGroups () {
+  console.log('hi from buttonManipulateAllMultiLanguageIterGroups')
+
+  // findtime - need to know how many languages
+  myData = getLangMultiOvertime()
+  amountOfLang = Object.keys(myData['groups']).length
+
+  // increment it back to 0
+  setCounter = 0
+  manipulateAllMultiLanguageIterGroups()
+  setTimeout(() => {
+    console.log('wait over')
+  }, waitingTime * amountOfLang)
+}
 
 // API PINGS
 function getAllOverTimeCumulative () {
@@ -139,14 +365,6 @@ function colourGradientRed (number) {
   }
 
   return returnArray
-}
-
-function colourGradientGreen (number) {
-  // rgb - (0, 255, 0)
-}
-
-function colourGradientBlue (number) {
-  // rgb - (0, 0, 255)
 }
 
 // MISC FUNCTIONS -------------
@@ -1355,30 +1573,6 @@ function flexibleOverTimeMultiLang (titleInput, xInput, yInput, graphData) {
 }
 
 function callMainLoop () {
-  var setCounter = 0
-  var startCounter = 0
-  var i = 0
-
-  var functionArray = [
-    function () { manipulateOverTimeGroupsCommits() },
-    function () { manipulateOverTimeGroupsAdditions() },
-    function () { manipulateOverTimeGroupsDeletions() },
-    function () { manipulateOverTimeMultiCommits() },
-    function () { manipulateOverTimeMultiAdditions() },
-    function () { manipulateOverTimeMultiDeletions() },
-    function () { manipulateTotalCommits() },
-    function () { manipulateTotalAddDel() },
-    function () { manipulateTotalAllDifference() },
-    function () { manipulateOverTimeGroupsCommitsDifference() },
-    function () { manipulateOverTimeGroupsAdditionsDifference() },
-    function () { manipulateOverTimeGroupsDeletionsDifference() },
-    function () { manipulateOverTimeMultiCommitsDifference() },
-    function () { manipulateOverTimeMultiAdditionsDifference() },
-    function () { manipulateOverTimeMultiDeletionsDifference() },
-    function () { manipulateAllMultiLanguageTotal() },
-    function () { manipulateAllMultiLanguageIterGroups() }
-  ]
-
   function mainLoop () {
     // this if condition occurs only at the first graph
     // so you dont have to wait x waiting time to load the first graph
