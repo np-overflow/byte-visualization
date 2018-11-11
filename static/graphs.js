@@ -23,8 +23,7 @@ const fadeOut = 3000
 // TODO : set the timer correctly on the day itself
 // 1000 - 1 seconds
 const startWaitTime = 1000 // 1 seconds
-var waitingTime = 2000 // 5 seconds
-const constantWaitingTime = 2000
+const waitingTime = 5000 // 5 seconds
 
 // fairly useless thing
 const animationTime = 1000
@@ -270,6 +269,7 @@ function buttonManipulateAllMultiLanguageIterGroups () {
   // increment it back to 0
   setCounter = 0
   manipulateAllMultiLanguageIterGroups()
+
   setTimeout(() => {
     console.log('wait over')
   }, waitingTime * amountOfLang)
