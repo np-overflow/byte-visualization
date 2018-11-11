@@ -1,5 +1,5 @@
 body {
-    background-color: #EDF1F7;
+    background-color: #F2F5FA;
     font-family: 'Roboto Condensed', sans-serif;
     overflow: hidden;
 }
@@ -30,13 +30,13 @@ body {
     margin-top: 5%;
 }
 .stats_container{
-    width: 65%;
-    height: 78vh;
-    background-color: #FCFCFD;
-    margin-top: 5%;
-}
-
-.stats {
+    width: 96%;
+    height: 86vh;
+    background-color: #FDFFFC;
+    margin-top: 4%;
+    border-radius: 0.7%;
+    border: 2px solid #E5EAEF;
+    padding: 3px 3px 3px 3px;
 }
 
 .stats img {
@@ -54,16 +54,27 @@ body {
 .extra_stats1 {
     width: 80%;
     height: 37vh;
-    background-color: #FCFCFD;
+    background-color: #FDFFFC;
 }
 
 .extra_stats2 {
     width: 80%;
     height: 37vh;
-    background-color: #FCFCFD;
+    background-color: #FDFFFC;
 }
 
 footer p {
+    margin-left: 12%;
     text-align: center;
     color: rgba(0,0,0,0.42);
+}
+
+.byteHackzIcon {
+    width: 100px;
+    height: auto;
+    margin-left: 16%;
+}
+
+.graphTitle {
+    background-color: #E4667B;
 }

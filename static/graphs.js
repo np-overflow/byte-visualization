@@ -35,19 +35,19 @@ const animationTime = 1000
 // const divWidth = 1061
 // const divHeight = 842
 
-const divWidth = 800
-const divHeight = 800
+const divWidth = 1555
+const divHeight = 917
 
 // colours
 // default backgruond colours
-const bgColor = 'rgb(238, 241, 248)'
+const bgColor = 'rgb(253,255,252)'
 // dont think the hex color will be needed but just here in case
-const hexBgColor = 'EEF1F8'
+const hexBgColor = 'FDFFFC'
 
 // fonts related stuff
 const fontFamily = 'Nunito'
 // const fontFamily = 'Mali'
-const fontColor = '#7f7f7f'
+const fontColor = '#354050'
 const fontSize = 16
 
 // these variables are used to manage the main loop

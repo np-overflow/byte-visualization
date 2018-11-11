@@ -5,6 +5,8 @@
   <title>Data Visualisation</title>
   <link rel="stylesheet" type="text/css" href="../static/style.css" />  
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Maven+Pro:500" rel="stylesheet"> 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="../static/materialize.css"  media="screen,projection"/>
   <!-- cdns -->
@@ -19,29 +21,62 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
             
   <script src="../static/graphs.js"></script>    
+
+  <style>
+    .sidenav {
+      overflow:hidden;
+      background-color: #1D2D4F;
+    }
+
+    .sidenav li > a {
+      color: #FDFFFC;
+    }
+    .sidenav:hover {
+      overflow-y: scroll;
+    }
+
+    .sidenav .subheader {
+      color: #FDFFFC;
+      font-weight: 600;
+      margin-left: 21.5%;
+    }
+    
+  </style>
 </head>
 
 <body>
   <ul id="nav-mobile" class="sidenav sidenav-fixed" style="width: 12%;">
     <li><div class="user-view">
-      <i class="large material-icons">code</i>
-      <h5>ByteHacks</h5>
+      <img src="https://i.imgur.com/3C7TSfK.png" alt="bytehackz" class="byteHackzIcon" />
     </div></li>
+<<<<<<< HEAD
     <li><div class="divider"></div></li>
     <li><a class="waves-effect" href="#!" onclick="buttonManipulateOverTimeGroupsCommits()">Group Commits</a></li>
+=======
+    <li class="graphTitle"><a class="subheader" style="font-family: 'Raleway';">Graphs <i class="small material-icons" style="float: right; color: #FCFFFD;">arrow_drop_down</i></a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsCommits()">Group Commits Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsAdditions()">Group Additions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsDeletions()">Group Deletions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiCommits()">Multiple Commits Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiAdditions()">Multiple Additions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiDeletions()">Multiple Deletions Over Time</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttomManipulateTotalCommits()">Total Commits</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateTotalAddDel()">Total Addition Deletions</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateTotalAllDifference()">Total Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsCommitsDifference()">Group Commits Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsAdditionsDifference()">Group Additions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeGroupsDeletionsDifference()">Group Deletions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiCommitsDifference()">Multiple Commits Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiAdditionsDifference()">Multiple Additions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiDeletionsDifference()">Multiple Deletions Difference</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateOverTimeMultiLanguageTotal()">Language Lines</a></li>
+    <li><a class="waves-effect" style="font-family: 'Raleway';" onclick="buttonManipulateAllMultiLanguageIterGroups()">what the fuck does this even mean</a></li>
+>>>>>>> 3e632ce9d04cfab6045a5815a8e4f06e737a289b
   </ul>
   <div class="flexboxcontainer">
     <div class="stats_container">
       <!-- <img src="" alt="graph" width=inherit height=inherit/> -->
       <div id="myDiv"></div>
-    </div>
-    <div class="extra_stats_container">
-      <div class="extra_stats1">
-
-      </div>
-      <div class="extra_stats2">
-
-      </div>
     </div>
     </div>
   </div>
