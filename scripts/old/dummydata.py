@@ -222,7 +222,7 @@ def groups_difference():
 if __name__ == '__main__':
     # test_return_data = test_get_changes_dummy()
     # groups_difference()
-    users_difference()
+    # users_difference()
     # pprint.pprint(test_return_data)
     # pprint.pprint(get_diff_per_element(test_return_data['total']['additions']))
     # pprint.pprint(get_diff_per_element(test_return_data['total']['commits']))

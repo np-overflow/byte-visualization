@@ -31,11 +31,13 @@ const animationTime = 1000
 // const divWidth = 1248
 // const divHeight = 648
 
-// const divWidth = 1061
-// const divHeight = 842
+// for dev testing
+const divWidth = 1061
+const divHeight = 842
 
-const divWidth = 2078
-const divHeight = 1150
+// use this for the surface hub
+// const divWidth = 2078
+// const divHeight = 1150
 
 // colours
 // default backgruond colours
@@ -80,9 +82,9 @@ var functionArray = [
   function () { manipulateOverTimeGroupsDeletionsDifference() },
   function () { manipulateOverTimeMultiCommitsDifference() },
   function () { manipulateOverTimeMultiAdditionsDifference() },
-  function () { manipulateOverTimeMultiDeletionsDifference() },
-  function () { manipulateAllMultiLanguageTotal() },
-  function () { manipulateAllMultiLanguageIterGroups() }
+  function () { manipulateOverTimeMultiDeletionsDifference() }
+  // function () { manipulateAllMultiLanguageTotal() },
+  // function () { manipulateAllMultiLanguageIterGroups() }
 ]
 
 // BUTTON ONCLICKS
@@ -251,6 +253,7 @@ function buttonManipulateOverTimeMultiDeletionsDifference () {
   }, waitingTime)
 }
 
+// function buttonManipulateAllMultiLanguageTotal () {
 function buttonManipulateAllMultiLanguageTotal () {
   console.log('hi from buttonManipulateAllMultiLanguageTotal')
 
@@ -814,6 +817,8 @@ function manipulateOverTimeGroupsDeletions () {
 
 function flexibleOverTimeGroups (titleInput, xInput, yInput, graphData) {
   animateOut()
+
+  console.log(graphData)
 
   var data = graphData
 
@@ -1625,9 +1630,52 @@ function callMainLoop () {
   mainLoop(100000000000000000)
 }
 
+function callMainLoopWithoutLanguage () {
+  function mainLoop () {
+    // this if condition occurs only at the first graph
+    // so you dont have to wait x waiting time to load the first graph
+    if (startCounter === 0) {
+      // check total amount of graphs
+      console.log(functionArray.length)
+      setTimeout(function () {
+        functionArray[setCounter]()
+        // increment both the setCounter and the startCounter
+        setCounter++
+        startCounter++
+        if (--i) {
+          mainLoop(i)
+        }
+      }, startWaitTime)
+      // }, waitingTime)
+    } else {
+      setTimeout(function () {
+        // callsomefunctions here
+        functionArray[setCounter]()
+        // setCounter === functionARray.length - 1 should also reset the function
+        setCounter++
+        if (--i) {
+          mainLoop(i)
+        }
+        // every x seconds here
+      }, waitingTime)
+    }
+  }
+  // amount of times this function is going to be called
+  // just set it so high it doesnt really matter
+  mainLoop(100000000000000000)
+}
+
 // START - display start
 $(document).ready(function () {
-  callMainLoop()
+  console.log('the page loaded')
+  // callMainLoop()
+  // callMainLoopWithoutLanguage()
+
+  manipulateOverTimeGroupsCommits()
+
+  // not doing lanauge
+  // manipulateAllMultiLanguageTotal()
+
   // manipulateTotalCommits()
   // manipulateTotalAddDel()
   // manipulateAllMultiLanguageTotal()

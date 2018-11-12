@@ -13,7 +13,7 @@ from pprint import pprint
 
 
 class misc:
-    def remove_dirs(directory):    
+    def remove_dirs(directory):
         # os.system('rm -r ../../clones')
         # os.system('rm -r ../../log')
         # os.system('rm -r ../../cache')
@@ -903,352 +903,352 @@ def bb_get_commits_data(start_time = None, interval = None, time_frame_str_forma
 
     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
 
-def get_loc_data2(start_time = None, interval = None, time_frame_str_format = None):
-    if start_time is None:
-        start_time = default_start_time
+# def get_loc_data2(start_time = None, interval = None, time_frame_str_format = None):
+#     if start_time is None:
+#         start_time = default_start_time
 
-    if interval is None:
-        interval = default_interval
+#     if interval is None:
+#         interval = default_interval
 
-    if time_frame_str_format is None:
-        time_frame_str_format = default_time_frame_str_format
+#     if time_frame_str_format is None:
+#         time_frame_str_format = default_time_frame_str_format
     
-    with open('{}.json'.format(get_all_repos_loc.__name__), 'rb') as json_file:
-        data = pickle.load(json_file)
+#     with open('{}.json'.format(get_all_repos_loc.__name__), 'rb') as json_file:
+#         data = pickle.load(json_file)
 
-    intervals_log_data = get_log_data_per_interval(data, start_time, interval)
+#     intervals_log_data = get_log_data_per_interval(data, start_time, interval)
 
-    languages = {}
-    time_frame = []
+#     languages = {}
+#     time_frame = []
 
-    for (starting_time, interval_log_data) in intervals_log_data:
-        interval_repos_data = interval_log_data[1]
+#     for (starting_time, interval_log_data) in intervals_log_data:
+#         interval_repos_data = interval_log_data[1]
 
-        for language in language.keys():
-            languages[language]['files']['total'].append(0)
-            languages[language]['blank']['total'].append(0)
-            languages[language]['comment']['total'].append(0)
-            languages[language]['code']['total'].append(0)
+#         for language in language.keys():
+#             languages[language]['files']['total'].append(0)
+#             languages[language]['blank']['total'].append(0)
+#             languages[language]['comment']['total'].append(0)
+#             languages[language]['code']['total'].append(0)
 
-        total_language_list = []
-        for (group_name, group_data) in interval_repos_data:
+#         total_language_list = []
+#         for (group_name, group_data) in interval_repos_data:
 
-            groups_language_list = []
-            for (language, language_data) in group_data:
-                groups_language_list.append(language)
-                total_language_list.append(language)
+#             groups_language_list = []
+#             for (language, language_data) in group_data:
+#                 groups_language_list.append(language)
+#                 total_language_list.append(language)
 
-                if language not in languages:
-                    language_list.append(language)
-                    languages[language] = {'files' : {'group' : {},
-                                                      'total' : [0] * (len(time_frame) + 1)},
-                                           'blank' : {'group' : {},
-                                                      'total' : [0] * (len(time_frame) + 1)},
-                                           'comment' : {'group' : {},
-                                                        'total' : [0] * (len(time_frame) + 1)},
-                                           'code' : {'group' : {},
-                                                     'total' : [0] * (len(time_frame) + 1)}}
+#                 if language not in languages:
+#                     language_list.append(language)
+#                     languages[language] = {'files' : {'group' : {},
+#                                                       'total' : [0] * (len(time_frame) + 1)},
+#                                            'blank' : {'group' : {},
+#                                                       'total' : [0] * (len(time_frame) + 1)},
+#                                            'comment' : {'group' : {},
+#                                                         'total' : [0] * (len(time_frame) + 1)},
+#                                            'code' : {'group' : {},
+#                                                      'total' : [0] * (len(time_frame) + 1)}}
 
-                if group_name not in languages[language]['files']['group']:
-                    languages[language]['files'][group_name]['group'] = [0] * len(time_frame)
+#                 if group_name not in languages[language]['files']['group']:
+#                     languages[language]['files'][group_name]['group'] = [0] * len(time_frame)
 
-                if group_name not in languages[language]['blank']['group']:
-                    languages[language]['blank'][group_name]['group'] = [0] * len(time_frame)
+#                 if group_name not in languages[language]['blank']['group']:
+#                     languages[language]['blank'][group_name]['group'] = [0] * len(time_frame)
 
-                if group_name not in languages[language]['comment']['group']:
-                    languages[language]['comment'][group_name]['group'] = [0] * len(time_frame)
+#                 if group_name not in languages[language]['comment']['group']:
+#                     languages[language]['comment'][group_name]['group'] = [0] * len(time_frame)
 
-                if group_name not in languages[language]['code']['group']:
-                    languages[language]['code'][group_name]['group'] = [0] * len(time_frame)
+#                 if group_name not in languages[language]['code']['group']:
+#                     languages[language]['code'][group_name]['group'] = [0] * len(time_frame)
 
-                languages[language]['files']['group'][group_name].append(language_data['files'])
-                languages[language]['blank']['group'][group_name].append(language_data['blank'])
-                languages[language]['comment']['group'][group_name].append(language_data['comment'])
-                languages[language]['code']['group'][group_name].append(language_data['code'])
+#                 languages[language]['files']['group'][group_name].append(language_data['files'])
+#                 languages[language]['blank']['group'][group_name].append(language_data['blank'])
+#                 languages[language]['comment']['group'][group_name].append(language_data['comment'])
+#                 languages[language]['code']['group'][group_name].append(language_data['code'])
                 
-                languages[language]['files']['total'][-1] += (language_data['files'])
-                languages[language]['blank']['total'][-1] += (language_data['blank'])
-                languages[language]['comment']['total'][-1] += (language_data['comment'])
-                languages[language]['code']['total'][-1] += (language_data['code'])
+#                 languages[language]['files']['total'][-1] += (language_data['files'])
+#                 languages[language]['blank']['total'][-1] += (language_data['blank'])
+#                 languages[language]['comment']['total'][-1] += (language_data['comment'])
+#                 languages[language]['code']['total'][-1] += (language_data['code'])
 
-            for language in languages.keys():
-                if language not in groups_language_list:
-                    for (group_name, group_data) in languages[language]['files']['group']:
-                        group_data.append(0)
-                    for (group_name, group_data) in languages[language]['blank']['group']:
-                        group_data.append(0)
-                    for (group_name, group_data) in languages[language]['comment']['group']:
-                        group_data.append(0)
-                    for (group_name, group_data) in languages[language]['code']['group']:
-                        group_data.append(0)
+#             for language in languages.keys():
+#                 if language not in groups_language_list:
+#                     for (group_name, group_data) in languages[language]['files']['group']:
+#                         group_data.append(0)
+#                     for (group_name, group_data) in languages[language]['blank']['group']:
+#                         group_data.append(0)
+#                     for (group_name, group_data) in languages[language]['comment']['group']:
+#                         group_data.append(0)
+#                     for (group_name, group_data) in languages[language]['code']['group']:
+#                         group_data.append(0)
                     
 
-        for language in languages.key():
-            if language not in total_language_list:
-                languages[language]['files']['total'].append(0)
-                languages[language]['blank']['total'].append(0)
-                languages[language]['comment']['total'].append(0)
-                languages[language]['code']['total'].append(0)
+#         for language in languages.key():
+#             if language not in total_language_list:
+#                 languages[language]['files']['total'].append(0)
+#                 languages[language]['blank']['total'].append(0)
+#                 languages[language]['comment']['total'].append(0)
+#                 languages[language]['code']['total'].append(0)
 
-        time_frame.append(starting_time.strftime(time_frame_str_format))
+#         time_frame.append(starting_time.strftime(time_frame_str_format))
 
-    return {'time_frame' : time_frame, 'language' : language}
+#     return {'time_frame' : time_frame, 'language' : language}
 
-def get_loc_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
-    if file_dir is None: file_dir = 'log'
+# def get_loc_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
+#     if file_dir is None: file_dir = 'log'
 
-    if file_name is None: file_name = get_all_repos_loc.__name__ + '_log'
+#     if file_name is None: file_name = get_all_repos_loc.__name__ + '_log'
 
-    if start_time is None:
-        start_time = default_start_time
+#     if start_time is None:
+#         start_time = default_start_time
 
-    if interval is None:
-        interval = default_interval
+#     if interval is None:
+#         interval = default_interval
 
-    if time_frame_str_format is None:
-        time_frame_str_format = default_time_frame_str_format
+#     if time_frame_str_format is None:
+#         time_frame_str_format = default_time_frame_str_format
 
-    file_path = os.path.join(file_dir, file_name)
+#     file_path = os.path.join(file_dir, file_name)
     
-    with open('{}.json'.format(file_path), 'rb') as json_file:
-        data = pickle.load(json_file)
+#     with open('{}.json'.format(file_path), 'rb') as json_file:
+#         data = pickle.load(json_file)
 
-    intervals_log_data = get_log_data_per_interval(data, start_time, interval)
+#     intervals_log_data = get_log_data_per_interval(data, start_time, interval)
 
-    groups = {}
-    total = {}
-    time_frame = []
+#     groups = {}
+#     total = {}
+#     time_frame = []
 
-    for (starting_time, interval_log_data) in intervals_log_data:
-        if interval_log_data is None: continue
+#     for (starting_time, interval_log_data) in intervals_log_data:
+#         if interval_log_data is None: continue
         
-        interval_repos_data = interval_log_data[1]
+#         interval_repos_data = interval_log_data[1]
 
-        for language in total:
-            total[language]['files'].append(0)
-            total[language]['blank'].append(0)
-            total[language]['comment'].append(0)
-            total[language]['code'].append(0)
+#         for language in total:
+#             total[language]['files'].append(0)
+#             total[language]['blank'].append(0)
+#             total[language]['comment'].append(0)
+#             total[language]['code'].append(0)
 
-        total_language_list = set([])
-        group_language_list = set([])  # Actually there's no really a reason to keep both language list. one will do.
-        for (group_name, group_data) in interval_repos_data.items():
+#         total_language_list = set([])
+#         group_language_list = set([])  # Actually there's no really a reason to keep both language list. one will do.
+#         for (group_name, group_data) in interval_repos_data.items():
             
-            for (language, language_data) in group_data.items():
-                group_language_list.add(language)
-                total_language_list.add(language)
+#             for (language, language_data) in group_data.items():
+#                 group_language_list.add(language)
+#                 total_language_list.add(language)
 
-                if language not in groups:
-                    groups[language] = {'files' : {},
-                                        'blank' : {},
-                                        'comment' : {},
-                                        'code' : {}}
+#                 if language not in groups:
+#                     groups[language] = {'files' : {},
+#                                         'blank' : {},
+#                                         'comment' : {},
+#                                         'code' : {}}
 
-                if group_name not in groups[language]['files']:
-                    groups[language]['files'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['files']:
+#                     groups[language]['files'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['blank']:
-                    groups[language]['blank'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['blank']:
+#                     groups[language]['blank'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['comment']:
-                    groups[language]['comment'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['comment']:
+#                     groups[language]['comment'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['code']:
-                    groups[language]['code'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['code']:
+#                     groups[language]['code'][group_name] = [0] * len(time_frame)
 
-                groups[language]['files'][group_name].append(language_data['files'])
-                groups[language]['blank'][group_name].append(language_data['blank'])
-                groups[language]['comment'][group_name].append(language_data['comment'])
-                groups[language]['code'][group_name].append(language_data['code'])
+#                 groups[language]['files'][group_name].append(language_data['files'])
+#                 groups[language]['blank'][group_name].append(language_data['blank'])
+#                 groups[language]['comment'][group_name].append(language_data['comment'])
+#                 groups[language]['code'][group_name].append(language_data['code'])
 
-                if language not in total:
-                    total[language] = {'files' : [0] * (len(time_frame) + 1),
-                                       'blank' : [0] * (len(time_frame) + 1),
-                                       'comment' : [0] * (len(time_frame) + 1),
-                                       'code' : [0] * (len(time_frame) + 1)}
+#                 if language not in total:
+#                     total[language] = {'files' : [0] * (len(time_frame) + 1),
+#                                        'blank' : [0] * (len(time_frame) + 1),
+#                                        'comment' : [0] * (len(time_frame) + 1),
+#                                        'code' : [0] * (len(time_frame) + 1)}
 
-                total[language]['files'][-1] += language_data['files']
-                total[language]['blank'][-1] += language_data['blank']
-                total[language]['comment'][-1] += language_data['comment']
-                total[language]['code'][-1] += language_data['code']
+#                 total[language]['files'][-1] += language_data['files']
+#                 total[language]['blank'][-1] += language_data['blank']
+#                 total[language]['comment'][-1] += language_data['comment']
+#                 total[language]['code'][-1] += language_data['code']
 
-        for language in groups.keys():
-            if language not in group_language_list:
-                groups[language]['files'][group_name].append(0)
-                groups[language]['blank'][group_name].append(0)
-                groups[language]['comment'][group_name].append(0)
-                groups[language]['code'][group_name].append(0)
+#         for language in groups.keys():
+#             if language not in group_language_list:
+#                 groups[language]['files'][group_name].append(0)
+#                 groups[language]['blank'][group_name].append(0)
+#                 groups[language]['comment'][group_name].append(0)
+#                 groups[language]['code'][group_name].append(0)
 
-        for language in total.keys():
-            if language not in total_language_list:
-                total[language]['files'].append(0)
-                total[language]['blank'].append(0)
-                total[language]['comment'].append(0)
-                total[language]['code'].append(0)
+#         for language in total.keys():
+#             if language not in total_language_list:
+#                 total[language]['files'].append(0)
+#                 total[language]['blank'].append(0)
+#                 total[language]['comment'].append(0)
+#                 total[language]['code'].append(0)
 
-        time_frame.append(starting_time.strftime(time_frame_str_format))
+#         time_frame.append(starting_time.strftime(time_frame_str_format))
 
-    return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
+#     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
 
-def bb_get_loc_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
-    if file_dir is None: file_dir = 'log'
+# def bb_get_loc_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
+#     if file_dir is None: file_dir = 'log'
 
-    if file_name is None: file_name = bb_get_all_repos_loc.__name__ + '_log'
+#     if file_name is None: file_name = bb_get_all_repos_loc.__name__ + '_log'
 
-    if start_time is None:
-        start_time = default_start_time
+#     if start_time is None:
+#         start_time = default_start_time
 
-    if interval is None:
-        interval = default_interval
+#     if interval is None:
+#         interval = default_interval
 
-    if time_frame_str_format is None:
-        time_frame_str_format = default_time_frame_str_format
+#     if time_frame_str_format is None:
+#         time_frame_str_format = default_time_frame_str_format
 
-    file_path = os.path.join(file_dir, file_name)
+#     file_path = os.path.join(file_dir, file_name)
     
-    with open('{}.json'.format(file_path), 'rb') as json_file:
-        data = pickle.load(json_file)
+#     with open('{}.json'.format(file_path), 'rb') as json_file:
+#         data = pickle.load(json_file)
 
-    intervals_log_data = get_log_data_per_interval(data, start_time, interval)
+#     intervals_log_data = get_log_data_per_interval(data, start_time, interval)
 
-    groups = {}
-    total = {}
-    time_frame = []
+#     groups = {}
+#     total = {}
+#     time_frame = []
 
-    for (starting_time, interval_log_data) in intervals_log_data:
-        if interval_log_data is None: continue
+#     for (starting_time, interval_log_data) in intervals_log_data:
+#         if interval_log_data is None: continue
         
-        interval_repos_data = interval_log_data[1]
+#         interval_repos_data = interval_log_data[1]
 
-        for language in total:
-            total[language]['files'].append(0)
-            total[language]['blank'].append(0)
-            total[language]['comment'].append(0)
-            total[language]['code'].append(0)
+#         for language in total:
+#             total[language]['files'].append(0)
+#             total[language]['blank'].append(0)
+#             total[language]['comment'].append(0)
+#             total[language]['code'].append(0)
 
-        total_language_list = set([])
-        group_language_list = set([])  # Actually there's no really a reason to keep both language list. one will do.
-        for (group_name, group_data) in interval_repos_data.items():
+#         total_language_list = set([])
+#         group_language_list = set([])  # Actually there's no really a reason to keep both language list. one will do.
+#         for (group_name, group_data) in interval_repos_data.items():
             
-            for (language, language_data) in group_data.items():
-                group_language_list.add(language)
-                total_language_list.add(language)
+#             for (language, language_data) in group_data.items():
+#                 group_language_list.add(language)
+#                 total_language_list.add(language)
 
-                if language not in groups:
-                    groups[language] = {'files' : {},
-                                        'blank' : {},
-                                        'comment' : {},
-                                        'code' : {}}
+#                 if language not in groups:
+#                     groups[language] = {'files' : {},
+#                                         'blank' : {},
+#                                         'comment' : {},
+#                                         'code' : {}}
 
-                if group_name not in groups[language]['files']:
-                    groups[language]['files'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['files']:
+#                     groups[language]['files'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['blank']:
-                    groups[language]['blank'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['blank']:
+#                     groups[language]['blank'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['comment']:
-                    groups[language]['comment'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['comment']:
+#                     groups[language]['comment'][group_name] = [0] * len(time_frame)
 
-                if group_name not in groups[language]['code']:
-                    groups[language]['code'][group_name] = [0] * len(time_frame)
+#                 if group_name not in groups[language]['code']:
+#                     groups[language]['code'][group_name] = [0] * len(time_frame)
 
-                groups[language]['files'][group_name].append(language_data['files'])
-                groups[language]['blank'][group_name].append(language_data['blank'])
-                groups[language]['comment'][group_name].append(language_data['comment'])
-                groups[language]['code'][group_name].append(language_data['code'])
+#                 groups[language]['files'][group_name].append(language_data['files'])
+#                 groups[language]['blank'][group_name].append(language_data['blank'])
+#                 groups[language]['comment'][group_name].append(language_data['comment'])
+#                 groups[language]['code'][group_name].append(language_data['code'])
 
-                if language not in total:
-                    total[language] = {'files' : [0] * (len(time_frame) + 1),
-                                       'blank' : [0] * (len(time_frame) + 1),
-                                       'comment' : [0] * (len(time_frame) + 1),
-                                       'code' : [0] * (len(time_frame) + 1)}
+#                 if language not in total:
+#                     total[language] = {'files' : [0] * (len(time_frame) + 1),
+#                                        'blank' : [0] * (len(time_frame) + 1),
+#                                        'comment' : [0] * (len(time_frame) + 1),
+#                                        'code' : [0] * (len(time_frame) + 1)}
 
-                total[language]['files'][-1] += language_data['files']
-                total[language]['blank'][-1] += language_data['blank']
-                total[language]['comment'][-1] += language_data['comment']
-                total[language]['code'][-1] += language_data['code']
+#                 total[language]['files'][-1] += language_data['files']
+#                 total[language]['blank'][-1] += language_data['blank']
+#                 total[language]['comment'][-1] += language_data['comment']
+#                 total[language]['code'][-1] += language_data['code']
 
-        for language in groups.keys():
-            if language not in group_language_list:
-                groups[language]['files'][group_name].append(0)
-                groups[language]['blank'][group_name].append(0)
-                groups[language]['comment'][group_name].append(0)
-                groups[language]['code'][group_name].append(0)
+#         for language in groups.keys():
+#             if language not in group_language_list:
+#                 groups[language]['files'][group_name].append(0)
+#                 groups[language]['blank'][group_name].append(0)
+#                 groups[language]['comment'][group_name].append(0)
+#                 groups[language]['code'][group_name].append(0)
 
-        for language in total.keys():
-            if language not in total_language_list:
-                total[language]['files'].append(0)
-                total[language]['blank'].append(0)
-                total[language]['comment'].append(0)
-                total[language]['code'].append(0)
+#         for language in total.keys():
+#             if language not in total_language_list:
+#                 total[language]['files'].append(0)
+#                 total[language]['blank'].append(0)
+#                 total[language]['comment'].append(0)
+#                 total[language]['code'].append(0)
 
-        time_frame.append(starting_time.strftime(time_frame_str_format))
+#         time_frame.append(starting_time.strftime(time_frame_str_format))
 
-    return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
+#     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
 
-def get_views_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
-    if file_dir is None: file_dir = 'log'
+# def get_views_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
+#     if file_dir is None: file_dir = 'log'
 
-    if file_name is None: file_name = get_all_repos_views.__name__ + '_log'
+#     if file_name is None: file_name = get_all_repos_views.__name__ + '_log'
     
-    if start_time is None:
-        start_time = default_start_time
+#     if start_time is None:
+#         start_time = default_start_time
 
-    if interval is None:
-        interval = default_interval
+#     if interval is None:
+#         interval = default_interval
 
-    if time_frame_str_format is None:
-        time_frame_str_format = default_time_frame_str_format
+#     if time_frame_str_format is None:
+#         time_frame_str_format = default_time_frame_str_format
 
-    file_path = os.path.join(file_dir, file_name)
+#     file_path = os.path.join(file_dir, file_name)
     
-    with open('{}.json'.format(file_path), 'rb') as json_file:
-        data = pickle.load(json_file)
+#     with open('{}.json'.format(file_path), 'rb') as json_file:
+#         data = pickle.load(json_file)
 
-    intervals_log_data = get_log_data_per_interval(data, start_time, interval)
+#     intervals_log_data = get_log_data_per_interval(data, start_time, interval)
 
-    groups = {'count' : {}, 'uniques' : {}}
-    total = {'count' : [], 'uniques' : []}
-    time_frame = []
+#     groups = {'count' : {}, 'uniques' : {}}
+#     total = {'count' : [], 'uniques' : []}
+#     time_frame = []
 
-    for (starting_time, interval_log_data) in intervals_log_data:
-        if interval_log_data is None: continue
+#     for (starting_time, interval_log_data) in intervals_log_data:
+#         if interval_log_data is None: continue
         
-        interval_repos_data = interval_log_data[1]
+#         interval_repos_data = interval_log_data[1]
 
-        total_count = 0
-        total_uniques = 0
+#         total_count = 0
+#         total_uniques = 0
 
-        group_name_list = []
-        for (group_name, group_data) in interval_repos_data.items():
-            group_name_list.append(group_name)
+#         group_name_list = []
+#         for (group_name, group_data) in interval_repos_data.items():
+#             group_name_list.append(group_name)
 
-            if group_name not in groups['count']:
-                groups['count'][group_name] = [0] * len(time_frame)
+#             if group_name not in groups['count']:
+#                 groups['count'][group_name] = [0] * len(time_frame)
                 
-            if group_name not in groups['uniques']:
-                groups['uniques'][group_name] = [0] * len(time_frame)
+#             if group_name not in groups['uniques']:
+#                 groups['uniques'][group_name] = [0] * len(time_frame)
 
-            groups['count'][group_name].append(group_data['count'])
-            groups['uniques'][group_name].append(group_data['uniques'])
+#             groups['count'][group_name].append(group_data['count'])
+#             groups['uniques'][group_name].append(group_data['uniques'])
 
-            total_count += group_data['count']
-            total_uniques += group_data['uniques']
+#             total_count += group_data['count']
+#             total_uniques += group_data['uniques']
 
-        for group_name in groups['count'].keys():
-            if group_name not in group_name_list:
-                group['count'][group_name].append(None)
+#         for group_name in groups['count'].keys():
+#             if group_name not in group_name_list:
+#                 group['count'][group_name].append(None)
 
-        for group_name in groups['uniques'].keys():
-            if group_name not in group_name_list:
-                group['uniques'][group_name].append(None)
+#         for group_name in groups['uniques'].keys():
+#             if group_name not in group_name_list:
+#                 group['uniques'][group_name].append(None)
 
-        total['count'].append(total_count)
-        total['uniques'].append(total_uniques)
+#         total['count'].append(total_count)
+#         total['uniques'].append(total_uniques)
 
-        time_frame.append(starting_time.strftime(time_frame_str_format))
+#         time_frame.append(starting_time.strftime(time_frame_str_format))
 
-    return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
+#     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups}
 
 # Compilation
 def get_diff_per_element(list_data):
@@ -1308,10 +1308,18 @@ def get_everything(data_type = None, start_time = None, interval = None, time_fr
     if 'changes' in data_type:
         gh_changes_over_time = get_changes_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
         bb_commits_over_time = bb_get_commits_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
+
+        print(gh_changes_over_time)
+        print(bb_commits_over_time)
+
         combined_changes_over_time = combine_dict(gh_changes_over_time, bb_commits_over_time)
         combined_changes_per_time = cvt_over2per_time(combined_changes_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
         combined_changes_over_time_ranked = rank_list_in_dict(combined_changes_over_time, rank_range = rank_range, over_time = over_time)
         combined_changes_per_time_ranked = rank_list_in_dict(combined_changes_per_time, rank_range = rank_range, over_time = over_time)
+
+        print(combined_changes_over_time_ranked)
+        print(combined_changes_per_time_ranked)
+
         output['changes_over_time'] = combined_changes_over_time_ranked
         output['changes_per_time'] = combined_changes_per_time_ranked
         
@@ -1336,11 +1344,43 @@ def get_everything(data_type = None, start_time = None, interval = None, time_fr
     return output
 
 def combine_dict(dict1, dict2):
+    print('ths is dict1')
+    pprint(dict1)
+    print('this is dict2')
+    pprint(dict2)
+
+    # things that need to be rewritten
+    # append the [group][commits] for bb to gh
+
+    # make a copy of gh dict
+    dict3 = deepcopy(dict1)
+
+    # finishes group commits
+    for groups in dict2['groups'].keys():
+        dict3['groups']['commits'][groups] = dict2['groups'][groups]
+
+    # add total bb to gh - sum them up
+    for i in range(len(dict2['total'])):
+        dict3['total']['commits'][i] += dict2['total'][i]
+
+    # add users for bb to gh 
+    for users in dict2['users'].keys():
+        dict3['users']['commits'][users] = dict2['users'][users]
+
+    print('this is dict3')
+    pprint(dict3)
+    print('end---------')
+    return dict3
+
+
+# trying to rewrite this because this doesnt work
+def combine_dict_yh(dict1, dict2):
     dict3 = deepcopy(dict1)
     for key, value in dict2.items():
         if key in dict3:
             if type(value) is dict and type(value) is dict:
                 dict3[key] = combine_dict(value, dict3[key])
+                # dict3[key] = combine_dict(value, dict3[key])
         else:
             dict3[key] = value
     return dict3
@@ -1354,7 +1394,7 @@ def start_log_thread():
     github_wait_hour_per_set_request = 1 / github_set_request_per_hour
     github_timedelta_interval = timedelta(hours = github_wait_hour_per_set_request)
     # TODO : CHANGE TO PROPER TIMING
-    github_timedelta_interval = timedelta(seconds = 10)
+    github_timedelta_interval = timedelta(seconds = 45)
 
     bitbucket_request_per_hour = bitbucket_api_hourly_request_rate
     bitbucket_total_request_per_set = bitbucket_logging_data_request_cost * len(bitbucket_host_repos_list)
@@ -1363,7 +1403,7 @@ def start_log_thread():
     bitbucket_wait_hour_per_set_request = 1 / bitbucket_set_request_per_hour
     bitbucket_timedelta_interval = timedelta(hours = bitbucket_wait_hour_per_set_request)
     # TODO : CHANGE TO PROPER TIMING
-    bitbucket_timedelta_interval = timedelta(seconds = 10)
+    bitbucket_timedelta_interval = timedelta(seconds = 45)
 
     github_processes = []
     for log_data_function in github_logging_data_function:
@@ -1401,9 +1441,10 @@ github_api_hourly_request_rate = 5000
 bitbucket_api_hourly_request_rate = 1000
 
 # Default Variables
-default_start_time = datetime.now()
+# default_start_time = datetime.now()
+default_start_time = datetime(2018, 11, 13, 9, 0, 0)
 total_set_request_hourly_allowance = 1
-default_interval = timedelta(minutes = 1)
+default_interval = timedelta(seconds = 45)
 default_time_frame_str_format = "%H:%M"
 
 # Thread Global Variables
@@ -1416,9 +1457,11 @@ bitbucket_processes = []
 
 # User-Defined Variables
 github_logging_data_function = [get_all_repos_changes, get_all_repos_loc, get_all_repos_views]
+# github_logging_data_function = [get_all_repos_changes]
 github_logging_data_request_cost = 1 + 0 + 1
 
 bitbucket_logging_data_function = [bb_get_all_repos_commits, bb_get_all_repos_loc]
+# bitbucket_logging_data_function = [bb_get_all_repos_commits]
 bitbucket_logging_data_request_cost = (1.5) + 0
 
 # Pls, you can't add this into it anymore once the log started else will overflow
@@ -1427,7 +1470,7 @@ bitbucket_host_repos_list = [('TooAwesome','testing'), ('SandyKee','p2')]
 
 # import getpassword
 # auth = getpassword.get_password()
-auth = ('yourusername', 'yourpassword')
+auth = ('bytevisualizerboi', 'passwordvisualization1')
 
 # Emergency Kill Switch
 
@@ -1480,5 +1523,5 @@ p.run()
 
 # default_start_time = datetime(2018, 11, 12, 18, 39, 20)
 
-# start the thread - IMPORTANT
+# start the thread - IMPORTANT - for threading
 start_log_thread()
