@@ -20,17 +20,8 @@ class misc:
 
 
         try:
-            os.system('rm -r /mnt/f/programming/byte-visualization/clones')
-        except:
-            pass
-
-        try:
-            os.system('rm -r /mnt/f/programming/byte-visualization/log')
-        except:
-            pass
-
-        try:
-            os.system('rm -r /mnt/f/programming/byte-visualization/cache')
+            print('hello i am directory {}'.format(directory))
+            os.system('rm -rf {}'.format(directory))
         except:
             pass
 
@@ -244,7 +235,7 @@ def get_all_repos_loc2(host_repos_list):
 
     host_name1, host_repos_name1 = host_repos_list[host_repos_index]
     host_dir_name1 = host_name1 + '-' + host_repos_name1
-    misc.remove_dirs(r'clones\{}'.format(host_dir_name1))
+    misc.remove_dirs(r'clones/{}'.format(host_dir_name1))
     clone_process1 = subprocess.Popen(shlex.split('git clone https://github.com/'
                                                   '{}/{}/'
                                                   ' '
@@ -256,7 +247,7 @@ def get_all_repos_loc2(host_repos_list):
     while host_repos_index + 1 < len(host_repos_list): # and runs when the code is counting the previous loc. (loc also takes some time)
         host_name2, host_repos_name2 = host_repos_list[host_repos_index]
         host_dir_name2 = host_name2 + '-' + host_repos_name2
-        misc.remove_dirs(r'clones\{}'.format(host_dir_name2))
+        misc.remove_dirs(r'clones/{}'.format(host_dir_name2))
         clone_process2 = subprocess.Popen(shlex.split('git clone https://github.com/'
                                                       '{}/{}/'
                                                       ' '
@@ -299,7 +290,7 @@ def get_all_repos_loc(host_repos_list, check_wait = 0):
     clone_processes = []
     for index, (host_name, host_repos_name) in enumerate(host_repos_list):
         host_dir_name = host_name + '-' + host_repos_name
-        misc.remove_dirs(r'clones\{}'.format(host_dir_name))
+        misc.remove_dirs(r'clones/{}'.format(host_dir_name))
         clone_process = subprocess.Popen(shlex.split('git clone https://'
                                                      '{}:{}@'
                                                      'github.com/'
@@ -343,7 +334,7 @@ def bb_get_all_repos_loc(host_repos_list, check_wait = 0):
     clone_processes = []
     for index, (host_name, host_repos_name) in enumerate(host_repos_list):
         host_dir_name = host_name + '-' + host_repos_name
-        misc.remove_dirs(r'clones\{}'.format(host_dir_name))
+        misc.remove_dirs(r'clones/{}'.format(host_dir_name))
         clone_process = subprocess.Popen(shlex.split('git clone https://'
                                                      '{}:{}@'
                                                      'bitbucket.org/'
@@ -1468,7 +1459,7 @@ auth = ('yourusername', 'yourpassword')
 #log_data(bb_get_all_repos_loc, timedelta(seconds = 10), args = (bitbucket_host_repos_list,))
 
 '''
-with open(r'log\bb_get_all_repos_loc_log.json', 'rb') as json_file:
+with open(r'log/bb_get_all_repos_loc_log.json', 'rb') as json_file:
     data = pickle.load(json_file)
 
 time1 = datetime(2018,11,11,17,5,4)
