@@ -44,8 +44,11 @@ const bgColor = 'rgb(253,255,252)'
 const hexBgColor = 'FDFFFC'
 
 // fonts related stuff
-const fontFamily = 'Nunito'
+const fontFamily = 'Maven Pro'
+// const fontFamily = 'Nunito'
 // const fontFamily = 'Mali'
+// const fontFamily = 'Roboto Condensed'
+
 const fontColor = '#354050'
 const fontSize = 16
 
