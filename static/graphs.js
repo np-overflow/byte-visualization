@@ -516,7 +516,7 @@ function manipulateTotalAddDel () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateTotalAddDel : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -524,8 +524,8 @@ function manipulateTotalAddDel () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var additionYValue = myData['total']['additions']
-  var deletionYValue = myData['total']['deletions']
+  var additionYValue = myData['changes_over_time']['total']['additions']
+  var deletionYValue = myData['changes_over_time']['total']['deletions']
 
   var colorArray = colorPalette(2)
 
@@ -570,7 +570,7 @@ function manipulateTotalCommits () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateTotalCommits : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -578,7 +578,7 @@ function manipulateTotalCommits () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  yValues = myData['total']['commits']
+  yValues = myData['changes_over_time']['total']['commits']
 
   // bar chart
   commitVarObject = {}
@@ -695,7 +695,7 @@ function manipulateOverTimeGroupsCommits () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsCommits : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -703,13 +703,13 @@ function manipulateOverTimeGroupsCommits () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['groups']['commits']).length)
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['groups']['commits']).length)
 
-  groupKeys = Object.keys(myData['groups']['commits'])
-  for (var j = 0; j < Object.keys(myData['groups']['commits']).length; j++) {
+  groupKeys = Object.keys(myData['changes_over_time']['groups']['commits'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['groups']['commits']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['groups']['commits'][groupKeys[j]]
+    yValues = myData['changes_over_time']['groups']['commits'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -738,7 +738,7 @@ function manipulateOverTimeGroupsAdditions () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsAdditions : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -746,12 +746,12 @@ function manipulateOverTimeGroupsAdditions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['groups']['additions']).length)
-  groupKeys = Object.keys(myData['groups']['additions'])
-  for (var j = 0; j < Object.keys(myData['groups']['additions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['groups']['additions']).length)
+  groupKeys = Object.keys(myData['changes_over_time']['groups']['additions'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['groups']['additions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['groups']['additions'][groupKeys[j]]
+    yValues = myData['changes_over_time']['groups']['additions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -780,7 +780,7 @@ function manipulateOverTimeGroupsDeletions () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeGroupsDeletions : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -788,12 +788,12 @@ function manipulateOverTimeGroupsDeletions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['groups']['deletions']).length)
-  groupKeys = Object.keys(myData['groups']['deletions'])
-  for (var j = 0; j < Object.keys(myData['groups']['deletions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['groups']['deletions']).length)
+  groupKeys = Object.keys(myData['changes_over_time']['groups']['deletions'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['groups']['deletions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['groups']['deletions'][groupKeys[j]]
+    yValues = myData['changes_over_time']['groups']['deletions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -856,7 +856,7 @@ function manipulateOverTimeMultiCommits () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeMultiCommits : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -864,12 +864,12 @@ function manipulateOverTimeMultiCommits () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['users']['commits']).length)
-  userKeys = Object.keys(myData['users']['commits'])
-  for (var j = 0; j < Object.keys(myData['users']['commits']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['users']['commits']).length)
+  userKeys = Object.keys(myData['changes_over_time']['users']['commits'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['users']['commits']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['users']['commits'][userKeys[j]]
+    yValues = myData['changes_over_time']['users']['commits'][userKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -898,7 +898,7 @@ function manipulateOverTimeMultiAdditions () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeMultiAdditions : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -906,12 +906,12 @@ function manipulateOverTimeMultiAdditions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['users']['additions']).length)
-  userKeys = Object.keys(myData['users']['additions'])
-  for (var j = 0; j < Object.keys(myData['users']['additions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['users']['additions']).length)
+  userKeys = Object.keys(myData['changes_over_time']['users']['additions'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['users']['additions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['users']['additions'][userKeys[j]]
+    yValues = myData['changes_over_time']['users']['additions'][userKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -940,7 +940,7 @@ function manipulateOverTimeMultiDeletions () {
   myData = getAllOverTimeCumulative()
   console.log('from manipulateOverTimeMultiDeletions : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_over_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -948,9 +948,9 @@ function manipulateOverTimeMultiDeletions () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['users']['deletions']).length)
-  userKeys = Object.keys(myData['users']['deletions'])
-  for (var j = 0; j < Object.keys(myData['users']['deletions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_over_time']['users']['deletions']).length)
+  userKeys = Object.keys(myData['changes_over_time']['users']['deletions'])
+  for (var j = 0; j < Object.keys(myData['changes_over_time']['users']['deletions']).length; j++) {
     eachVarObject = {}
 
     yValues = myData['users']['deletions'][userKeys[j]]
@@ -1014,7 +1014,7 @@ function manipulateTotalAllDifference () {
   myData = getAllOverTimeNonCumulative()
   console.log('from manipulateTotalAllDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1026,7 +1026,7 @@ function manipulateTotalAllDifference () {
 
   // commits
   commitsObject = {}
-  commitsY = myData['commits']
+  commitsY = myData['changes_per_time']['total']['commits']
   commitsObject['x'] = timeDataInt
   commitsObject['y'] = commitsY
   commitsObject['type'] = 'lines+markers'
@@ -1040,7 +1040,7 @@ function manipulateTotalAllDifference () {
 
   // additions
   additionsObject = {}
-  additionsY = myData['additions']
+  additionsY = myData['changes_per_time']['total']['additions']
   additionsObject['x'] = timeDataInt
   additionsObject['y'] = additionsY
   additionsObject['type'] = 'lines+markers'
@@ -1054,7 +1054,7 @@ function manipulateTotalAllDifference () {
 
   // deletions
   deletionsObject = {}
-  deletionsY = myData['deletions']
+  deletionsY = myData['changes_per_time']['total']['deletions']
   deletionsObject['x'] = timeDataInt
   deletionsObject['y'] = deletionsY
   deletionsObject['type'] = 'lines+markers'
@@ -1110,7 +1110,7 @@ function manipulateOverTimeGroupsCommitsDifference () {
   myData = getGroupsOverTimeDifference()
   console.log('from manipulateOverTimeGroupsCommitsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1118,12 +1118,12 @@ function manipulateOverTimeGroupsCommitsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['commits']).length)
-  groupKeys = Object.keys(myData['commits'])
-  for (var j = 0; j < Object.keys(myData['commits']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['groups']['commits']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['groups']['commits'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['groups']['commits']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['commits'][groupKeys[j]]
+    yValues = myData['changes_per_time']['groups']['commits'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1152,7 +1152,7 @@ function manipulateOverTimeGroupsAdditionsDifference () {
   myData = getGroupsOverTimeDifference()
   console.log('from manipulateOverTimeGroupsAdditionsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1160,12 +1160,12 @@ function manipulateOverTimeGroupsAdditionsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['additions']).length)
-  groupKeys = Object.keys(myData['additions'])
-  for (var j = 0; j < Object.keys(myData['additions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['groups']['additions']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['groups']['additions'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['groups']['additions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['additions'][groupKeys[j]]
+    yValues = myData['changes_per_time']['groups']['additions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1194,7 +1194,7 @@ function manipulateOverTimeGroupsDeletionsDifference () {
   myData = getGroupsOverTimeDifference()
   console.log('from manipulateOverTimeGroupsDeletionsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1202,12 +1202,12 @@ function manipulateOverTimeGroupsDeletionsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['deletions']).length)
-  groupKeys = Object.keys(myData['deletions'])
-  for (var j = 0; j < Object.keys(myData['deletions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['groups']['deletions']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['groups']['deletions'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['groups']['deletions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['deletions'][groupKeys[j]]
+    yValues = myData['changes_per_time']['groups']['deletions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1267,7 +1267,7 @@ function manipulateOverTimeMultiCommitsDifference () {
   myData = getMultiOverTimeDifference()
   console.log('from manipulateOverTimeMultiCommitsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1275,12 +1275,12 @@ function manipulateOverTimeMultiCommitsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['commits']).length)
-  groupKeys = Object.keys(myData['commits'])
-  for (var j = 0; j < Object.keys(myData['commits']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['users']['commits']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['users']['commits'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['users']['commits']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['commits'][groupKeys[j]]
+    yValues = myData['changes_per_time']['users']['commits'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1309,7 +1309,7 @@ function manipulateOverTimeMultiAdditionsDifference () {
   myData = getMultiOverTimeDifference()
   console.log('from manipulateOverTimeMultiAdditionsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1317,12 +1317,12 @@ function manipulateOverTimeMultiAdditionsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['additions']).length)
-  groupKeys = Object.keys(myData['additions'])
-  for (var j = 0; j < Object.keys(myData['additions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['users']['additions']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['users']['additions'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['users']['additions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['additions'][groupKeys[j]]
+    yValues = myData['changes_per_time']['users']['additions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1351,7 +1351,7 @@ function manipulateOverTimeMultiDeletionsDifference () {
   myData = getMultiOverTimeDifference()
   console.log('from manipulateOverTimeMultiDeletionsDifference : ', myData)
 
-  timeData = myData['time_frame']
+  timeData = myData['changes_per_time']['time_frame']
   timeDataInt = []
 
   // make all my timeData into an Int
@@ -1359,12 +1359,12 @@ function manipulateOverTimeMultiDeletionsDifference () {
     timeDataInt.push(parseInt(timeData[i]))
   }
 
-  var colorArray = colorPalette(Object.keys(myData['additions']).length)
-  groupKeys = Object.keys(myData['deletions'])
-  for (var j = 0; j < Object.keys(myData['deletions']).length; j++) {
+  var colorArray = colorPalette(Object.keys(myData['changes_per_time']['users']['deletions']).length)
+  groupKeys = Object.keys(myData['changes_per_time']['users']['deletions'])
+  for (var j = 0; j < Object.keys(myData['changes_per_time']['users']['deletions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['deletions'][groupKeys[j]]
+    yValues = myData['changes_per_time']['users']['deletions'][groupKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
@@ -1417,7 +1417,7 @@ function flexibleOverTimeMultiDifference (titleInput, xInput, yInput, graphData)
 function manipulateAllMultiLanguageIterGroups () {
   dataLength = getLangMultiOvertime()
   // amount of languages - graphs i have to display
-  var lang = Object.keys(dataLength['groups'])
+  var lang = Object.keys(dataLength['loc_over_time']['groups'])
   var length = lang.length
   var x = 0
 
@@ -1435,7 +1435,7 @@ function manipulateAllMultiLanguageIterGroups () {
 
       // time function
       // time data
-      timeData = myData['time_frame']
+      timeData = myData['loc_over_time']['time_frame']
       timeDataInt = []
       // make all my timeData into an Int
       for (var j = 0; j < timeData.length; j++) {
@@ -1443,7 +1443,7 @@ function manipulateAllMultiLanguageIterGroups () {
       }
 
       // find the amount of groups for this specific language
-      var amountOfGroupsForLang = Object.keys(myData['groups'][lang[x]]['code']).length
+      var amountOfGroupsForLang = Object.keys(myData['loc_over_time']['groups'][lang[x]]['code']).length
 
       // console.log('pure amountOfGRoupsForLang - keys', myData['groups'][lang[x]]['code'])
       // console.log('amountOfGroupsForLang', amountOfGroupsForLang)
@@ -1451,18 +1451,18 @@ function manipulateAllMultiLanguageIterGroups () {
 
       var colorArray = colorPalette(amountOfGroupsForLang)
       // get all my group names
-      groupNames = Object.keys(myData['groups'][lang[x]]['code'])
+      groupNames = Object.keys(myData['loc_over_time']['groups'][lang[x]]['code'])
       for (var k = 0; k < amountOfGroupsForLang; k++) {
         var eachVarObject = {}
         // get my y values for each specific group
-        yValues = myData['groups'][lang[x]]['code'][groupNames[k]]
+        yValues = myData['loc_over_time']['groups'][lang[x]]['code'][groupNames[k]]
 
         // all x values are using the time function
         eachVarObject['x'] = timeDataInt
         eachVarObject['y'] = yValues
         eachVarObject['type'] = 'lines+markers'
         // change the name for eveyr single group
-        eachVarObject['name'] = Object.keys(myData['groups'][lang[x]]['code'])[k]
+        eachVarObject['name'] = Object.keys(myData['loc_over_time']['groups'][lang[x]]['code'])[k]
         // randomise the colours
         eachVarObject['marker'] = { color: String(colorArray[k]), size: 8 }
         // eachVarObject['marker'] = { color: String(colorPalette(1)), size: 8 }
@@ -1496,8 +1496,8 @@ function manipulateAllMultiLanguageTotal () {
   myData = getLangMultiOvertime()
   console.log('from manipulateAllMultiLanguageTotal', myData)
   // amount of graphs i have to display = amount of languages there is
-  totalLang = Object.keys(myData['total'])
-  amountOfLang = Object.keys(myData['total']).length
+  totalLang = Object.keys(myData['loc_over_time']['total'])
+  amountOfLang = Object.keys(myData['loc_over_time']['total']).length
   // for every language i have to display
 
   for (var i = 0; i < amountOfLang; i++) {
@@ -1508,7 +1508,7 @@ function manipulateAllMultiLanguageTotal () {
     var yAxisTitle = 'Total'
     var dataArray = []
 
-    timeData = myData['time_frame']
+    timeData = myData['loc_over_time']['time_frame']
     timeDataInt = []
     // make all my timeData into an Int
     for (var j = 0; j < timeData.length; j++) {
@@ -1520,7 +1520,7 @@ function manipulateAllMultiLanguageTotal () {
       eachVarObject = {}
 
       var loopedLanguage = String(totalLang[k])
-      yValues = myData['total'][loopedLanguage]['code']
+      yValues = myData['loc_over_time']['total'][loopedLanguage]['code']
       console.log(yValues)
 
       eachVarObject['x'] = timeDataInt
@@ -1605,7 +1605,7 @@ function callMainLoop () {
             mainLoop(i)
           }
           // every x seconds here
-        }, waitingTime * Object.keys(myData['groups']).length)
+        }, waitingTime * Object.keys(myData['loc_over_time']['groups']).length)
       } else {
         setTimeout(function () {
           // callsomefunctions here

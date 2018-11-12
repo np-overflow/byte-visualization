@@ -158,10 +158,12 @@ def test_get_changes_dummy():
     }
 
     test_dictionary = {
-        'time_frame' : time,
-        'total' : total,
-        'groups' : groups,
-        'users' : users
+        'changes_over_time': {
+            'time_frame' : time,
+            'total' : total,
+            'groups' : groups,
+            'users' : users
+        }
     }
 
     return test_dictionary
