@@ -834,6 +834,7 @@ def get_changes_data(start_time = None, interval = None, time_frame_str_format =
 
         time_frame.append(starting_time.strftime(time_frame_str_format))
 
+        
     return {'time_frame' : time_frame, 'total' : total, 'groups' : groups, 'users' : users}
 
 def bb_get_commits_data(start_time = None, interval = None, time_frame_str_format = None, file_dir = None, file_name = None):
@@ -1305,12 +1306,13 @@ def rank_list_in_dict(data_dict, rank_range = None, over_time = False):
 
 def get_everything(data_type = None, start_time = None, interval = None, time_frame_str_format = None, per_interval_accumulative_length = 1, rank_range = None, over_time = False):
     output = {}
+    print(data_type)
     if 'changes' in data_type:
         gh_changes_over_time = get_changes_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
         bb_commits_over_time = bb_get_commits_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
 
-        print(gh_changes_over_time)
-        print(bb_commits_over_time)
+        print('hello 1', gh_changes_over_time)
+        print('hello 2', bb_commits_over_time)
 
         combined_changes_over_time = combine_dict(gh_changes_over_time, bb_commits_over_time)
         combined_changes_per_time = cvt_over2per_time(combined_changes_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
@@ -1360,7 +1362,8 @@ def combine_dict(dict1, dict2):
         dict3['groups']['commits'][groups] = dict2['groups'][groups]
 
     # add total bb to gh - sum them up
-    for i in range(len(dict2['total'])):
+    for i in range(len(dict2['total']) - 1):
+
         dict3['total']['commits'][i] += dict2['total'][i]
 
     # add users for bb to gh 
@@ -1530,3 +1533,6 @@ p.run()
 
 # start the thread - IMPORTANT - for threading
 start_log_thread()
+
+
+# get_everything(data_type='changes')
