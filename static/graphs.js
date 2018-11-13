@@ -76,13 +76,13 @@ var functionArray = [
   function () { manipulateOverTimeMultiDeletions() },
   function () { manipulateTotalCommits() },
   function () { manipulateTotalAddDel() },
-  function () { manipulateTotalAllDifference() },
-  function () { manipulateOverTimeGroupsCommitsDifference() },
-  function () { manipulateOverTimeGroupsAdditionsDifference() },
-  function () { manipulateOverTimeGroupsDeletionsDifference() },
-  function () { manipulateOverTimeMultiCommitsDifference() },
-  function () { manipulateOverTimeMultiAdditionsDifference() },
-  function () { manipulateOverTimeMultiDeletionsDifference() }
+  function () { manipulateTotalAllDifference() }
+  // function () { manipulateOverTimeGroupsCommitsDifference() },
+  // function () { manipulateOverTimeGroupsAdditionsDifference() },
+  // function () { manipulateOverTimeGroupsDeletionsDifference() },
+  // function () { manipulateOverTimeMultiCommitsDifference() },
+  // function () { manipulateOverTimeMultiAdditionsDifference() },
+  // function () { manipulateOverTimeMultiDeletionsDifference() }
   // function () { manipulateAllMultiLanguageTotal() },
   // function () { manipulateAllMultiLanguageIterGroups() }
 ]
@@ -1668,7 +1668,7 @@ function callMainLoopWithoutLanguage () {
 // START - display start
 $(document).ready(function () {
   console.log('the page loaded')
-  callMainLoop()
+  callMainLoopWithoutLanguage()
   // callMainLoopWithoutLanguage()
 
   // manipulateOverTimeGroupsCommits()
