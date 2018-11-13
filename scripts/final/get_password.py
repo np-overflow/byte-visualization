@@ -1,2 +1,2 @@
 def get_password():
-	return ('bytevisualizationboi', 'passwordvisualization1')
+	return('bytevisualizationboi', 'passwordvisualization1')

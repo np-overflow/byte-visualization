@@ -1322,25 +1322,25 @@ def get_everything(data_type = None, start_time = None, interval = None, time_fr
 
         output['changes_over_time'] = combined_changes_over_time_ranked
         output['changes_per_time'] = combined_changes_per_time_ranked
-        
-    if 'loc' in data_type:
-        gh_loc_over_time = get_loc_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
-        bb_loc_over_time = bb_get_loc_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
-        combined_loc_over_time = combine_dict(gh_loc_over_time, bb_loc_over_time)
-        combined_loc_per_time = cvt_over2per_time(combined_loc_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
-        combined_loc_over_time_ranked = rank_list_in_dict(combined_loc_over_time, rank_range = rank_range, over_time = over_time)
-        combined_loc_per_time_ranked = rank_list_in_dict(combined_loc_per_time, rank_range = rank_range, over_time = over_time)
-        output['loc_over_time'] = combined_loc_over_time_ranked
-        output['loc_per_time'] = combined_loc_per_time_ranked
-        
-    if 'views' in data_type:
-        views_over_time = get_views_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
-        views_per_time = cvt_over2per_time(views_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
-        views_over_time_ranked = rank_list_in_dict(views_over_time, rank_range = rank_range, over_time = over_time)
-        views_per_time_ranked = rank_list_in_dict(views_per_time, rank_range = rank_range, over_time = over_time)
-        output['views_over_time'] = views_over_time_ranked
-        output['views_per_time'] = views_per_time_ranked
-        
+
+    # if 'loc' in data_type:
+    #     gh_loc_over_time = get_loc_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
+    #     bb_loc_over_time = bb_get_loc_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
+    #     combined_loc_over_time = combine_dict(gh_loc_over_time, bb_loc_over_time)
+    #     combined_loc_per_time = cvt_over2per_time(combined_loc_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
+    #     combined_loc_over_time_ranked = rank_list_in_dict(combined_loc_over_time, rank_range = rank_range, over_time = over_time)
+    #     combined_loc_per_time_ranked = rank_list_in_dict(combined_loc_per_time, rank_range = rank_range, over_time = over_time)
+    #     output['loc_over_time'] = combined_loc_over_time_ranked
+    #     output['loc_per_time'] = combined_loc_per_time_ranked
+
+    # if 'views' in data_type:
+    #     views_over_time = get_views_data(start_time = start_time, interval = interval, time_frame_str_format = time_frame_str_format)
+    #     views_per_time = cvt_over2per_time(views_over_time, per_interval_accumulative_length = per_interval_accumulative_length)
+    #     views_over_time_ranked = rank_list_in_dict(views_over_time, rank_range = rank_range, over_time = over_time)
+    #     views_per_time_ranked = rank_list_in_dict(views_per_time, rank_range = rank_range, over_time = over_time)
+    #     output['views_over_time'] = views_over_time_ranked
+    #     output['views_per_time'] = views_per_time_ranked
+
     return output
 
 def combine_dict(dict1, dict2):
@@ -1456,12 +1456,12 @@ github_processes = []
 bitbucket_processes = []
 
 # User-Defined Variables
-github_logging_data_function = [get_all_repos_changes, get_all_repos_loc, get_all_repos_views]
-# github_logging_data_function = [get_all_repos_changes]
+# github_logging_data_function = [get_all_repos_changes, get_all_repos_loc, get_all_repos_views]
+github_logging_data_function = [get_all_repos_changes]
 github_logging_data_request_cost = 1 + 0 + 1
 
-bitbucket_logging_data_function = [bb_get_all_repos_commits, bb_get_all_repos_loc]
-# bitbucket_logging_data_function = [bb_get_all_repos_commits]
+# bitbucket_logging_data_function = [bb_get_all_repos_commits, bb_get_all_repos_loc]
+bitbucket_logging_data_function = [bb_get_all_repos_commits]
 bitbucket_logging_data_request_cost = (1.5) + 0
 
 # Pls, you can't add this into it anymore once the log started else will overflow
