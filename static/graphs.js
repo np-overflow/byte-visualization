@@ -584,34 +584,34 @@ function manipulateTotalCommits () {
   yValues = myData['changes_over_time']['total']['commits']
 
   // bar chart
-  commitVarObject = {}
-  commitVarObject['x'] = timeDataInt
-  commitVarObject['y'] = yValues
-  commitVarObject['type'] = 'bar'
-  // commitVarObject['type'] = 'lines+markers'
-  // commitVarObject['name'] = String(groupKeys[j])
-  commitVarObject['name'] = 'Commits'
-  // randomise the colours - colorPalette must be equals to amount of time
-  // using timeData.length - it scales with the amount
-  commitVarObject['marker'] = { color: colorPalette(timeData.length), size: 8 }
-  // make the line thicker
-  commitVarObject['line'] = { 'width': 4 }
-  dataArray.push(commitVarObject)
+  // commitVarObject = {}
+  // commitVarObject['x'] = timeDataInt
+  // commitVarObject['y'] = yValues
+  // commitVarObject['type'] = 'bar'
+  // // commitVarObject['type'] = 'lines+markers'
+  // // commitVarObject['name'] = String(groupKeys[j])
+  // commitVarObject['name'] = 'Commits'
+  // // randomise the colours - colorPalette must be equals to amount of time
+  // // using timeData.length - it scales with the amount
+  // commitVarObject['marker'] = { color: colorPalette(timeData.length), size: 8 }
+  // // make the line thicker
+  // commitVarObject['line'] = { 'width': 4 }
+  // dataArray.push(commitVarObject)
 
   // line chart
-  // commitVarObjectScatter = {}
-  // commitVarObjectScatter['x'] = timeDataInt
-  // commitVarObjectScatter['y'] = yValues
-  // commitVarObjectScatter['type'] = 'Scatter'
-  // commitVarObjectScatter['type'] = 'lines+markers'
+  commitVarObjectScatter = {}
+  commitVarObjectScatter['x'] = timeDataInt
+  commitVarObjectScatter['y'] = yValues
+  commitVarObjectScatter['type'] = 'Scatter'
+  commitVarObjectScatter['type'] = 'lines+markers'
   // commitVarObjectScatter['name'] = String(groupKeys[j])
-  // commitVarObjectScatter['name'] = 'Commits'
+  commitVarObjectScatter['name'] = 'Commits'
   // randomise the colours - colorPalette must be equals to amount of time
   // uses randomColours so that the colors wont conflict with eachother
-  // commitVarObjectScatter['marker'] = { color: String(randomColors(1)), size: 8 }
+  commitVarObjectScatter['marker'] = { color: String(randomColors(1)), size: 8 }
   // make the line thicker
-  // commitVarObjectScatter['line'] = { 'width': 4 }
-  // dataArray.push(commitVarObjectScatter)
+  commitVarObjectScatter['line'] = { 'width': 4 }
+  dataArray.push(commitVarObjectScatter)
 
   // difference is that this doesnt have legend while AddDel has legend
   flexibleTotalCommits(title, xAxisTitle, yAxisTitle, dataArray)
@@ -958,7 +958,7 @@ function manipulateOverTimeMultiDeletions () {
   for (var j = 0; j < Object.keys(myData['changes_over_time']['users']['deletions']).length; j++) {
     eachVarObject = {}
 
-    yValues = myData['users']['deletions'][userKeys[j]]
+    yValues = myData['changes_over_time']['users']['deletions'][userKeys[j]]
     console.log(yValues)
 
     eachVarObject['x'] = timeDataInt
