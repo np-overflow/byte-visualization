@@ -1465,8 +1465,13 @@ bitbucket_logging_data_function = [bb_get_all_repos_commits]
 bitbucket_logging_data_request_cost = (1.5) + 0
 
 # Pls, you can't add this into it anymore once the log started else will overflow
-github_host_repos_list = [('lczm','byte-visualization'), ('Kaioru', 'groupleh')]
-bitbucket_host_repos_list = [('TooAwesome','testing'), ('SandyKee','p2')]
+github_host_repos_list = [('lczm','byte-visualization'), ('Kaioru', 'groupleh'), ('gastronomecc', 'gastronome'),
+                          ('lowkim', 'heka-backend'), ('heka-project', 'heka-demo'), ('bchewy', 'Project-Fosterships'),
+                          ('MasterJizzy', 'OlFriends')]
+bitbucket_host_repos_list = [('TooAwesome', 'testing'), ('SandyKee', 'p2')]
+
+# bitbucket_host_repos_list = [('TooAwesome','testing'), ('SandyKee','p2'), ('Polarcx', 'ezgoooo'), ('ToxicB5Yasuo', 'takeyourmedsapp'),
+#                              ('leezhixuan', 'patch')]
 
 # import getpassword
 # auth = getpassword.get_password()

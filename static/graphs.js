@@ -1668,10 +1668,10 @@ function callMainLoopWithoutLanguage () {
 // START - display start
 $(document).ready(function () {
   console.log('the page loaded')
-  // callMainLoop()
+  callMainLoop()
   // callMainLoopWithoutLanguage()
 
-  manipulateOverTimeGroupsCommits()
+  // manipulateOverTimeGroupsCommits()
 
   // not doing lanauge
   // manipulateAllMultiLanguageTotal()

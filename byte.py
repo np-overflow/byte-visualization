@@ -104,81 +104,81 @@ def getallovertimenoncumulative():
         return None
 
 
-# @app.route('/getgroupsovertimedifference', methods=["GET", "POST"])
-# def getgroupovertimedifference():
+@app.route('/getgroupsovertimedifference', methods=["GET", "POST"])
+def getgroupovertimedifference():
 
-#     if test_purposes == 0:
-#         # return jsonify(location.function())
-#         return jsonify(mainapi.get_everything(data_type=['changes']))
-#     elif test_purposes == 1:
-#         return jsonify(dummydata.groups_difference())
-#     elif test_purposes == 2:
-#         # more test data
-#         test_return_json = {
-#             'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
-#             'language': {
-#                 'python': [1200, 1300, 1800, 4600, 7000],
-#                 'java': [600, 1000, 5000, 6500, 8000],
-#                 'c': [100, 800, 6800, 9100, 12000],
-#                 'c++': [0, 0, 1200, 2700, 3000],
-#                 'clojure': [100, 400, 700, 900, 4000],
-#                 'c#': [0, 3000, 8000, 14000, 18000]
-#             }
-#         }
-#         return jsonify(test_return_json)
-#     else:
-#         return None
+    if test_purposes == 0:
+        # return jsonify(location.function())
+        return jsonify(mainapi.get_everything(data_type=['changes']))
+    elif test_purposes == 1:
+        return jsonify(dummydata.groups_difference())
+    elif test_purposes == 2:
+        # more test data
+        test_return_json = {
+            'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
+            'language': {
+                'python': [1200, 1300, 1800, 4600, 7000],
+                'java': [600, 1000, 5000, 6500, 8000],
+                'c': [100, 800, 6800, 9100, 12000],
+                'c++': [0, 0, 1200, 2700, 3000],
+                'clojure': [100, 400, 700, 900, 4000],
+                'c#': [0, 3000, 8000, 14000, 18000]
+            }
+        }
+        return jsonify(test_return_json)
+    else:
+        return None
 
-# @app.route('/getmultiovertimedifference', methods=["GET", "POST"])
-# def getmultiovertimedifference():
+@app.route('/getmultiovertimedifference', methods=["GET", "POST"])
+def getmultiovertimedifference():
 
-#     if test_purposes == 0:
-#         return jsonify(mainapi.get_everything(data_type=['changes']))
-#     if test_purposes == 1:
-#         return jsonify(dummydata.users_difference())
-#     elif test_purposes == 2:
-#         # more test data
-#         test_return_json = {
-#             'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
-#             'language': {
-#                 'python': [1200, 1300, 1800, 4600, 7000],
-#                 'java': [600, 1000, 5000, 6500, 8000],
-#                 'c': [100, 800, 6800, 9100, 12000],
-#                 'c++': [0, 0, 1200, 2700, 3000],
-#                 'clojure': [100, 400, 700, 900, 4000],
-#                 'c#': [0, 3000, 8000, 14000, 18000]
-#             }
-#         }
-#         return jsonify(test_return_json)
-#     else:
-#         return None
+    if test_purposes == 0:
+        return jsonify(mainapi.get_everything(data_type=['changes']))
+    if test_purposes == 1:
+        return jsonify(dummydata.users_difference())
+    elif test_purposes == 2:
+        # more test data
+        test_return_json = {
+            'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
+            'language': {
+                'python': [1200, 1300, 1800, 4600, 7000],
+                'java': [600, 1000, 5000, 6500, 8000],
+                'c': [100, 800, 6800, 9100, 12000],
+                'c++': [0, 0, 1200, 2700, 3000],
+                'clojure': [100, 400, 700, 900, 4000],
+                'c#': [0, 3000, 8000, 14000, 18000]
+            }
+        }
+        return jsonify(test_return_json)
+    else:
+        return None
 
 # shows all the languages in a line chart first
-# @app.route('/getlangovertime', methods=["GET", "POST"])
-# def getlangovertime():
+@app.route('/getlangovertime', methods=["GET", "POST"])
+def getlangovertime():
 
-#     if test_purposes == 0:
-#         returnData = mainapi.get_everything(data_type=['loc'])
-#         pprint.pprint(returnData)
-#         return jsonify(returnData)
-#     elif test_purposes == 1:
-#         return jsonify(dummydata.lang_changes())
-#     elif test_purposes == 2:
-#         # more test data
-#         test_return_json = {
-#             'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
-#             'language': {
-#                 'python': [1200, 1300, 1800, 4600, 7000],
-#                 'java': [600, 1000, 5000, 6500, 8000],
-#                 'c': [100, 800, 6800, 9100, 12000],
-#                 'c++': [0, 0, 1200, 2700, 3000],
-#                 'clojure': [100, 400, 700, 900, 4000],
-#                 'c#': [0, 3000, 8000, 14000, 18000]
-#             }
-#         }
-#         return jsonify(test_return_json)
-#     else:
-#         return None
+    if test_purposes == 0:
+        returnData = mainapi.get_everything(data_type=['loc'])
+        pprint.pprint(returnData)
+        return jsonify(returnData)
+    elif test_purposes == 1:
+        return jsonify(dummydata.lang_changes())
+    elif test_purposes == 2:
+        # more test data
+        test_return_json = {
+            'time': ['9:00', '10:00', '11:00', '12:00', '13.00', '14.00', '15.00'],
+            'language': {
+                'python': [1200, 1300, 1800, 4600, 7000],
+                'java': [600, 1000, 5000, 6500, 8000],
+                'c': [100, 800, 6800, 9100, 12000],
+                'c++': [0, 0, 1200, 2700, 3000],
+                'clojure': [100, 400, 700, 900, 4000],
+                'c#': [0, 3000, 8000, 14000, 18000]
+            }
+        }
+        return jsonify(test_return_json)
+    else:
+        return None
 
 
 if __name__ == '__main__':
