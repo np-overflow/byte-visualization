@@ -1647,6 +1647,17 @@ function callMainLoopWithoutLanguage () {
         }
       }, startWaitTime)
       // }, waitingTime)
+    } else if (setCounter === functionArray.length - 1) {
+      setCounter = 0
+      setTimeout(function () {
+        // callsomefunctions here
+        functionArray[setCounter]()
+        // setCounter === functionARray.length - 1 should also reset the function
+        if (--i) {
+          mainLoop(i)
+        }
+        // every x seconds here
+      }, waitingTime)
     } else {
       setTimeout(function () {
         // callsomefunctions here
