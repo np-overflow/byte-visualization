@@ -32,18 +32,20 @@ def getallovertimecumulative():
 
         newReturnData = copy.deepcopy(returnData)
 
-        replacement_time_list = []
-        for i in returnData['changes_over_time']['time_frame']:
-            replacement_string = ""
-            for k in i:
-                if k.isdigit():
-                    replacement_string += k
-            
-            replacement_time_list.append(replacement_string)
+        # replacement_time_list = []
+        # for i in returnData['changes_over_time']['time_frame']:
+        #     replacement_string = ""
+        #     for k in i:
+        #         if k.isdigit():
+        #             replacement_string += k
 
-        print(replacement_time_list)
+        #     replacement_time_list.append(replacement_string)
+
+        # print(replacement_time_list)
         # replace replacement_list with timeframe
-        returnData['changes_over_time']['time_frame'] = replacement_time_list
+        # returnData['changes_over_time']['time_frame'] = replacement_time_list
+
+        returnData['changes_over_time']['time_frame'] = str(returnData['changes_over_time']['time_frame'])
 
         return jsonify(returnData)
         # return jsonify(mainapi.get_everything(datatype=['changes']))

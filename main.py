@@ -1397,7 +1397,7 @@ def start_log_thread():
     github_wait_hour_per_set_request = 1 / github_set_request_per_hour
     github_timedelta_interval = timedelta(hours = github_wait_hour_per_set_request)
     # TODO : CHANGE TO PROPER TIMING
-    github_timedelta_interval = timedelta(seconds = 45)
+    github_timedelta_interval = timedelta(seconds = 10)
 
     bitbucket_request_per_hour = bitbucket_api_hourly_request_rate
     bitbucket_total_request_per_set = bitbucket_logging_data_request_cost * len(bitbucket_host_repos_list)
@@ -1406,7 +1406,7 @@ def start_log_thread():
     bitbucket_wait_hour_per_set_request = 1 / bitbucket_set_request_per_hour
     bitbucket_timedelta_interval = timedelta(hours = bitbucket_wait_hour_per_set_request)
     # TODO : CHANGE TO PROPER TIMING
-    bitbucket_timedelta_interval = timedelta(seconds = 45)
+    bitbucket_timedelta_interval = timedelta(seconds = 10)
 
     github_processes = []
     for log_data_function in github_logging_data_function:
@@ -1447,7 +1447,7 @@ bitbucket_api_hourly_request_rate = 1000
 # default_start_time = datetime.now()
 default_start_time = datetime(2018, 11, 13, 9, 0, 0)
 total_set_request_hourly_allowance = 1
-default_interval = timedelta(seconds = 45)
+default_interval = timedelta(seconds = 10)
 default_time_frame_str_format = "%H:%M"
 
 # Thread Global Variables
