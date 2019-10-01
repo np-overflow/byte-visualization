@@ -4,7 +4,9 @@ services:
   flask:
     build: ./flask
     ports:
-      - 5000:80
+      # Use 5000:80 when attempting to deploy with uwsgi+nginx
+      # - 5000:80
+      - 5000:5000
     depends_on:
       - db
 
