@@ -103,9 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-### Custom Added
-.vscode/
-tags
-
 ### Docker volumes
 ./db-data
+
+### Custom Added
+frontend/node_modules/
+.vscode/
+tags
