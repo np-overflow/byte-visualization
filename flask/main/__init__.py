@@ -1,8 +1,6 @@
 from flask import Flask
 
-# app = Flask(__name__)
-# This is to set the file to automatically find the files react built
-app = Flask(__name__, static_folder="../build/static", template_folder="../build")
+app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev'
 
 from flask_sqlalchemy import SQLAlchemy

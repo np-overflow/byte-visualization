@@ -7,7 +7,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # This copies react build folders as well
 COPY . .
-COPY ./main ./build
-COPY ./build ./build
+COPY ./main ./main
 
 CMD ["python", "run.py"]
