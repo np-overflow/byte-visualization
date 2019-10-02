@@ -7,17 +7,24 @@ class App extends React.Component {
   componentDidMount() {
 
     fetch('http://localhost/test')
-      .then(function (response) {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        // Do stuff with the response
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log('Looks like there was a problem: \n', error);
+      .then(
+        function (response) {
+          if (response.status !== 200) {
+            console.log('Looks like there was a problem. Status Code: ' +
+              response.status);
+            return;
+          }
 
+          // Examine the text in the response
+          response.json().then(function (data) {
+            console.log(data);
+          });
+        }
+      )
+      .catch(function (err) {
+        console.log('Fetch Error :-S', err);
       });
+
 
   }
 
