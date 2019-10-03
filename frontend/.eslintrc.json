@@ -23,7 +23,9 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "prefer-template": "off",
-        "no-console": "off"
+        "no-console": "off",
+        "max-classes-per-file": ["error", 3],
+        "react/prefer-stateless-function": [0, { "ignorePureComponents": true }]
     },
 
     "settings": {
