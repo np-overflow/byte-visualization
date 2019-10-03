@@ -1,8 +1,6 @@
 from main import app
-
-@app.route('/test', methods=['GET'])
-def test():
-    return {"number" : 3}
+from main.worker import start_worker
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    start_worker()
+    app.run(debug=False)
