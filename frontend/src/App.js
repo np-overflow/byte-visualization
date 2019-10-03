@@ -3,29 +3,24 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends React.Component {
-
   componentDidMount() {
-
     fetch('http://localhost/test')
-      .then(
-        function (response) {
-          if (response.status !== 200) {
-            console.log('Looks like there was a problem. Status Code: ' +
-              response.status);
-            return;
-          }
-
-          // Examine the text in the response
-          response.json().then(function (data) {
-            console.log(data);
-          });
+      .then((response) => {
+        if (response.status !== 200) {
+          console.log(
+            'Looks like there was a problem. Status Code: ' + response.status,
+          );
+          return;
         }
-      )
-      .catch(function (err) {
+
+        // Examine the text in the response
+        response.json().then((data) => {
+          console.log(data);
+        });
+      })
+      .catch((err) => {
         console.log('Fetch Error :-S', err);
       });
-
-
   }
 
   render() {
@@ -34,8 +29,11 @@ class App extends React.Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Edit
+            <code>src/App.js</code>
+            and save to reload.
           </p>
+
           <a
             className="App-link"
             href="https://reactjs.org"
