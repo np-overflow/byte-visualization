@@ -25,7 +25,9 @@
         "prefer-template": "off",
         "no-console": "off",
         "max-classes-per-file": ["error", 3],
-        "react/prefer-stateless-function": [0, { "ignorePureComponents": true }]
+        "react/prefer-stateless-function": [0, { "ignorePureComponents": true }],
+        "no-plusplus": "off",
+        "react/destructuring-assignment": [0]
     },
 
     "settings": {
