@@ -3,7 +3,6 @@ from main import app
 """
 Testing routes
 """
-
 @app.route('/commits/users', methods=['GET', 'POST'])
 def commits_users():
     return {
@@ -11,7 +10,7 @@ def commits_users():
         "1": [10, 23, 34],
         "22": [0, 12, 12]
     },
-    "users_info": {
+    "user_info": {
         "1": "Alan",
         "22": "Betty"
     }

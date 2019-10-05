@@ -1,49 +1,27 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-// import logo from './logo.svg';
-
+import RecentCommits from './Table';
 import './App.css';
-import LeaderBoard from './Table';
 
+
+// Global variables that will be used
 const ROUTES = [
   'http://localhost/commits/users',
   'http://localhost/commits/repos',
   'http://localhost/commits/commit-tags',
 ];
-let routeInt = 0;
 const changeSeconds = 3;
+let routeInt = 0;
 
-// Utility functions
-// ---
-// A proper sleep function that uses promises, only works in async functions
-
-// function sleep(ms) {
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// }
-
-// class Item {
-//   constructor(name, x, y) {
-//     this.name = name;
-//     this.x = x;
-//     this.y = y;
-//   }
-// }
-
-function randomColor() {
-  const colorArray = [];
-  const number1 = Math.floor((Math.random() * 255) + 1);
-  const number2 = Math.floor((Math.random() * 255) + 1);
-  const number3 = Math.floor((Math.random() * 255) + 1);
-  colorArray.push('rgb(' + number1 + ',' + number2 + ',' + number3 + ')');
-  return colorArray;
-}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       layout: {
-        title: 'This is a title',
+        title: 'Starting title',
+        width: 800,
+        height: 600,
       },
       data: [{
         x: [1, 2, 3],
@@ -52,7 +30,20 @@ class App extends React.Component {
         mode: 'lines+markers',
         marker: { color: 'red' },
       }],
-      fetchData: [],
+      tableData: [],
+      tableColumn: [{
+        dataField: 'id',
+        text: 'No.',
+      }, {
+        dataField: 'name',
+        text: 'Name',
+      }, {
+        dataField: 'repoName',
+        text: 'Repository Name',
+      }, {
+        dataField: 'commitMessage',
+        text: 'Commit Message',
+      }],
     };
   }
 
@@ -89,97 +80,30 @@ class App extends React.Component {
       }
       const json = await response.json();
 
-      // temp is a constant variable for any of the cases
-      // this will then be used to set state
-      const temp = [];
-
       console.log(`Currently the index is ${routeInt} which heres to ${ROUTES[routeInt]}`);
-      console.log(json);
-
+      // Parse result differently based on the different apis being used
       if (routeIndex === 0) {
-        Object.keys(json.user_commits).forEach((id) => {
-          const tempName = json.users_info[id];
-          console.log(`tempName is ${tempName}`);
-          const tempX = json.user_commits[id];
-          const tempY = [];
-          for (let i = 0; i < json.user_commits[id].length; i++) {
-            tempY.push(i);
-          }
-          // There may be future problems coming from this
-          // As changing state is async and not immediate
-          // this.state.data.push(new Item(tempName, tempX, tempY));
-
-          const generatedColor = randomColor();
-          console.log(generatedColor);
-
-          temp.push({
-            name: tempName,
-            x: tempX,
-            y: tempY,
-            type: 'scatter',
-            mode: 'lines+markers',
-            // This is currently commented out as plotly generates colours for them
-            // albeit not random, but works well enough
-            // line: {
-            //   color: generatedColor,
-            // },
-            // marker: {
-            //   color: 'rgb(0, 0, 0)',
-            // },
-          });
-        });
+        this.parseGenerics(json, 'user');
       } else if (routeIndex === 1) {
-        Object.keys(json.repo_commits).forEach((id) => {
-          const tempName = json.repo_info[id];
-          const tempX = json.repo_commits[id];
-          const tempY = [];
-          for (let i = 0; i < json.repo_commits[id].length; i++) {
-            tempY.push(i);
-          }
-          // There may be future problems coming from this
-          // As changing state is async and not immediate
-          // this.state.data.push(new Item(tempName, tempX, tempY));
-
-          const generatedColor = randomColor();
-          console.log(generatedColor);
-
+        this.parseGenerics(json, 'repo');
+      } else if (routeIndex === 2) {
+        const temp = [];
+        for (let i = 0; i < json.logs.length; i++) {
           temp.push({
-            name: tempName,
-            x: tempX,
-            y: tempY,
-            type: 'scatter',
-            mode: 'lines+markers',
-            // This is currently commented out as plotly generates colours for them
-            // albeit not random, but works well enough
-            // line: {
-            //   color: generatedColor,
-            // },
-            // marker: {
-            //   color: 'rgb(0, 0, 0)',
-            // },
+            id: i,
+            name: json.logs[i][0],
+            repoName: json.logs[i][1],
+            commitMessage: json.logs[i][2],
           });
+        }
+
+        this.setState({
+          tableData: temp,
         });
       }
-
-      this.setState({
-        layout: { title: 'This is a set state title ---TODO--- ' },
-        data: temp,
-        // Run a callback through setState to ensure next function has access to data
-      }, () => console.log('Callback console log', this.state.fetchData));
     } catch (error) { // While going through the function, catch any errors
       console.log(error);
     }
-
-    // Reference for how setting state affects the graph
-    // this.setState({
-    //   data: [{
-    //     x: [1, 2, 3, 4, 5],
-    //     y: [1, 2, 3, 4, 5],
-    //     type: 'scatter',
-    //     mode: 'lines+markers',
-    //     marker: { color: 'blue' },
-    //   }],
-    // });
 
     // Add a count to routeInt at the end of every iteration
     // This also resets it to 0 when it is over the amount the length of the array
@@ -188,6 +112,34 @@ class App extends React.Component {
     } else {
       routeInt++;
     }
+  }
+
+  parseGenerics(json, partialKey) {
+    const temp = [];
+    const commitsKey = partialKey + '_commits';
+    const commitsInfo = partialKey + '_info';
+
+    Object.keys(json[commitsKey]).forEach((id) => {
+      const tempName = json[commitsInfo][id];
+      const tempX = json[commitsKey][id];
+      const tempY = [];
+      for (let i = 0; i < json[commitsKey][id].length; i++) {
+        tempY.push(i);
+      }
+      temp.push({
+        name: tempName,
+        x: tempX,
+        y: tempY,
+        type: 'scatter',
+        mode: 'lines+markers',
+      });
+    });
+    this.setState({
+      layout: { title: 'This is a set state title ---TODO--- ' },
+      data: temp,
+      // Run a callback through setState to ensure next function has access to data
+    });
+    // }, () => console.log('Callback console log', this.state.fetchData));
   }
 
   tick() {
@@ -204,20 +156,29 @@ class App extends React.Component {
   }
 
   render() {
+    let render;
+    if (routeInt !== ROUTES.length - 1) {
+      render = <Plot data={this.state.data} layout={this.state.layout} />;
+    } else {
+      render = <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />;
+    }
     return (
       <div>
-        {/* <div>
-          <Plot
-            data={this.state.data}
-            layout={this.state.layout}
-            // frames={this.state.frames}
-            // config={this.state.config}
-            onInitialized={(figure) => this.setState(figure)}
-            onUpdate={(figure) => this.setState(figure)}
-          />
-        </div> */}
-        <LeaderBoard />
+        {render}
       </div>
+      // <div>
+      //   <div>
+      //     <Plot
+      //       data={this.state.data}
+      //       layout={this.state.layout}
+      //       // frames={this.state.frames}
+      //       // config={this.state.config}
+      //       onInitialized={(figure) => this.setState(figure)}
+      //       onUpdate={(figure) => this.setState(figure)}
+      //     />
+      //   </div>
+      //   <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />
+      // </div>
     );
   }
 }

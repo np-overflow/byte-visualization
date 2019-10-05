@@ -27,7 +27,8 @@
         "max-classes-per-file": ["error", 3],
         "react/prefer-stateless-function": [0, { "ignorePureComponents": true }],
         "no-plusplus": "off",
-        "react/destructuring-assignment": [0]
+        "react/destructuring-assignment": [0],
+        "react/forbid-prop-types": [0]
     },
 
     "settings": {

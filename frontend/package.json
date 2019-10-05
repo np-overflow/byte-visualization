@@ -9,7 +9,8 @@
     "react-bootstrap-table-next": "^3.2.1",
     "react-dom": "^16.10.1",
     "react-plotly.js": "^2.3.0",
-    "react-scripts": "3.1.2"
+    "react-scripts": "3.1.2",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
