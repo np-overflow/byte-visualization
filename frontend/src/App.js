@@ -22,6 +22,7 @@ const TITLES = [
 const changeSeconds = 10;
 let routeInt = 0;
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +31,13 @@ class App extends React.Component {
         title: 'Starting title',
         width: 800,
         height: 600,
+        xaxis: {
+          type: 'date',
+          title: 'Time',
+        },
+        yaxis: {
+          title: 'Number of commits',
+        },
       },
       data: [{
         x: [1, 2, 3],
@@ -42,17 +50,22 @@ class App extends React.Component {
       tableColumn: [{
         dataField: 'id',
         text: 'No.',
+        sort: true,
       }, {
         dataField: 'name',
         text: 'Name',
+        sort: true,
       }, {
         dataField: 'repoName',
         text: 'Repository Name',
+        sort: true,
       }, {
         dataField: 'commitMessage',
         text: 'Commit Message',
       }],
     };
+
+    // event handler binds
     this.testClick = this.handleClick.bind(this);
   }
 
@@ -73,12 +86,11 @@ class App extends React.Component {
   // routeIndex here refers to the index, routeInt -> declared in the global scope
   // will be passed through here
   async getGraphData(routeIndex) {
-    console.log(`----------------------------- ${routeIndex}`);
     try {
       const response = await fetch(ROUTES[routeIndex]);
 
       // If the fetch function immediately throws a error
-      // Probably a 404 of such, throw an error
+      // Probably a 404 of such, throw an error for debugging purposes
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -126,12 +138,12 @@ class App extends React.Component {
     const commitsInfo = partialKey + '_info';
 
     Object.keys(json[commitsKey]).forEach((id) => {
+      // Name of each graph, labelled through the legend
       const tempName = json[commitsInfo][id];
-      const tempX = json[commitsKey][id];
-      const tempY = [];
-      for (let i = 0; i < json[commitsKey][id].length; i++) {
-        tempY.push(i);
-      }
+      // x-axis is the time
+      const tempX = json.time_intervals;
+      // y-axis is the amount of commits
+      const tempY = json[commitsKey][id];
       temp.push({
         name: tempName,
         x: tempX,

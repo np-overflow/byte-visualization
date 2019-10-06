@@ -23,7 +23,7 @@ def users_commits():
         users_info = {user.user_id: user.username for user in User.query.all()}
         return jsonify({
             'user_commits': users_commits,
-            'users_info': users_info
+            'user_info': users_info
         })
     return {
     "user_commits": {
@@ -33,7 +33,8 @@ def users_commits():
     "user_info": {
         "1": "Alan",
         "22": "Betty"
-    }
+    },
+    "time_intervals": ["2019-11-05 23:13:10", "2019-11-05 23:13:15", "2019-11-05 23:13:20"]
 }
 
 @app.route('/commits/repos')
@@ -52,14 +53,16 @@ def repos_commits():
         })
     return {
     "repo_commits": {
-        "1": [10, 23, 34, 45],
-        "22": [0, 12, 12, 67]
+        "1": [10, 23, 34],
+        "22": [0, 12, 12]
     },
     "repo_info": {
         "1": "dabnet",
         "22": "chess"
-    }
+    },
+    "time_intervals": ["2019-10-05 23:13:10", "2019-10-05 23:13:15", "2019-10-05 23:13:20"]
 }
+
 
 @app.route('/commit-tags/<int:limit>')
 def commit_tags(limit):
