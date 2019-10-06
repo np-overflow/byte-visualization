@@ -13,7 +13,7 @@ testing = True
 
 @app.route('/commits/users')
 def users_commits():
-    if testing:
+    if not testing:
         data = request.json
         users_commits = users_commits_intervals(
             start_date=data['start_date'],
@@ -38,7 +38,7 @@ def users_commits():
 
 @app.route('/commits/repos')
 def repos_commits():
-    if testing:
+    if not testing:
         data = request.json
         repos_commits = repos_commits_intervals(
             start_date=data['start_date'],
@@ -63,7 +63,7 @@ def repos_commits():
 
 @app.route('/commit-tags/<int:limit>')
 def commit_tags(limit):
-    if testing:
+    if not testing:
         logs = recent_commits(limit)
         return jsonify({
             'logs': logs
@@ -72,7 +72,7 @@ def commit_tags(limit):
     "logs": [
         ["jeff", "n_queens", "Initial Commit"],
         ["abi", "Floyd's Cycle", "Project Completed"]
-    ]
+    ]}
 
 def recent_commits(limit):
     logs = []

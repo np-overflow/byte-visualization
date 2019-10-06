@@ -22,6 +22,13 @@
 }
 
 #root {
-  height: 800px;
-  width: 600px;
+  /* height: 800px; */
+  /* width: 600px; */
+  /* display: flex;
+  flex-direction: row; */
+}
+
+#main {
+  display: flex;
+  flex-direction: row;
 }

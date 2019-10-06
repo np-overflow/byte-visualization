@@ -28,7 +28,9 @@
         "react/prefer-stateless-function": [0, { "ignorePureComponents": true }],
         "no-plusplus": "off",
         "react/destructuring-assignment": [0],
-        "react/forbid-prop-types": [0]
+        "react/forbid-prop-types": [0],
+        "class-methods-use-this": [0],
+        "max-len": "off"
     },
 
     "settings": {

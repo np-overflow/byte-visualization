@@ -1,18 +1,26 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
+import ListGroup from 'react-bootstrap/ListGroup';
 import RecentCommits from './Table';
-import './App.css';
 
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Global variables that will be used
 const ROUTES = [
   'http://localhost/commits/users',
   'http://localhost/commits/repos',
-  'http://localhost/commits/commit-tags',
+  'http://localhost/commit-tags/1',
 ];
-const changeSeconds = 3;
-let routeInt = 0;
 
+const TITLES = [
+  'User Commits Over Time',
+  'Repository Commits Over Time',
+  'Recent Commits',
+];
+
+const changeSeconds = 10;
+let routeInt = 0;
 
 class App extends React.Component {
   constructor(props) {
@@ -45,15 +53,15 @@ class App extends React.Component {
         text: 'Commit Message',
       }],
     };
+    this.testClick = this.handleClick.bind(this);
   }
 
   // When the component is mounted, start the interval with a tick of every second
   // It will also start the async function getGraphData
   componentDidMount() {
-    console.log('---componentDidMount---');
+    console.log('Mounted');
 
     this.interval = setInterval(() => this.tick(), changeSeconds * 1000);
-    // this.getGraphData();
   }
 
   componentWillUnmount() {
@@ -65,12 +73,8 @@ class App extends React.Component {
   // routeIndex here refers to the index, routeInt -> declared in the global scope
   // will be passed through here
   async getGraphData(routeIndex) {
-    console.log('---getGraphData---');
-
+    console.log(`----------------------------- ${routeIndex}`);
     try {
-      // Temporary, trying to get the first one to work first
-      // const response = await fetch('http://localhost/commits/users');
-      // const response = await fetch('http://localhost/commits/repos');
       const response = await fetch(ROUTES[routeIndex]);
 
       // If the fetch function immediately throws a error
@@ -101,7 +105,7 @@ class App extends React.Component {
           tableData: temp,
         });
       }
-    } catch (error) { // While going through the function, catch any errors
+    } catch (error) { // Attempt to catch any problems while fetching resource
       console.log(error);
     }
 
@@ -116,6 +120,8 @@ class App extends React.Component {
 
   parseGenerics(json, partialKey) {
     const temp = [];
+    // Hacky generics key parsing
+    // as they are consistent in key names except for [users/repos]
     const commitsKey = partialKey + '_commits';
     const commitsInfo = partialKey + '_info';
 
@@ -134,12 +140,19 @@ class App extends React.Component {
         mode: 'lines+markers',
       });
     });
+
+    // Set state of the graph data
     this.setState({
-      layout: { title: 'This is a set state title ---TODO--- ' },
       data: temp,
-      // Run a callback through setState to ensure next function has access to data
     });
-    // }, () => console.log('Callback console log', this.state.fetchData));
+
+    // Separately set state of the layout title
+    this.setState((prevState) => ({
+      layout: { // object that we want to update
+        ...prevState.layout, // keep all other key-value pairs
+        title: TITLES[routeInt], // update the value of specific key
+      },
+    }));
   }
 
   tick() {
@@ -155,6 +168,11 @@ class App extends React.Component {
     this.getGraphData(routeInt);
   }
 
+  handleClick(index) {
+    routeInt = index;
+    this.getGraphData(routeInt);
+  }
+
   render() {
     let render;
     if (routeInt !== ROUTES.length - 1) {
@@ -163,22 +181,16 @@ class App extends React.Component {
       render = <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />;
     }
     return (
-      <div>
+      // id=main is set here to flex the children in this div
+      // so that are side by side
+      <div id="main">
+        <ListGroup>
+          <ListGroup.Item onClick={() => this.handleClick(0)}>User Commits Over Time</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(1)}>Repository Commits Over Time</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(2)}>Recent Commits</ListGroup.Item>
+        </ListGroup>
         {render}
       </div>
-      // <div>
-      //   <div>
-      //     <Plot
-      //       data={this.state.data}
-      //       layout={this.state.layout}
-      //       // frames={this.state.frames}
-      //       // config={this.state.config}
-      //       onInitialized={(figure) => this.setState(figure)}
-      //       onUpdate={(figure) => this.setState(figure)}
-      //     />
-      //   </div>
-      //   <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />
-      // </div>
     );
   }
 }
