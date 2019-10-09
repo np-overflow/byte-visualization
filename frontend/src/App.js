@@ -6,22 +6,56 @@ import RecentCommits from './Table';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const HOURS = 3;
+const INTERVALS = 8;
+const TABLE_AMOUNT = 30;
+
 // Global variables that will be used
 const ROUTES = [
   'http://localhost/commits/users',
+  'http://localhost/commits/users',
   'http://localhost/commits/repos',
-  'http://localhost/commit-tags/1',
+  'http://localhost/commits/repos',
+  `http://localhost/commit-tags/${TABLE_AMOUNT}`,
 ];
 
 const TITLES = [
-  'User Commits Over Time',
-  'Repository Commits Over Time',
+  `User Commits Over Time - ${HOURS} hours`,
+  'User Commits - Recent Hour',
+  `Repository Commits Over Time - ${HOURS} hours`,
+  'Repository Commits Over Time - Recent Hour',
   'Recent Commits',
 ];
 
 const changeSeconds = 10;
 let routeInt = 0;
 
+// Utility functions
+function toDateFormat(isoFormat) {
+  return isoFormat.slice(0, 19).replace('T', ' ');
+}
+
+function postDataGenerator(index) {
+  const start = new Date();
+  const end = new Date();
+  if (index === 0 || index === 2) { // over x hours
+    start.setHours(start.getHours() - HOURS);
+    return {
+      start_date: toDateFormat(start.toISOString()),
+      end_date: toDateFormat(end.toISOString()),
+      intervals: INTERVALS,
+    };
+  }
+  if (index === 1 || index === 3) {
+    start.setHours(start.getHours() - 1);
+    return {
+      start_date: toDateFormat(start.toISOString()),
+      end_date: toDateFormat(end.toISOString()),
+      intervals: 1,
+    };
+  }
+  return 0;
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -32,7 +66,6 @@ class App extends React.Component {
         width: 800,
         height: 600,
         xaxis: {
-          type: 'date',
           title: 'Time',
         },
         yaxis: {
@@ -40,11 +73,9 @@ class App extends React.Component {
         },
       },
       data: [{
-        x: [1, 2, 3],
-        y: [1, 2, 3],
-        type: 'scatter',
-        mode: 'lines+markers',
-        marker: { color: 'red' },
+        x: ['girafees', 'orangutans', 'monkeys'],
+        y: [20, 14, 23],
+        type: 'bar',
       }],
       tableData: [],
       tableColumn: [{
@@ -87,7 +118,15 @@ class App extends React.Component {
   // will be passed through here
   async getGraphData(routeIndex) {
     try {
-      const response = await fetch(ROUTES[routeIndex]);
+      const response = await fetch(ROUTES[routeIndex],
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postDataGenerator(routeIndex)),
+        });
 
       // If the fetch function immediately throws a error
       // Probably a 404 of such, throw an error for debugging purposes
@@ -96,13 +135,13 @@ class App extends React.Component {
       }
       const json = await response.json();
 
-      console.log(`Currently the index is ${routeInt} which heres to ${ROUTES[routeInt]}`);
+      console.log(`Currently the index is ${routeIndex} which heres to ${ROUTES[routeIndex]}`);
       // Parse result differently based on the different apis being used
-      if (routeIndex === 0) {
+      if (routeIndex === 0 || routeIndex === 1) {
         this.parseGenerics(json, 'user');
-      } else if (routeIndex === 1) {
+      } else if (routeIndex === 2 || routeIndex === 3) {
         this.parseGenerics(json, 'repo');
-      } else if (routeIndex === 2) {
+      } else if (routeIndex === 4) {
         const temp = [];
         for (let i = 0; i < json.logs.length; i++) {
           temp.push({
@@ -137,21 +176,39 @@ class App extends React.Component {
     const commitsKey = partialKey + '_commits';
     const commitsInfo = partialKey + '_info';
 
-    Object.keys(json[commitsKey]).forEach((id) => {
-      // Name of each graph, labelled through the legend
-      const tempName = json[commitsInfo][id];
-      // x-axis is the time
-      const tempX = json.time_intervals;
-      // y-axis is the amount of commits
-      const tempY = json[commitsKey][id];
+    // for Line graph
+    if (json.time_intervals.length > 1) {
+      Object.keys(json[commitsKey]).forEach((id) => {
+        // Name of each graph, labelled through the legend
+        const tempName = json[commitsInfo][id];
+        // x-axis is the time
+        const tempX = json.time_intervals;
+        // y-axis is the amount of commits
+        const tempY = json[commitsKey][id];
+        temp.push({
+          name: tempName,
+          x: tempX,
+          y: tempY,
+          type: 'scatter',
+          mode: 'lines+markers',
+        });
+      });
+    } else { // Bar chart
+      const tempX = [];
+      const tempY = [];
+      Object.keys(json[commitsKey]).forEach((id) => {
+        // Name of the person's (id)
+        tempX.push(json[commitsInfo][id]);
+        // Data of the person's (id)
+        tempY.push(json[commitsKey][id][0]);
+      });
+
       temp.push({
-        name: tempName,
         x: tempX,
         y: tempY,
-        type: 'scatter',
-        mode: 'lines+markers',
+        type: 'bar',
       });
-    });
+    }
 
     // Set state of the graph data
     this.setState({
@@ -197,9 +254,11 @@ class App extends React.Component {
       // so that are side by side
       <div id="main">
         <ListGroup>
-          <ListGroup.Item onClick={() => this.handleClick(0)}>User Commits Over Time</ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(1)}>Repository Commits Over Time</ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(2)}>Recent Commits</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(0)}> User Commits Over Time - {HOURS} hours </ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(1)}>User Commits - Recent hour</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(3)}>Repository Commits Over Time</ListGroup.Item>
+          <ListGroup.Item onClick={() => this.handleClick(4)}>Recent Commits</ListGroup.Item>
         </ListGroup>
         {render}
       </div>

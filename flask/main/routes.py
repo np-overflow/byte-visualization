@@ -11,8 +11,9 @@ testing = True
 # def index():
 #     print('Hello World')
 
-@app.route('/commits/users')
+@app.route('/commits/users', methods=['GET', 'POST'])
 def users_commits():
+    print(request.json)
     if not testing:
         data = request.json
         users_commits = users_commits_intervals(
@@ -25,6 +26,17 @@ def users_commits():
             'user_commits': users_commits,
             'user_info': users_info
         })
+    data = request.json
+    if data['intervals'] == 1:
+        return {
+        "user_commits": {
+            "1": [10],
+            "22": [3]
+        },
+        "user_info": {
+            "1": "Alan",
+            "22": "Betty"
+        }, "time_intervals": ["2019-11-05 23:13:10"]}
     return {
     "user_commits": {
         "1": [10, 23, 34],
@@ -34,11 +46,12 @@ def users_commits():
         "1": "Alan",
         "22": "Betty"
     },
-    "time_intervals": ["2019-11-05 23:13:10", "2019-11-05 23:13:15", "2019-11-05 23:13:20"]
-}
+    "time_intervals": ["2019-11-05 23:13:10", "2019-11-05 23:13:15", "2019-11-05 23:13:20"]}
 
-@app.route('/commits/repos')
+
+@app.route('/commits/repos', methods=['GET', 'POST'])
 def repos_commits():
+    print(request.json)
     if not testing:
         data = request.json
         repos_commits = repos_commits_intervals(
@@ -51,6 +64,19 @@ def repos_commits():
             'repos_commits': repos_commits,
             'repos_info': repos_info
         })
+    data = request.json
+    if data['intervals'] == 1:
+        return {
+        "repo_commits": {
+            "1": [8],
+            "22": [15]
+        },
+        "repo_info": {
+            "1": "dabnet",
+            "22": "chess"
+        },
+        "time_intervals": ["2019-10-05 23:13:10"]
+        }
     return {
     "repo_commits": {
         "1": [10, 23, 34],
@@ -61,11 +87,13 @@ def repos_commits():
         "22": "chess"
     },
     "time_intervals": ["2019-10-05 23:13:10", "2019-10-05 23:13:15", "2019-10-05 23:13:20"]
-}
+    }
+    
 
 
-@app.route('/commit-tags/<int:limit>')
+@app.route('/commit-tags/<int:limit>', methods=['GET', 'POST'])
 def commit_tags(limit):
+    print(request.json)
     if not testing:
         logs = recent_commits(limit)
         return jsonify({
