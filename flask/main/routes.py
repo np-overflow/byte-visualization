@@ -11,7 +11,7 @@ def index():
 @app.route('/commits/users')
 def users_commits():
     data = request.json
-    users_commits = users_commits_intervals(
+    users_commits, time_intervals = users_commits_intervals(
         start_date=data['start_date'],
         end_date=data['end_date'],
         intervals=data['intervals']
@@ -19,13 +19,14 @@ def users_commits():
     users_info = {user.user_id: user.username for user in User.query.all()}
     return jsonify({
         'user_commits': users_commits,
-        'users_info': users_info
+        'users_info': users_info,
+        'time_intervals': time_intervals
     })
 
 @app.route('/commits/repos')
 def repos_commits():
     data = request.json
-    repos_commits = repos_commits_intervals(
+    repos_commits, time_intervals = repos_commits_intervals(
         start_date=data['start_date'],
         end_date=data['end_date'],
         intervals=data['intervals']
@@ -33,7 +34,8 @@ def repos_commits():
     repos_info = {repo.repo_id: repo.reponame for repo in Repo.query.all()}
     return jsonify({
         'repos_commits': repos_commits,
-        'repos_info': repos_info
+        'repos_info': repos_info,
+        'time_intervals': time_intervals
     })
 
 @app.route('/commit-tags/<int:limit>')
@@ -72,6 +74,7 @@ def _commits_intervals(_table_column, start_date, end_date, intervals):
 
     ### Get no. commits, all users, all interval
     _commits_intervals = {}
+    _time_intervals = []
     interval_start = start_date
     interval_end = interval_start + delta
     for i in range(intervals):
@@ -84,6 +87,9 @@ def _commits_intervals(_table_column, start_date, end_date, intervals):
             else:
                 _commits_intervals[_id] = [0] * i
             _commits_intervals[_id].append(n_commits)
+
+        # Add Interval
+        _time_intervals.append(interval_end.strftime('%Y-%m-%d %H:%M:%S'))
 
         interval_start = interval_end
         interval_end += delta
