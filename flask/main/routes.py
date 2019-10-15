@@ -4,46 +4,106 @@ from flask import render_template, request, jsonify
 from sqlalchemy import func
 from datetime import datetime, timedelta
 
-@app.route('/')
-def index():
-    print('Hello World')
+# Set to False in production
+testing = True
 
-@app.route('/commits/users')
+# @app.route('/')
+# def index():
+#     print('Hello World')
+
+@app.route('/commits/users', methods=['GET', 'POST'])
 def users_commits():
+    print(request.json)
     data = request.json
-    users_commits, time_intervals = users_commits_intervals(
-        start_date=data['start_date'],
-        end_date=data['end_date'],
-        intervals=data['intervals']
-    )
-    users_info = {user.user_id: user.username for user in User.query.all()}
-    return jsonify({
-        'user_commits': users_commits,
-        'users_info': users_info,
-        'time_intervals': time_intervals
-    })
+    if not testing:
+        users_commits, time_intervals = users_commits_intervals(
+            start_date=data['start_date'],
+            end_date=data['end_date'],
+            intervals=data['intervals']
+        )
+        users_info = {user.user_id: user.username for user in User.query.all()}
+        return jsonify({
+            'user_commits': users_commits,
+            'users_info': users_info,
+            'time_intervals': time_intervals
+        })
+    if data['intervals'] == 1:
+        return {
+        "user_commits": {
+            "1": [10],
+            "22": [3]
+        },
+        "user_info": {
+            "1": "Alan",
+            "22": "Betty"
+        }, "time_intervals": ["2019-11-05 23:13:10"]}
+    return {
+    "user_commits": {
+        "1": [10, 23, 34],
+        "22": [0, 12, 12]
+    },
+    "user_info": {
+        "1": "Alan",
+        "22": "Betty"
+    },
+    "time_intervals": ["2019-11-05 23:13:10", "2019-11-05 23:13:15", "2019-11-05 23:13:20"]}
 
-@app.route('/commits/repos')
+
+@app.route('/commits/repos', methods=['GET', 'POST'])
 def repos_commits():
+    print(request.json)
     data = request.json
-    repos_commits, time_intervals = repos_commits_intervals(
-        start_date=data['start_date'],
-        end_date=data['end_date'],
-        intervals=data['intervals']
-    )
-    repos_info = {repo.repo_id: repo.reponame for repo in Repo.query.all()}
-    return jsonify({
-        'repos_commits': repos_commits,
-        'repos_info': repos_info,
-        'time_intervals': time_intervals
-    })
+    if not testing:
+        repos_commits, time_intervals = repos_commits_intervals(
+            start_date=data['start_date'],
+            end_date=data['end_date'],
+            intervals=data['intervals']
+        )
+        repos_info = {repo.repo_id: repo.reponame for repo in Repo.query.all()}
+        return jsonify({
+            'repos_commits': repos_commits,
+            'repos_info': repos_info,
+            'time_intervals': time_intervals
+        })
+    if data['intervals'] == 1:
+        return {
+        "repo_commits": {
+            "1": [8],
+            "22": [15]
+        },
+        "repo_info": {
+            "1": "dabnet",
+            "22": "chess"
+        },
+        "time_intervals": ["2019-10-05 23:13:10"]
+        }
+    return {
+    "repo_commits": {
+        "1": [10, 23, 34],
+        "22": [0, 12, 12]
+    },
+    "repo_info": {
+        "1": "dabnet",
+        "22": "chess"
+    },
+    "time_intervals": ["2019-10-05 23:13:10", "2019-10-05 23:13:15", "2019-10-05 23:13:20"]
+    }
+    
 
-@app.route('/commit-tags/<int:limit>')
+
+@app.route('/commit-tags/<int:limit>', methods=['GET', 'POST'])
 def commit_tags(limit):
-    logs = recent_commits(limit)
-    return jsonify({
-        'logs': logs
-    })
+    print(request.json)
+    if not testing:
+        logs = recent_commits(limit)
+        return jsonify({
+            'logs': logs
+        })
+    return {
+    "logs": [
+        ["jeff", "n_queens", "Initial Commit"],
+        ["abi", "Floyd's Cycle", "Project Completed"]
+    ]}
 
 def recent_commits(limit):
     logs = []
