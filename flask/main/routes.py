@@ -4,8 +4,10 @@ from flask import render_template, request, jsonify
 from sqlalchemy import func
 from datetime import datetime, timedelta
 
+from pprint import pprint
+
 # Set to False in production
-testing = True
+testing = False
 
 # @app.route('/')
 # def index():
@@ -13,8 +15,9 @@ testing = True
 
 @app.route('/commits/users', methods=['GET', 'POST'])
 def users_commits():
-    print(request.json)
+    print("Post data from /commits/users", request.json)
     data = request.json
+    pprint(data)
     if not testing:
         users_commits, time_intervals = users_commits_intervals(
             start_date=data['start_date'],
@@ -51,8 +54,9 @@ def users_commits():
 
 @app.route('/commits/repos', methods=['GET', 'POST'])
 def repos_commits():
-    print(request.json)
+    print("Post data from /commits/repos", request.json)
     data = request.json
+    pprint(data)
     if not testing:
         repos_commits, time_intervals = repos_commits_intervals(
             start_date=data['start_date'],
@@ -93,7 +97,7 @@ def repos_commits():
 
 @app.route('/commit-tags/<int:limit>', methods=['GET', 'POST'])
 def commit_tags(limit):
-    print(request.json)
+    print("Post data from /commit-tags/", limit)
     if not testing:
         logs = recent_commits(limit)
         return jsonify({
@@ -114,10 +118,10 @@ def recent_commits(limit):
     return logs
 
 def users_commits_intervals(start_date=None, end_date=None, intervals=1):
-    return _commits_intervals(Commit.user_id, start_date, end_date, intervals)
+    return _commits_intervals(Commit.user_id, datetime.fromisoformat(start_date), datetime.fromisoformat(end_date), intervals)
 
 def repos_commits_intervals(start_date=None, end_date=None, intervals=1):
-    return _commits_intervals(Commit.repo_id, start_date, end_date, intervals)
+    return _commits_intervals(Commit.repo_id, datetime.fromisoformat(start_date), datetime.fromisoformat(end_date), intervals)
 
 def _commits_intervals(_table_column, start_date, end_date, intervals):
     ### For Arguments Initialisation

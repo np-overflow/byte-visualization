@@ -39,5 +39,7 @@ def init_db():
 
 ###  Execution  ###
 if __name__ == '__main__':
+    print("Running initialisation")
     if args.repos:  init_repos()
     if args.db:     init_db()
+    print("Finish Initialisation")
