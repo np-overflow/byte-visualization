@@ -157,4 +157,4 @@ def _commits_intervals(_table_column, start_date, end_date, intervals):
     for a_commits_intervals in _commits_intervals.values():
         a_commits_intervals.extend([0] * (intervals - len(a_commits_intervals)))
 
-    return _commits_intervals
+    return _commits_intervals, _time_intervals
