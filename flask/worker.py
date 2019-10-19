@@ -5,7 +5,7 @@ from main.models import Repo, User, Commit
 # Ultities
 import subprocess, os
 from datetime import datetime, timedelta
-import atexit, time
+import threading
 
 ###  Helper Functions  ###
 def parse_shortlog(stdout):
@@ -22,6 +22,7 @@ def parse_shortlog(stdout):
 
 ###  A unit of work  ###
 def work(repo):
+    print('Thread Start')
     repo_folder = os.path.join(app.root_path, 'repos', f'{repo.username}-{repo.reponame}')
 
     latest_commit = (Commit.query.filter_by(repo_id=repo.repo_id)
@@ -76,22 +77,14 @@ def work(repo):
     # Commit to DB
     db.session.commit()
 
+    print('Thread End')
 
-###  Execution  ###
-flag = False
 
-@atexit.register
-def kill_worker():
-    print('Killing worker...')
-    flag = True
-    while flag:
-        print('Waiting for worker...')
-        time.sleep(1)
-
+##  Execution  ###
 if __name__ == '__main__':
     repos = Repo.query.all()
-    while not flag:
+    while True:
         for repo in repos:
-            work(repo)
-            if flag: break  
-    flag = False
+            thread = threading.Thread(target=work, args=(repo,))
+            thread.start()
+            thread.join()
