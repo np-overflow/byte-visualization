@@ -49,7 +49,9 @@ def work(repo):
         cwd=repo_folder, capture_output=True, text=True
     )
 
+    print('runs up till here')
     if p_msg.returncode == p_date.returncode == 0:
+        print('does not run past here')
         for (username, messages, _username, dates) in zip(
             *parse_shortlog(p_msg.stdout), *parse_shortlog(p_date.stdout)):
             if username != _username: raise Exception('Username is different')
