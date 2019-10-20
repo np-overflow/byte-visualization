@@ -18,6 +18,12 @@ services:
       - 8080
     depends_on:
       - db
+  
+  worker:
+    build: ./worker
+    depends_on:
+      - flask
+      - db
 
   adminer:
     image: adminer

@@ -22,7 +22,6 @@ def parse_shortlog(stdout):
 
 ###  A unit of work  ###
 def work(repo):
-    print('Thread Start')
     repo_folder = os.path.join(app.root_path, 'repos', f'{repo.username}-{repo.reponame}')
 
     latest_commit = (Commit.query.filter_by(repo_id=repo.repo_id)
@@ -41,18 +40,16 @@ def work(repo):
 
     # Get Commits
     p_msg = subprocess.run(
-        ['git', 'shortlog', f'--since="{latest_date}"', '--format="%s"'],
-        cwd=repo_folder, capture_output=True, text=True
+        ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%s"'],
+        cwd=repo_folder, capture_output=True, text=True,
     )
 
     p_date = subprocess.run(
-        ['git', 'shortlog', f'--since="{latest_date}"', '--format="%ad"'],
-        cwd=repo_folder, capture_output=True, text=True
+        ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%ad"'],
+        cwd=repo_folder, capture_output=True, text=True,
     )
 
-    print('runs up till here')
     if p_msg.returncode == p_date.returncode == 0:
-        print('does not run past here')
         for (username, messages, _username, dates) in zip(
             *parse_shortlog(p_msg.stdout), *parse_shortlog(p_date.stdout)):
             if username != _username: raise Exception('Username is different')
@@ -79,12 +76,11 @@ def work(repo):
     # Commit to DB
     db.session.commit()
 
-    print('Thread End')
-
 
 ##  Execution  ###
 if __name__ == '__main__':
     repos = Repo.query.all()
+    print(repos, flush=True)
     while True:
         for repo in repos:
             thread = threading.Thread(target=work, args=(repo,))
