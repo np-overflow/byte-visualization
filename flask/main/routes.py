@@ -2,16 +2,15 @@ from main import app, db
 from main.models import Repo, User, Commit
 from flask import render_template, request, jsonify
 from sqlalchemy import func
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from pprint import pprint
 
 # Set to False in production
 testing = False
 
-# @app.route('/')
-# def index():
-#     print('Hello World')
+# Constants
+OFFSET_HOURS = 8
 
 @app.route('/commits/users', methods=['GET', 'POST'])
 def users_commits():
@@ -118,10 +117,20 @@ def recent_commits(limit):
     return logs
 
 def users_commits_intervals(start_date=None, end_date=None, intervals=1):
-    return _commits_intervals(Commit.user_id, datetime.fromisoformat(start_date), datetime.fromisoformat(end_date), intervals)
+    return _commits_intervals(
+        Commit.user_id, 
+        start_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        end_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        intervals
+    )
 
 def repos_commits_intervals(start_date=None, end_date=None, intervals=1):
-    return _commits_intervals(Commit.repo_id, datetime.fromisoformat(start_date), datetime.fromisoformat(end_date), intervals)
+    return _commits_intervals(
+        Commit.repo_id, 
+        start_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        end_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        intervals
+    )
 
 def _commits_intervals(_table_column, start_date, end_date, intervals):
     ### For Arguments Initialisation

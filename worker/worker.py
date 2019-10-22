@@ -41,12 +41,12 @@ def work(repo):
     # Get Commits
     p_msg = subprocess.run(
         ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%s"'],
-        cwd=repo_folder, capture_output=True, text=True,
+        cwd=repo_folder, capture_output=True, text=True
     )
 
     p_date = subprocess.run(
         ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%ad"'],
-        cwd=repo_folder, capture_output=True, text=True,
+        cwd=repo_folder, capture_output=True, text=True
     )
 
     if p_msg.returncode == p_date.returncode == 0:
