@@ -5,7 +5,7 @@ from main.models import Repo, User, Commit
 # Ultities
 import subprocess, os
 from datetime import datetime, timedelta
-import atexit, time
+import threading
 
 ###  Helper Functions  ###
 def parse_shortlog(stdout):
@@ -40,13 +40,13 @@ def work(repo):
 
     # Get Commits
     p_msg = subprocess.run(
-        ['git', 'shortlog', f'--since="{latest_date}"', '--format="%s"'],
-        cwd=repo_folder, capture_output=True, text=True
+        ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%s"'],
+        cwd=repo_folder, capture_output=True, text=True,
     )
 
     p_date = subprocess.run(
-        ['git', 'shortlog', f'--since="{latest_date}"', '--format="%ad"'],
-        cwd=repo_folder, capture_output=True, text=True
+        ['git', 'shortlog', 'HEAD', f'--since="{latest_date}"', '--format="%ad"'],
+        cwd=repo_folder, capture_output=True, text=True,
     )
 
     if p_msg.returncode == p_date.returncode == 0:
@@ -77,21 +77,12 @@ def work(repo):
     db.session.commit()
 
 
-###  Execution  ###
-flag = False
-
-@atexit.register
-def kill_worker():
-    print('Killing worker...')
-    flag = True
-    while flag:
-        print('Waiting for worker...')
-        time.sleep(1)
-
+##  Execution  ###
 if __name__ == '__main__':
     repos = Repo.query.all()
-    while not flag:
+    print(repos, flush=True)
+    while True:
         for repo in repos:
-            work(repo)
-            if flag: break  
-    flag = False
+            thread = threading.Thread(target=work, args=(repo,))
+            thread.start()
+            thread.join()

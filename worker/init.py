@@ -26,7 +26,7 @@ def init_repos():
 # Database
 def init_db():
     from main import db
-    from main.models import Repo
+    from main.models import Repo, Commit
     
     db.drop_all()
     db.create_all()
@@ -36,8 +36,9 @@ def init_db():
             db.session.add(repo)
     db.session.commit()
 
-
 ###  Execution  ###
 if __name__ == '__main__':
+    print("Running initialisation")
     if args.repos:  init_repos()
     if args.db:     init_db()
+    print("Finish Initialisation")

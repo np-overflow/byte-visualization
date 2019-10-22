@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HOURS = 3;
 const INTERVALS = 8;
-const TABLE_AMOUNT = 30;
+const TABLE_AMOUNT = 5;
 
 // Global variables that will be used
 const ROUTES = [
@@ -38,16 +38,20 @@ function toDateFormat(isoFormat) {
 function postDataGenerator(index) {
   const start = new Date();
   const end = new Date();
-  if (index === 0 || index === 2) { // over x hours
-    start.setHours(start.getHours() - HOURS);
+  if (index === 0 || index === 2) { // Over {HOURS} hours
+    // + 8 as ISO String returns ISO Standard, while Singapore is GMT+8
+    start.setHours(start.getHours() - HOURS + 8);
+    end.setHours(end.getHours() + 8);
     return {
       start_date: toDateFormat(start.toISOString()),
       end_date: toDateFormat(end.toISOString()),
       intervals: INTERVALS,
     };
   }
-  if (index === 1 || index === 3) {
-    start.setHours(start.getHours() - 1);
+  if (index === 1 || index === 3) { // Recent Hour
+    // + 8 as ISO String returns ISO Standard, while Singapore is GMT+8
+    start.setHours(start.getHours() - 1 + 8);
+    end.setHours(end.getHours() + 8);
     return {
       start_date: toDateFormat(start.toISOString()),
       end_date: toDateFormat(end.toISOString()),

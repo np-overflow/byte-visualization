@@ -18,6 +18,12 @@ services:
       - 8080
     depends_on:
       - db
+  
+  worker:
+    build: ./worker
+    depends_on:
+      - flask
+      - db
 
   adminer:
     image: adminer
@@ -34,5 +40,5 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - '5432:5432'
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
+    # volumes:
+    #   - ./db-data:/var/lib/postgresql/data
