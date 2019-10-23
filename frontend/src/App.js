@@ -97,7 +97,6 @@ class App extends React.Component {
         dataField: 'commitMessage',
         text: 'Commit Message',
       }],
-      activeIndex: null,
     };
 
     // event handler binds
@@ -121,6 +120,7 @@ class App extends React.Component {
   // routeIndex here refers to the index, routeInt -> declared in the global scope
   // will be passed through here
   async getGraphData(routeIndex) {
+
     try {
       const response = await fetch(ROUTES[routeIndex],
         {
@@ -171,7 +171,6 @@ class App extends React.Component {
     } else {
       routeInt++;
     }
-    this.setState({activeIndex : routeInt})
   }
 
   parseGenerics(json, partialKey) {
@@ -260,24 +259,24 @@ class App extends React.Component {
       <div id="main" className="is-mobile is-centered">
         <div className="tabs is-fullwidth is-toggle">
           <ul>
-            <li className={this.state.activeIndex === 0 && 'is-active'}>
-              <a onClick={() => this.handleClick(4)}>User Commits Over Time - {HOURS} hours </a>
+            <li className={ routeInt === 0 && "is-active" }>
+              <a onClick={() => this.handleClick(0)}>User Commits Over Time - {HOURS} hours </a>
             </li>
-            <li className={this.state.activeIndex === 1 && 'is-active'}>
-              <a onClick={() => this.handleClick(0)}>User Commits - Recent hour</a>
+            <li className={ routeInt === 1 && "is-active" }>
+              <a onClick={() => this.handleClick(1)}>User Commits - Recent hour</a>
             </li>
-            <li className={this.state.activeIndex === 2 && 'is-active'}>
-              <a onClick={() => this.handleClick(1)}>Repository Commits Over Time - {HOURS} hours </a>
+            <li className={ routeInt === 2 && "is-active" }>
+              <a onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours </a> 
             </li>
-            <li className={this.state.activeIndex === 3 && 'is-active'}>
-              <a onClick={() => this.handleClick(2)}>Repository Commits Over Time</a>
+            <li className={ routeInt === 3 && "is-active" }>
+              <a onClick={() => this.handleClick(3)}>Repository Commits Over Time</a>
             </li>
-            <li className={this.state.activeIndex === 4 && 'is-active'}>
-              <a onClick={() => this.handleClick(3)}>Recent Commits</a>
+            <li className={ routeInt === 4 && "is-active" }>
+              <a onClick={() => this.handleClick(4)}>Recent Commits</a>
             </li>
           </ul>
         </div>
-        <div className="" style={{height: "90vh"}}>
+        <div style={{height: "90vh"}}>
           {render}
         </div>
       </div>

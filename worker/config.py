@@ -8,7 +8,7 @@ REPOS = [
     (
         (lambda user, repo: f'https://github.com/{user}/{repo}.git'),
         [
-            ('lczm', 'temp')
+            ('ossaris56', 'temp')
         ]
     ),
     (

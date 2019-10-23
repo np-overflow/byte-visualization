@@ -24,6 +24,11 @@ def users_commits():
             intervals=data['intervals']
         )
         users_info = {user.user_id: user.username for user in User.query.all()}
+        print('-------------')
+        pprint(users_commits)
+        pprint(users_info)
+        pprint(time_intervals)
+        print('-------------')
         return jsonify({
             'user_commits': users_commits,
             'users_info': users_info,
