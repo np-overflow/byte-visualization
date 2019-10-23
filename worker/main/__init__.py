@@ -9,5 +9,3 @@ db = SQLAlchemy(app)
 
 from flask_cors import CORS
 CORS(app)
-
-from main import routes
