@@ -2,7 +2,7 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 import ListGroup from 'react-bootstrap/ListGroup';
 import RecentCommits from './Table';
-
+import 'bulma/css/bulma.min.css';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -67,8 +67,7 @@ class App extends React.Component {
     this.state = {
       layout: {
         title: 'Starting title',
-        width: 800,
-        height: 600,
+        responsive: true,
         xaxis: {
           title: 'Time',
         },
@@ -121,6 +120,7 @@ class App extends React.Component {
   // routeIndex here refers to the index, routeInt -> declared in the global scope
   // will be passed through here
   async getGraphData(routeIndex) {
+
     try {
       const response = await fetch(ROUTES[routeIndex],
         {
@@ -249,22 +249,36 @@ class App extends React.Component {
   render() {
     let render;
     if (routeInt !== ROUTES.length - 1) {
-      render = <Plot data={this.state.data} layout={this.state.layout} />;
+      render = <Plot data={this.state.data} layout={this.state.layout} style={{height: "100%", width: "100%"}} useResizeHandler={true}/>;
     } else {
       render = <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />;
     }
     return (
       // id=main is set here to flex the children in this div
       // so that are side by side
-      <div id="main">
-        <ListGroup>
-          <ListGroup.Item onClick={() => this.handleClick(0)}> User Commits Over Time - {HOURS} hours </ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(1)}>User Commits - Recent hour</ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours</ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(3)}>Repository Commits Over Time</ListGroup.Item>
-          <ListGroup.Item onClick={() => this.handleClick(4)}>Recent Commits</ListGroup.Item>
-        </ListGroup>
-        {render}
+      <div id="main" className="is-mobile is-centered">
+        <div className="tabs is-fullwidth is-toggle">
+          <ul>
+            <li className={ routeInt === 0 && "is-active" }>
+              <a onClick={() => this.handleClick(0)}>User Commits Over Time - {HOURS} hours </a>
+            </li>
+            <li className={ routeInt === 1 && "is-active" }>
+              <a onClick={() => this.handleClick(1)}>User Commits - Recent hour</a>
+            </li>
+            <li className={ routeInt === 2 && "is-active" }>
+              <a onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours </a> 
+            </li>
+            <li className={ routeInt === 3 && "is-active" }>
+              <a onClick={() => this.handleClick(3)}>Repository Commits Over Time</a>
+            </li>
+            <li className={ routeInt === 4 && "is-active" }>
+              <a onClick={() => this.handleClick(4)}>Recent Commits</a>
+            </li>
+          </ul>
+        </div>
+        <div style={{height: "90vh"}}>
+          {render}
+        </div>
       </div>
     );
   }
