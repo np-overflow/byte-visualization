@@ -119,16 +119,16 @@ def recent_commits(limit):
 def users_commits_intervals(start_date=None, end_date=None, intervals=1):
     return _commits_intervals(
         Commit.user_id, 
-        start_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
-        end_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
         intervals
     )
 
 def repos_commits_intervals(start_date=None, end_date=None, intervals=1):
     return _commits_intervals(
         Commit.repo_id, 
-        start_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
-        end_date.replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        datetime.strptime(start_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
+        datetime.strptime(end_date, '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone(timedelta(hours=OFFSET_HOURS))), 
         intervals
     )
 
