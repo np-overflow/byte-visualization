@@ -1,6 +1,5 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import ListGroup from 'react-bootstrap/ListGroup';
 import RecentCommits from './Table';
 import 'bulma/css/bulma.min.css';
 import './App.css';
@@ -27,7 +26,7 @@ const TITLES = [
   'Recent Commits',
 ];
 
-const changeSeconds = 10;
+const changeSeconds = 1000;
 let routeInt = 0;
 
 // Utility functions
@@ -120,7 +119,6 @@ class App extends React.Component {
   // routeIndex here refers to the index, routeInt -> declared in the global scope
   // will be passed through here
   async getGraphData(routeIndex) {
-
     try {
       const response = await fetch(ROUTES[routeIndex],
         {
@@ -249,7 +247,7 @@ class App extends React.Component {
   render() {
     let render;
     if (routeInt !== ROUTES.length - 1) {
-      render = <Plot data={this.state.data} layout={this.state.layout} style={{height: "100%", width: "100%"}} useResizeHandler={true}/>;
+      render = <Plot data={this.state.data} layout={this.state.layout} style={{ height: '100%', width: '100%' }} useResizeHandler />;
     } else {
       render = <RecentCommits data={this.state.tableData} columns={this.state.tableColumn} />;
     }
@@ -259,24 +257,24 @@ class App extends React.Component {
       <div id="main" className="is-mobile is-centered">
         <div className="tabs is-fullwidth is-toggle">
           <ul>
-            <li className={ routeInt === 0 && "is-active" }>
+            <li className={routeInt === 0 && 'is-active'}>
               <a onClick={() => this.handleClick(0)}>User Commits Over Time - {HOURS} hours </a>
             </li>
-            <li className={ routeInt === 1 && "is-active" }>
+            <li className={routeInt === 1 && 'is-active'}>
               <a onClick={() => this.handleClick(1)}>User Commits - Recent hour</a>
             </li>
-            <li className={ routeInt === 2 && "is-active" }>
-              <a onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours </a> 
+            <li className={routeInt === 2 && 'is-active'}>
+              <a onClick={() => this.handleClick(2)}>Repository Commits Over Time - {HOURS} hours </a>
             </li>
-            <li className={ routeInt === 3 && "is-active" }>
+            <li className={routeInt === 3 && 'is-active'}>
               <a onClick={() => this.handleClick(3)}>Repository Commits Over Time</a>
             </li>
-            <li className={ routeInt === 4 && "is-active" }>
+            <li className={routeInt === 4 && 'is-active'}>
               <a onClick={() => this.handleClick(4)}>Recent Commits</a>
             </li>
           </ul>
         </div>
-        <div style={{height: "90vh"}}>
+        <div style={{ height: '90vh' }}>
           {render}
         </div>
       </div>

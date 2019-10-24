@@ -30,7 +30,7 @@ def users_commits():
         print('-------------')
         return jsonify({
             'user_commits': users_commits,
-            'users_info': users_info,
+            'user_info': users_info,
             'time_intervals': time_intervals
         })
     if data['intervals'] == 1:
@@ -69,8 +69,8 @@ def repos_commits():
         repos_info = {repo.repo_id: repo.reponame for repo in Repo.query.all()}
         print(repos_commits, repos_info, time_intervals)
         return jsonify({
-            'repos_commits': repos_commits,
-            'repos_info': repos_info,
+            'repo_commits': repos_commits,
+            'repo_info': repos_info,
             'time_intervals': time_intervals
         })
     if data['intervals'] == 1:
