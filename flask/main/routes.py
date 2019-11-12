@@ -12,6 +12,11 @@ testing = False
 # Constants
 OFFSET_HOURS = 8
 
+@app.route('/hello')
+def hello():
+    print('hello world')
+    return ""
+
 @app.route('/commits/users', methods=['GET', 'POST'])
 def users_commits():
     print("Post data from /commits/users", request.json)
