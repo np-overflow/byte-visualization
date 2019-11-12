@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HOURS = 3;
 const INTERVALS = 8;
-const TABLE_AMOUNT = 5;
+const TABLE_AMOUNT = 15;
 
 // Global variables that will be used
 const ROUTES = [
@@ -26,7 +26,7 @@ const TITLES = [
   'Recent Commits',
 ];
 
-const changeSeconds = 1000;
+const changeSeconds = 10;
 let routeInt = 0;
 
 // Utility functions
