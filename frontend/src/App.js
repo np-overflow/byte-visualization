@@ -11,11 +11,11 @@ const TABLE_AMOUNT = 5;
 
 // Global variables that will be used
 const ROUTES = [
-  'http://localhost/commits/users',
-  'http://localhost/commits/users',
-  'http://localhost/commits/repos',
-  'http://localhost/commits/repos',
-  `http://localhost/commit-tags/${TABLE_AMOUNT}`,
+  'http://localhost:8080/commits/users',
+  'http://localhost:8080/commits/users',
+  'http://localhost:8080/commits/repos',
+  'http://localhost:8080/commits/repos',
+  `http://localhost:8080/commit-tags/${TABLE_AMOUNT}`,
 ];
 
 const TITLES = [
