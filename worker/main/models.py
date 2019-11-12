@@ -17,5 +17,5 @@ class Commit(db.Model):
     commit_id = db.Column(db.Integer, primary_key=True)
     repo_id = db.Column(db.Integer, db.ForeignKey('repo.repo_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-    message = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.String(5000), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
